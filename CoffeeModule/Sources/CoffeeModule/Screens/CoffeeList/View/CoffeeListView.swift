@@ -10,20 +10,22 @@ import Networking
 import AppConstants
 
 public struct CoffeeListView: View {
-    @ObservedObject private var viewModel = CoffeeListViewModel(
+    @ObservedObject var viewModel = CoffeeListViewModel(
         repository: CoffeeModuleClientRepository(
-            remoteAPI: FakeCoffeeModuleRemoteAPI()
-//            remoteAPI: CoffeeModuleRemoteAPI(
-//                networkClient: NetworkClient(
-//                    baseURL: URL(string: AppConstants.baseURL)!,
-//                    defaultHeaders: [
-//                        "Content-Type": "application/json",
-//                        "apikey": AppConstants.apiKey
-//                    ]
-//                )
-//            )
+//            remoteAPI: FakeCoffeeModuleRemoteAPI()
+            remoteAPI: CoffeeModuleRemoteAPI(
+                networkClient: NetworkClient(
+                    baseURL: URL(string: AppConstants.baseURL)!,
+                    defaultHeaders: [
+                        "Content-Type": "application/json",
+                        "apikey": AppConstants.apiKey
+                    ]
+                )
+            )
         )
     )
+    
+    public init() {}
     
     public var body: some View {
         ZStack {
@@ -33,6 +35,7 @@ public struct CoffeeListView: View {
                 cell(for: item.type)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
+                    .padding([.top], 12)
             }
             .listStyle(.plain)
             .background(.clear)
@@ -58,5 +61,4 @@ public struct CoffeeListView: View {
     NavigationStack {
         CoffeeListView()
     }
-    
 }

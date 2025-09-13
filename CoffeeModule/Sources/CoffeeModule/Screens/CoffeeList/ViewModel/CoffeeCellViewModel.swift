@@ -33,7 +33,7 @@ final class CoffeeCellViewModel {
         self.coffeeType = coffeeType
         self.coffeeSize = coffeeSize
         self.coffeeExtras = coffeeExtras
-        self.coffeeStatus = coffeeStatus
+        self.coffeeStatus = coffeeStatus.capitalized
         self.coffeeImageURL = URL(string: coffeeImageURL)
         
         if let createdAt = createdAt.formatDate(dateFormat: DateFormat.shortDate) {

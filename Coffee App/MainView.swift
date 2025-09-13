@@ -6,10 +6,25 @@
 //
 
 import SwiftUI
+import CoffeeModule
 
 struct MainView: View {
     var body: some View {
-        Text("Hello")
+        TabView {
+            NavigationStack {
+                CoffeeListView()
+            }
+            .tabItem {
+                Label("List", systemImage: "list.bullet")
+            }
+            
+            NavigationStack {
+                CoffeeOrderView()
+            }
+            .tabItem {
+                Label("Order", systemImage: "cup.and.saucer")
+            }
+        }
     }
 }
 
