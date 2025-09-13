@@ -12,27 +12,51 @@ import AppConstants
 public struct CoffeeListView: View {
     @ObservedObject private var viewModel = CoffeeListViewModel(
         repository: CoffeeModuleClientRepository(
-            remoteAPI: CoffeeModuleRemoteAPI(
-                networkClient: NetworkClient(
-                    baseURL: URL(string: AppConstants.baseURL)!,
-                    defaultHeaders: [
-                        "Content-Type": "application/json",
-                        "apikey": AppConstants.apiKey
-                    ]
-                )
-            )
+            remoteAPI: FakeCoffeeModuleRemoteAPI()
+//            remoteAPI: CoffeeModuleRemoteAPI(
+//                networkClient: NetworkClient(
+//                    baseURL: URL(string: AppConstants.baseURL)!,
+//                    defaultHeaders: [
+//                        "Content-Type": "application/json",
+//                        "apikey": AppConstants.apiKey
+//                    ]
+//                )
+//            )
         )
     )
     
     public var body: some View {
-        
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .onAppear {
-//                self.viewModel.makeInitialAPICalls()
+        ZStack {
+            Color(.systemGray6)
+            
+            List(self.viewModel.datasource) { item in
+                cell(for: item.type)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             }
+            .listStyle(.plain)
+            .background(.clear)
+            .onAppear() {
+                self.viewModel.makeInitialAPICalls()
+            }
+            
+        }
+        .navigationTitle("Orders")
+        
+    }
+    
+    @ViewBuilder
+    private func cell(for type: CoffeeListCellType) -> some View {
+        switch type {
+        case .coffeeOrder(let viewModel):
+            CoffeeCellView(viewModel: viewModel)
+        }
     }
 }
 
 #Preview {
-    CoffeeListView()
+    NavigationStack {
+        CoffeeListView()
+    }
+    
 }
