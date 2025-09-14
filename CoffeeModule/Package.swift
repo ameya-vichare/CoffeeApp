@@ -20,7 +20,8 @@ let package = Package(
         .package(path: "../Networking"),
         .package(path: "../AppEndpoints"),
         .package(path: "../AppConstants"),
-        .package(path: "../AppUtils")
+        .package(path: "../AppUtils"),
+        .package(path: "../DesignSystem")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -32,7 +33,8 @@ let package = Package(
                 "Networking",
                 "AppEndpoints",
                 "AppConstants",
-                "AppUtils"
+                "AppUtils",
+                "DesignSystem"
             ]
         ),
         .testTarget(

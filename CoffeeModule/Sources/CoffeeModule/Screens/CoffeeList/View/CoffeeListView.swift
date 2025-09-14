@@ -8,6 +8,7 @@
 import SwiftUI
 import Networking
 import AppConstants
+import DesignSystem
 
 public struct CoffeeListView: View {
     @ObservedObject var viewModel = CoffeeListViewModel(
@@ -29,23 +30,26 @@ public struct CoffeeListView: View {
     
     public var body: some View {
         ZStack {
-            Color(.systemGray6)
+            AppColors.secondaryGray
             
             List(self.viewModel.datasource) { item in
                 cell(for: item.type)
                     .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                    .listRowBackground(AppColors.clear)
                     .padding([.top], 12)
             }
             .listStyle(.plain)
-            .background(.clear)
+            .background(AppColors.clear)
             .onAppear() {
                 self.viewModel.makeInitialAPICalls()
             }
+            .refreshable {
+                self.viewModel.makeInitialAPICalls()
+            }
             
+            handleState(state: viewModel.state)
         }
         .navigationTitle("Orders")
-        
     }
     
     @ViewBuilder
@@ -53,6 +57,20 @@ public struct CoffeeListView: View {
         switch type {
         case .coffeeOrder(let viewModel):
             CoffeeCellView(viewModel: viewModel)
+        }
+    }
+    
+    @ViewBuilder
+    private func handleState(state: CoffeeListViewState) -> some View {
+        switch state {
+        case .preparing, .dataFetched:
+            EmptyView()
+        case .fetchingData:
+            ProgressView("Loading orders ...")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.thinMaterial)
+        case .error:
+            EmptyView()
         }
     }
 }

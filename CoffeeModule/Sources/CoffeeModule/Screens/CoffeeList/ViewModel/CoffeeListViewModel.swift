@@ -10,19 +10,31 @@ import AppEndpoints
 import Combine
 import AppModels
 
-struct CoffeeListCellItem: Identifiable {
+struct CoffeeListCellItem: Identifiable, Equatable {
     let id: Int
     let type: CoffeeListCellType
+    
+    static func == (lhs: CoffeeListCellItem, rhs: CoffeeListCellItem) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 enum CoffeeListCellType {
     case coffeeOrder(vm: CoffeeCellViewModel)
 }
 
+enum CoffeeListViewState {
+    case preparing
+    case fetchingData
+    case dataFetched
+    case error
+}
+
 final class CoffeeListViewModel: ObservableObject {
     private let repository: CoffeeModuleRepository
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     @Published var datasource: [CoffeeListCellItem] = []
+    @Published var state: CoffeeListViewState = .preparing
     
     init(repository: CoffeeModuleRepository) {
         self.repository = repository
@@ -31,6 +43,8 @@ final class CoffeeListViewModel: ObservableObject {
 
 extension CoffeeListViewModel {
     func makeInitialAPICalls() {
+        self.resetDatasource()
+        self.state = .fetchingData
         let getCoffeeOrderConfig = CoffeeOrderEndpoint.getOrders
         self.repository.getCoffeeOrders(config: getCoffeeOrderConfig)
             .receive(on: DispatchQueue.main)
@@ -38,8 +52,13 @@ extension CoffeeListViewModel {
                 print(error)
             } receiveValue: { [weak self] coffeeList in
                 self?.prepareDatasource(coffeeList: coffeeList)
+                self?.state = .dataFetched
             }
             .store(in: &cancellables)
+    }
+    
+    private func resetDatasource() {
+        self.datasource = []
     }
     
     private func prepareDatasource(coffeeList: [Coffee]) {

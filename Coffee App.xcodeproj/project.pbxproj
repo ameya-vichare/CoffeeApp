@@ -14,6 +14,7 @@
 		9D4741742E75709300C16B6D /* CoffeeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741732E75709300C16B6D /* CoffeeModule */; };
 		9D47419F2E75A56500C16B6D /* AppUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 9D47419E2E75A56500C16B6D /* AppUtils */; };
 		9D4741B42E75A84200C16B6D /* AppUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B32E75A84200C16B6D /* AppUtils */; };
+		9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B62E7716B700C16B6D /* DesignSystem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 				9D4741B42E75A84200C16B6D /* AppUtils in Frameworks */,
 				9D47419F2E75A56500C16B6D /* AppUtils in Frameworks */,
 				9D4741742E75709300C16B6D /* CoffeeModule in Frameworks */,
+				9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */,
 				9D47416B2E75706900C16B6D /* AppConstants in Frameworks */,
 				9D47416E2E75707400C16B6D /* AppEndpoints in Frameworks */,
 				9D4741712E75708600C16B6D /* AppModels in Frameworks */,
@@ -89,6 +91,7 @@
 				9D4741732E75709300C16B6D /* CoffeeModule */,
 				9D47419E2E75A56500C16B6D /* AppUtils */,
 				9D4741B32E75A84200C16B6D /* AppUtils */,
+				9D4741B62E7716B700C16B6D /* DesignSystem */,
 			);
 			productName = "Coffee App";
 			productReference = 9D4741432E756E8100C16B6D /* Coffee App.app */;
@@ -125,6 +128,7 @@
 				9D47416F2E75708600C16B6D /* XCLocalSwiftPackageReference "AppModels" */,
 				9D4741722E75709300C16B6D /* XCLocalSwiftPackageReference "CoffeeModule" */,
 				9D4741B22E75A84200C16B6D /* XCLocalSwiftPackageReference "AppUtils" */,
+				9D4741B52E7716B700C16B6D /* XCLocalSwiftPackageReference "DesignSystem" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D4741442E756E8100C16B6D /* Products */;
@@ -384,6 +388,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = AppUtils;
 		};
+		9D4741B52E7716B700C16B6D /* XCLocalSwiftPackageReference "DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DesignSystem;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -414,6 +422,10 @@
 		9D4741B32E75A84200C16B6D /* AppUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppUtils;
+		};
+		9D4741B62E7716B700C16B6D /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppModels
+import DesignSystem
 
 struct CoffeeCellView: View {
     private let viewModel: CoffeeCellViewModel
@@ -18,7 +19,7 @@ struct CoffeeCellView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(Color(.white))
+                .foregroundStyle(AppColors.white)
             
             VStack {
                 OrderHeaderView(viewModel: viewModel)
@@ -26,7 +27,7 @@ struct CoffeeCellView: View {
                 OrderDetailView(viewModel: viewModel)
                 
                 Divider()
-                    .background(Color(.systemGray6))
+                    .background(AppColors.secondaryGray)
                     .padding([.top, .bottom], 12)
                 
                 OrderUserNameView(viewModel: viewModel)
@@ -52,12 +53,11 @@ struct OrderHeaderView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text("Order #\(viewModel.id)")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(AppFonts.title2SemiBold)
                     .padding([.bottom], 2)
                 Text("\(viewModel.createdAt)")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
+                    .font(AppFonts.subHeadline)
+                    .foregroundStyle(AppColors.primaryGray)
             }
             
             Spacer()
@@ -65,7 +65,7 @@ struct OrderHeaderView: View {
             HStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .foregroundStyle(Color(.systemGray6))
+                        .foregroundStyle(AppColors.secondaryGray)
                         .frame(width: 40, height: 40)
                     
                     Image(systemName: "message.fill")
@@ -75,7 +75,7 @@ struct OrderHeaderView: View {
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .foregroundStyle(Color(.systemGray6))
+                        .foregroundStyle(AppColors.secondaryGray)
                         .frame(width: 40, height: 40)
                     
                     Image(systemName: "chevron.right")
@@ -105,25 +105,23 @@ struct OrderDetailView: View {
             
             VStack(alignment: .leading) {
                 Text("\(viewModel.coffeeType)")
-                    .font(.headline)
-                    .fontWeight(.medium)
+                    .font(AppFonts.headlineMedium)
                 
                 Text("\(viewModel.coffeeSize)")
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color(.gray))
+                    .font(AppFonts.captionMedium)
+                    .foregroundStyle(AppColors.primaryGray)
             }
             
             
             Spacer()
             
             Text("x1")
-                .font(.subheadline)
-                .foregroundStyle(Color(.gray))
+                .font(AppFonts.subHeadline)
+                .foregroundStyle(AppColors.primaryGray)
                 .padding([.trailing], 40)
             
             Text("$12")
-                .font(.subheadline)
+                .font(AppFonts.subHeadline)
                 .fontWeight(.medium)
         }
     }
@@ -139,11 +137,11 @@ struct OrderUserNameView: View {
     var body: some View {
         HStack {
             Text("Ordered by:")
-                .font(.subheadline)
-                .foregroundStyle(.gray)
+                .font(AppFonts.subHeadline)
+                .foregroundStyle(AppColors.primaryGray)
             
             Text("\(viewModel.userName)")
-                .font(.subheadline)
+                .font(AppFonts.subHeadline)
             
             Spacer()
         }
@@ -162,7 +160,7 @@ struct OrderStatusView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .frame(height: 60)
-                .foregroundStyle(Color(.systemGray6))
+                .foregroundStyle(AppColors.secondaryGray)
             
             HStack {
                 Image(systemName: "cup.and.saucer")
