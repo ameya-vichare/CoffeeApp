@@ -37,8 +37,6 @@ struct CoffeeCellView: View {
             .padding([.bottom, .top], AppPointSystem.point_12)
             .padding([.leading, .trailing], AppPointSystem.point_16)
         }
-        
-        
     }
 }
 

@@ -36,7 +36,7 @@ public struct CoffeeListView: View {
                 cell(for: item.type)
                     .listRowSeparator(.hidden)
                     .listRowBackground(AppColors.clear)
-                    .padding([.top], 12)
+                    .padding([.top], AppPointSystem.point_12)
             }
             .listStyle(.plain)
             .background(AppColors.clear)
