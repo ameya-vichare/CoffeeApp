@@ -18,7 +18,7 @@ struct CoffeeCellView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: AppPointSystem.point_20)
                 .foregroundStyle(AppColors.white)
             
             VStack {
@@ -28,14 +28,14 @@ struct CoffeeCellView: View {
                 
                 Divider()
                     .background(AppColors.secondaryGray)
-                    .padding([.top, .bottom], 12)
+                    .padding([.top, .bottom], AppPointSystem.point_12)
                 
                 OrderUserNameView(viewModel: viewModel)
                 
                 OrderStatusView(viewModel: viewModel)
             }
-            .padding([.bottom, .top], 12)
-            .padding([.leading, .trailing], 16)
+            .padding([.bottom, .top], AppPointSystem.point_12)
+            .padding([.leading, .trailing], AppPointSystem.point_16)
         }
         
         
@@ -54,7 +54,7 @@ struct OrderHeaderView: View {
             VStack(alignment: .leading) {
                 Text("Order #\(viewModel.id)")
                     .font(AppFonts.title2SemiBold)
-                    .padding([.bottom], 2)
+                    .padding([.bottom], AppPointSystem.point_2)
                 Text("\(viewModel.createdAt)")
                     .font(AppFonts.subHeadline)
                     .foregroundStyle(AppColors.primaryGray)
@@ -64,25 +64,25 @@ struct OrderHeaderView: View {
             
             HStack {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: AppPointSystem.point_12)
                         .foregroundStyle(AppColors.secondaryGray)
-                        .frame(width: 40, height: 40)
+                        .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
                     
                     Image(systemName: "message.fill")
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: AppPointSystem.point_20, height: AppPointSystem.point_20)
                 }
                 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: AppPointSystem.point_12)
                         .foregroundStyle(AppColors.secondaryGray)
-                        .frame(width: 40, height: 40)
+                        .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
                     
                     Image(systemName: "chevron.right")
                 }
             }
         }
-        .padding([.bottom], 12)
+        .padding([.bottom], AppPointSystem.point_12)
     }
 }
 
@@ -98,10 +98,10 @@ struct OrderDetailView: View {
             AsyncImage(url: viewModel.coffeeImageURL) { image in
                 image
                     .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .frame(width: AppPointSystem.point_48, height: AppPointSystem.point_48)
+                    .clipShape(RoundedRectangle(cornerRadius: AppPointSystem.point_12))
             } placeholder: {}
-                .padding([.trailing], 4)
+                .padding([.trailing], AppPointSystem.point_4)
             
             VStack(alignment: .leading) {
                 Text("\(viewModel.coffeeType)")
@@ -118,11 +118,10 @@ struct OrderDetailView: View {
             Text("x1")
                 .font(AppFonts.subHeadline)
                 .foregroundStyle(AppColors.primaryGray)
-                .padding([.trailing], 40)
+                .padding([.trailing], AppPointSystem.point_40)
             
             Text("$12")
-                .font(AppFonts.subHeadline)
-                .fontWeight(.medium)
+                .font(AppFonts.subHeadlineMedium)
         }
     }
 }
@@ -145,7 +144,7 @@ struct OrderUserNameView: View {
             
             Spacer()
         }
-        .padding([.bottom], 12)
+        .padding([.bottom], AppPointSystem.point_12)
     }
 }
 
@@ -158,8 +157,8 @@ struct OrderStatusView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 30)
-                .frame(height: 60)
+            RoundedRectangle(cornerRadius: AppPointSystem.point_60/2)
+                .frame(height: AppPointSystem.point_60)
                 .foregroundStyle(AppColors.secondaryGray)
             
             HStack {

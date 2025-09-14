@@ -34,4 +34,9 @@ public enum AppFonts {
     public static var subHeadline: Font {
         .subheadline
     }
+    
+    public static var subHeadlineMedium: Font {
+        .subheadline
+        .weight(.medium)
+    }
 }
