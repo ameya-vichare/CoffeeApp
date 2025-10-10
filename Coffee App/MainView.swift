@@ -21,7 +21,7 @@ struct MainView: View {
             }
             
             NavigationStack {
-                CoffeeOrderView()
+                appDependencyContainer.makeCoffeeOrderView()
             }
             .tabItem {
                 Label("Order", systemImage: "cup.and.saucer")

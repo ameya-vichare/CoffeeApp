@@ -43,3 +43,10 @@ extension AppDependencyContainer {
         return CoffeeListView(viewModel: makeCoffeeListViewModel())
     }
 }
+
+// MARK: - Coffee Order View
+extension AppDependencyContainer {
+    func makeCoffeeOrderView() -> CoffeeOrderView {
+        return CoffeeOrderView()
+    }
+}
