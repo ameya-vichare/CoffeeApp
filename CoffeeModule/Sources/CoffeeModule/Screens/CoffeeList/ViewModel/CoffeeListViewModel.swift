@@ -30,13 +30,13 @@ enum CoffeeListViewState {
     case error
 }
 
-final class CoffeeListViewModel: ObservableObject {
-    private let repository: CoffeeModuleRepository
+public final class CoffeeListViewModel: ObservableObject {
+    public let repository: CoffeeModuleRepository
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     @Published var datasource: [CoffeeListCellItem] = []
     @Published var state: CoffeeListViewState = .preparing
     
-    init(repository: CoffeeModuleRepository) {
+    public init(repository: CoffeeModuleRepository) {
         self.repository = repository
     }
 }

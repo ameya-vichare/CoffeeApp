@@ -9,14 +9,14 @@ import Combine
 import AppModels
 import Networking
 
-final class CoffeeModuleClientRepository: CoffeeModuleRepository {
+public final class CoffeeModuleClientRepository: CoffeeModuleRepository {
     let remoteAPI: RemoteAPI
     
-    init(remoteAPI: RemoteAPI) {
+    public init(remoteAPI: RemoteAPI) {
         self.remoteAPI = remoteAPI
     }
     
-    func getCoffeeOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
+    public func getCoffeeOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
         self.remoteAPI.getOrders(config: config)
     }
 }

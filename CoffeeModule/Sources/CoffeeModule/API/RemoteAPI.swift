@@ -9,6 +9,6 @@ import Combine
 import AppModels
 import Networking
 
-protocol RemoteAPI {
+public protocol RemoteAPI {
     func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError>
 }

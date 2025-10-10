@@ -11,22 +11,11 @@ import AppConstants
 import DesignSystem
 
 public struct CoffeeListView: View {
-    @ObservedObject var viewModel = CoffeeListViewModel(
-        repository: CoffeeModuleClientRepository(
-//            remoteAPI: FakeCoffeeModuleRemoteAPI()
-            remoteAPI: CoffeeModuleRemoteAPI(
-                networkClient: NetworkClient(
-                    baseURL: URL(string: AppConstants.baseURL)!,
-                    defaultHeaders: [
-                        "Content-Type": "application/json",
-                        "apikey": AppConstants.apiKey
-                    ]
-                )
-            )
-        )
-    )
+    @ObservedObject var viewModel: CoffeeListViewModel
     
-    public init() {}
+    public init(viewModel: CoffeeListViewModel) {
+        self.viewModel = viewModel
+    }
     
     public var body: some View {
         ZStack {
@@ -77,6 +66,20 @@ public struct CoffeeListView: View {
 
 #Preview {
     NavigationStack {
-        CoffeeListView()
+        CoffeeListView(
+            viewModel: CoffeeListViewModel(
+                repository: CoffeeModuleClientRepository(
+                    remoteAPI: FakeCoffeeModuleRemoteAPI()
+//                    CoffeeModuleRemoteAPI(
+//                        networkService: NetworkClient(
+//                            baseURL: URL(string: AppConstants.baseURL)!,
+//                            defaultHeaders: [
+//                                "apikey": AppConstants.apiKey
+//                            ]
+//                        )
+//                    )
+                )
+            )
+        )
     }
 }

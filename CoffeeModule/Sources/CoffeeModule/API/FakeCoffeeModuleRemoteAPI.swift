@@ -9,8 +9,10 @@ import Combine
 import AppModels
 import Networking
 
-final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
-    func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
+public final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
+    public init () {}
+    
+    public func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
         return Future<[Coffee], NetworkError> { [weak self] promise in
             promise(.success(
                 [

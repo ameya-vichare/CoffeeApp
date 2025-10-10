@@ -9,6 +9,6 @@ import Combine
 import AppModels
 import Networking
 
-protocol CoffeeModuleRepository {
+public protocol CoffeeModuleRepository {
     func getCoffeeOrders(config: APIConfig) -> Future<[Coffee], NetworkError>
 }

@@ -9,18 +9,18 @@ import Combine
 import AppModels
 import Networking
 
-final class CoffeeModuleRemoteAPI: RemoteAPI {
-    let networkClient: NetworkClient
+public final class CoffeeModuleRemoteAPI: RemoteAPI {
+    let networkService: NetworkService
     
-    init(networkClient: NetworkClient) {
-        self.networkClient = networkClient
+    public init(networkService: NetworkService) {
+        self.networkService = networkService
     }
     
-    func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
+    public func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
         let networkRequest = NetworkRequest(apiConfig: config)
         
         return Future<[Coffee], NetworkError> { [weak self] promise in
-            self?.networkClient
+            self?.networkService
                 .perform(request: networkRequest, response: [Coffee].self)
                 .sink { error in
                 } receiveValue: { coffeeList in

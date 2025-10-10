@@ -9,10 +9,12 @@ import SwiftUI
 import CoffeeModule
 
 struct MainView: View {
+    private let appDependencyContainer: AppDependencyContainer = AppDependencyContainer()
+    
     var body: some View {
         TabView {
             NavigationStack {
-                CoffeeListView()
+                appDependencyContainer.makeCoffeeListView()
             }
             .tabItem {
                 Label("List", systemImage: "list.bullet")
