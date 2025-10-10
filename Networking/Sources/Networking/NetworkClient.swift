@@ -22,7 +22,7 @@ public class NetworkClient: NetworkService {
         baseURL: URL,
         session: URLSession = .shared,
         decoder: JSONDecoder = JSONDecoder(),
-        defaultHeaders: [String: String] = ["Content-Type": "application/json"]
+        defaultHeaders: [String: String]
     ) {
         self.baseURL = baseURL
         self.session = session

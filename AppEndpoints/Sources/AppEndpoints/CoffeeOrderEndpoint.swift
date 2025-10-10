@@ -36,7 +36,7 @@ public enum CoffeeOrderEndpoint: APIConfig {
     }
     
     public func httpHeaders() -> [String : String]? {
-        nil
+        ["Content-Type": "application/json"]
     }
     
     public func queryItems() -> [URLQueryItem]? {
