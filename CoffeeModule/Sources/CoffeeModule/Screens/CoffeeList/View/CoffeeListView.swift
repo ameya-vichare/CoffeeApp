@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Networking
 import AppConstants
 import DesignSystem
 
@@ -70,14 +69,6 @@ public struct CoffeeListView: View {
             viewModel: CoffeeListViewModel(
                 repository: CoffeeModuleClientRepository(
                     remoteAPI: FakeCoffeeModuleRemoteAPI()
-//                    CoffeeModuleRemoteAPI(
-//                        networkService: NetworkClient(
-//                            baseURL: URL(string: AppConstants.baseURL)!,
-//                            defaultHeaders: [
-//                                "apikey": AppConstants.apiKey
-//                            ]
-//                        )
-//                    )
                 )
             )
         )
