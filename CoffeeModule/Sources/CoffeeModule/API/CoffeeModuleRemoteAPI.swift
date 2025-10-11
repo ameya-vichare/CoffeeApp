@@ -16,13 +16,14 @@ public final class CoffeeModuleRemoteAPI: RemoteAPI {
         self.networkService = networkService
     }
     
-    public func getOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
+    public func getOrders(config: APIConfig) -> Future<[Order], NetworkError> {
         let networkRequest = NetworkRequest(apiConfig: config)
         
-        return Future<[Coffee], NetworkError> { [weak self] promise in
+        return Future<[Order], NetworkError> { [weak self] promise in
             self?.networkService
-                .perform(request: networkRequest, response: [Coffee].self)
+                .perform(request: networkRequest, response: [Order].self)
                 .sink { error in
+                    print(error)
                 } receiveValue: { coffeeList in
                     promise(.success(coffeeList))
                 }

@@ -10,9 +10,9 @@ import AppModels
 import DesignSystem
 
 struct CoffeeCellView: View {
-    private let viewModel: CoffeeCellViewModel
+    private let viewModel: OrderCellViewModel
     
-    init(viewModel: CoffeeCellViewModel) {
+    init(viewModel: OrderCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -24,7 +24,11 @@ struct CoffeeCellView: View {
             VStack {
                 OrderHeaderView(viewModel: viewModel)
                 
-                OrderDetailView(viewModel: viewModel)
+                LazyVStack {
+                    ForEach(self.viewModel.items) { item in
+                        OrderDetailView(viewModel: item)
+                    }
+                }
                 
                 Divider()
                     .background(AppColors.secondaryGray)
@@ -41,9 +45,9 @@ struct CoffeeCellView: View {
 }
 
 struct OrderHeaderView: View {
-    private let viewModel: CoffeeCellViewModel
+    private let viewModel: OrderCellViewModel
     
-    init(viewModel: CoffeeCellViewModel) {
+    init(viewModel: OrderCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -85,27 +89,29 @@ struct OrderHeaderView: View {
 }
 
 struct OrderDetailView: View {
-    private let viewModel: CoffeeCellViewModel
+    private let viewModel: OrderItemCellViewModel
     
-    init(viewModel: CoffeeCellViewModel) {
+    init(viewModel: OrderItemCellViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
         HStack {
-            AsyncImage(url: viewModel.coffeeImageURL) { image in
+            AsyncImage(url: viewModel.imageURL) { image in
                 image
                     .resizable()
+                    .scaledToFill()
                     .frame(width: AppPointSystem.point_48, height: AppPointSystem.point_48)
+                    .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: AppPointSystem.point_12))
-            } placeholder: {}
-                .padding([.trailing], AppPointSystem.point_4)
+            } placeholder: { EmptyView() }
+            .padding(.trailing, AppPointSystem.point_4)
             
             VStack(alignment: .leading) {
-                Text("\(viewModel.coffeeType)")
+                Text(viewModel.name)
                     .font(AppFonts.headlineMedium)
                 
-                Text("\(viewModel.coffeeSize)")
+                Text(viewModel.size)
                     .font(AppFonts.captionMedium)
                     .foregroundStyle(AppColors.primaryGray)
             }
@@ -113,21 +119,21 @@ struct OrderDetailView: View {
             
             Spacer()
             
-            Text("x1")
+            Text(viewModel.displayQuantityLabel)
                 .font(AppFonts.subHeadline)
                 .foregroundStyle(AppColors.primaryGray)
                 .padding([.trailing], AppPointSystem.point_40)
             
-            Text("$12")
+            Text(viewModel.displayPriceLabel)
                 .font(AppFonts.subHeadlineMedium)
         }
     }
 }
 
 struct OrderUserNameView: View {
-    private let viewModel: CoffeeCellViewModel
+    private let viewModel: OrderCellViewModel
     
-    init(viewModel: CoffeeCellViewModel) {
+    init(viewModel: OrderCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -147,9 +153,9 @@ struct OrderUserNameView: View {
 }
 
 struct OrderStatusView: View {
-    private let viewModel: CoffeeCellViewModel
+    private let viewModel: OrderCellViewModel
     
-    init(viewModel: CoffeeCellViewModel) {
+    init(viewModel: OrderCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -162,7 +168,7 @@ struct OrderStatusView: View {
             HStack {
                 Image(systemName: "cup.and.saucer")
                 
-                Text("\(viewModel.coffeeStatus)")
+                Text(/*"\(viewModel.coffeeStatus)"*/"Preparing")
             }
         }
     }
@@ -170,15 +176,23 @@ struct OrderStatusView: View {
 
 #Preview {
     CoffeeCellView(viewModel:
-        CoffeeCellViewModel(
-            id: 123,
-            userName: "Jason",
-            coffeeType: "Capuccino",
-            coffeeSize: "Large",
-            coffeeExtras: "Blah",
-            coffeeStatus: "Preparing",
-            coffeeImageURL: CoffeeType.cappuccino.imageURL,
-            createdAt: "2025-09-13T09:13:15.732796+00:00"
+        OrderCellViewModel(
+            id: "2",
+            userName: "John Doe",
+            createdAt: "",
+            totalPrice: "10",
+            currency: "USD",
+            items: [
+                OrderItemCellViewModel(
+                    name: "Latte",
+                    size: "Small",
+                    extras: "With whipped cream",
+                    imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
+                    totalPrice: "5",
+                    currency: "USD",
+                    quantity: "1"
+                )
+            ]
         )
     )
 }

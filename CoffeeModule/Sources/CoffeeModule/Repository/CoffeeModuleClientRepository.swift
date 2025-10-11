@@ -16,7 +16,7 @@ public final class CoffeeModuleClientRepository: CoffeeModuleRepository {
         self.remoteAPI = remoteAPI
     }
     
-    public func getCoffeeOrders(config: APIConfig) -> Future<[Coffee], NetworkError> {
+    public func getCoffeeOrders(config: APIConfig) -> Future<[Order], NetworkError> {
         self.remoteAPI.getOrders(config: config)
     }
 }

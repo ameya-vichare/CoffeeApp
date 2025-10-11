@@ -21,7 +21,8 @@ final class AppDependencyContainer {
         self.networkService = NetworkClient(
             baseURL: url,
             defaultHeaders: [
-                "apikey": AppConstants.apiKey
+//                "apikey": AppConstants.apiKey,
+                "Authorization": "Bearer \(AppConstants.apiKey)"
             ]
         )
     }

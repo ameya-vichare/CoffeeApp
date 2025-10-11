@@ -8,6 +8,7 @@
 import Foundation
 
 public enum AppPointSystem {
+    public static let point_0: CGFloat = 0.0
     public static let point_2: CGFloat = 2.0
     public static let point_4: CGFloat = 4.0
     public static let point_8: CGFloat = 8.0

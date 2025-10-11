@@ -11,7 +11,7 @@ import Combine
 import AppModels
 
 struct CoffeeListCellItem: Identifiable, Equatable {
-    let id: Int
+    let id: String
     let type: CoffeeListCellType
     
     static func == (lhs: CoffeeListCellItem, rhs: CoffeeListCellItem) -> Bool {
@@ -20,7 +20,7 @@ struct CoffeeListCellItem: Identifiable, Equatable {
 }
 
 enum CoffeeListCellType {
-    case coffeeOrder(vm: CoffeeCellViewModel)
+    case coffeeOrder(vm: OrderCellViewModel)
 }
 
 enum CoffeeListViewState {
@@ -51,6 +51,7 @@ extension CoffeeListViewModel {
             .sink { error in
                 print(error)
             } receiveValue: { [weak self] coffeeList in
+                print(coffeeList)
                 self?.prepareDatasource(coffeeList: coffeeList)
                 self?.state = .dataFetched
             }
@@ -61,20 +62,28 @@ extension CoffeeListViewModel {
         self.datasource = []
     }
     
-    private func prepareDatasource(coffeeList: [Coffee]) {
-        self.datasource = coffeeList.map { coffee in
+    private func prepareDatasource(coffeeList: [Order]) {
+        self.datasource = coffeeList.map { order in
             CoffeeListCellItem(
-                id: coffee.id ?? 0,
+                id: order.id ?? "1",
                 type: CoffeeListCellType.coffeeOrder(
-                    vm: CoffeeCellViewModel(
-                        id: coffee.id ?? 0,
-                        userName: coffee.userName ?? "",
-                        coffeeType: coffee.type?.rawValue ?? "",
-                        coffeeSize: coffee.size?.description ?? "",
-                        coffeeExtras: coffee.extras ?? "",
-                        coffeeStatus: coffee.status?.rawValue ?? "",
-                        coffeeImageURL: coffee.type?.imageURL ?? "",
-                        createdAt: coffee.createdAt ?? ""
+                    vm: OrderCellViewModel(
+                        id: order.id ?? "1",
+                        userName: order.userName ?? "",
+                        createdAt: order.createdAt ?? "",
+                        totalPrice: order.totalPrice ?? "",
+                        currency: order.currency ?? "",
+                        items: order.items.map { item in
+                            OrderItemCellViewModel(
+                                name: item.name ?? "",
+                                size: item.size ?? "",
+                                extras: "",
+                                imageURL: item.imageURL ?? "",
+                                totalPrice: item.totalPrice ?? "",
+                                currency: item.currency ?? "",
+                                quantity: item.quantity ?? ""
+                            )
+                        }
                     )
                 )
             )

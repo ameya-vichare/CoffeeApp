@@ -15,7 +15,7 @@ public enum CoffeeOrderEndpoint: APIConfig {
     public func path() -> String {
         switch self {
         case .getOrders:
-            "/coffees"
+            "/ongoing-orders"
         case .sendOrder:
             "/coffees"
         }
@@ -36,7 +36,8 @@ public enum CoffeeOrderEndpoint: APIConfig {
     }
     
     public func httpHeaders() -> [String : String]? {
-        ["Content-Type": "application/json"]
+        nil
+//        ["Content-Type": "application/json"]
     }
     
     public func queryItems() -> [URLQueryItem]? {
