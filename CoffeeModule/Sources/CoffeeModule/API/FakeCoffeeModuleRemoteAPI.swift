@@ -22,6 +22,7 @@ public final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
                         userName: "Ameya",
                         currency: "USD",
                         totalPrice: "12",
+                        status: .pending,
                         items: [
                             OrderItem(
                                 name: "Latte",

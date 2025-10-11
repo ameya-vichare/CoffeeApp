@@ -34,6 +34,8 @@ struct CoffeeCellView: View {
                     .background(AppColors.secondaryGray)
                     .padding([.top, .bottom], AppPointSystem.point_12)
                 
+                OrderTotalPriceView(viewModel: viewModel)
+                
                 OrderUserNameView(viewModel: viewModel)
                 
                 OrderStatusView(viewModel: viewModel)
@@ -111,7 +113,7 @@ struct OrderDetailView: View {
                 Text(viewModel.name)
                     .font(AppFonts.headlineMedium)
                 
-                Text(viewModel.size)
+                Text(viewModel.customisation)
                     .font(AppFonts.captionMedium)
                     .foregroundStyle(AppColors.primaryGray)
             }
@@ -125,8 +127,29 @@ struct OrderDetailView: View {
                 .padding([.trailing], AppPointSystem.point_40)
             
             Text(viewModel.displayPriceLabel)
+                .font(AppFonts.subHeadline)
+        }
+    }
+}
+
+struct OrderTotalPriceView: View {
+    private let viewModel: OrderCellViewModel
+    
+    init(viewModel: OrderCellViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        HStack {
+            Text("Total:")
+                .font(AppFonts.subHeadlineMedium)
+            
+            Spacer()
+            
+            Text(viewModel.displayTotalPriceLabel)
                 .font(AppFonts.subHeadlineMedium)
         }
+        .padding([.bottom], AppPointSystem.point_4)
     }
 }
 
@@ -168,7 +191,7 @@ struct OrderStatusView: View {
             HStack {
                 Image(systemName: "cup.and.saucer")
                 
-                Text(/*"\(viewModel.coffeeStatus)"*/"Preparing")
+                Text(viewModel.statusDisplayLabel)
             }
         }
     }
@@ -179,14 +202,15 @@ struct OrderStatusView: View {
         OrderCellViewModel(
             id: "2",
             userName: "John Doe",
-            createdAt: "",
+            createdAt: "2025-10-11T17:04:19.881007+00:00",
             totalPrice: "10",
             currency: "USD",
+            status: "Pending",
             items: [
                 OrderItemCellViewModel(
                     name: "Latte",
                     size: "Small",
-                    extras: "With whipped cream",
+                    modifiers: ["Oat Milk", "Caramel"],
                     imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
                     totalPrice: "5",
                     currency: "USD",

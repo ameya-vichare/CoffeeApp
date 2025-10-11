@@ -73,11 +73,12 @@ extension CoffeeListViewModel {
                         createdAt: order.createdAt ?? "",
                         totalPrice: order.totalPrice ?? "",
                         currency: order.currency ?? "",
+                        status: order.status?.description ?? "",
                         items: order.items.map { item in
                             OrderItemCellViewModel(
                                 name: item.name ?? "",
                                 size: item.size ?? "",
-                                extras: "",
+                                modifiers: item.modifier.flatMap{ $0.name },
                                 imageURL: item.imageURL ?? "",
                                 totalPrice: item.totalPrice ?? "",
                                 currency: item.currency ?? "",

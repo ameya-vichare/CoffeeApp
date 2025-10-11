@@ -11,6 +11,7 @@ public struct Order: Decodable {
     public let totalPrice: String?
     public let currency: String?
     public let userName: String?
+    public let status: OrderStatus?
     public let items: [OrderItem]
     
     enum CodingKeys: String, CodingKey {
@@ -19,6 +20,7 @@ public struct Order: Decodable {
         case totalPrice = "total_price"
         case currency
         case userName = "user_name"
+        case status
         case items
     }
     
@@ -28,6 +30,7 @@ public struct Order: Decodable {
         userName: String?,
         currency: String?,
         totalPrice: String?,
+        status: OrderStatus?,
         items: [OrderItem]
     ) {
         self.id = id
@@ -35,6 +38,7 @@ public struct Order: Decodable {
         self.totalPrice = totalPrice
         self.currency = currency
         self.userName = userName
+        self.status = status
         self.items = items
     }
 }
@@ -46,7 +50,7 @@ public struct OrderItem: Decodable {
     public let quantity: String?
     public let totalPrice: String?
     public let currency: String?
-    public let modifier: [Modifier]?
+    public let modifier: [Modifier]
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -58,7 +62,7 @@ public struct OrderItem: Decodable {
         case modifier
     }
     
-    public init(name: String?, imageURL: String?, size: String?, quantity: String?, totalPrice: String?, currency: String?, modifier: [Modifier]?) {
+    public init(name: String?, imageURL: String?, size: String?, quantity: String?, totalPrice: String?, currency: String?, modifier: [Modifier]) {
         self.name = name
         self.imageURL = imageURL
         self.size = size
@@ -76,5 +80,19 @@ public struct Modifier: Decodable {
     public init(group: String?, name: String?) {
         self.group = group
         self.name = name
+    }
+}
+
+public enum OrderStatus: String, Decodable {
+    case pending = "pending"
+    case inProgress = "in_progress"
+    
+    public var description: String {
+        switch self {
+        case .pending:
+            return "Pending"
+        case .inProgress:
+            return "In Progress"
+        }
     }
 }
