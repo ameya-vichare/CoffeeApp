@@ -9,9 +9,12 @@ import Networking
 import AppConstants
 import Foundation
 import CoffeeModule
+import ImageLoading
+import SwiftUICore
 
 final class AppDependencyContainer {
     let networkService: NetworkService
+    let imageService: ImageService
     
     init() {
         guard let url = URL(string: AppConstants.baseURL) else {
@@ -21,10 +24,15 @@ final class AppDependencyContainer {
         self.networkService = NetworkClient(
             baseURL: url,
             defaultHeaders: [
-//                "apikey": AppConstants.apiKey,
                 "Authorization": "Bearer \(AppConstants.apiKey)"
             ]
         )
+        
+        self.imageService = SDWebImageService()
+    }
+    
+    func getImageService() -> ImageService {
+        imageService
     }
 }
 

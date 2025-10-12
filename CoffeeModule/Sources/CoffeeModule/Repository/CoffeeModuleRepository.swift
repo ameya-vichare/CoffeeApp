@@ -10,5 +10,5 @@ import AppModels
 import Networking
 
 public protocol CoffeeModuleRepository {
-    func getCoffeeOrders(config: APIConfig) -> Future<[Order], NetworkError>
+    func getCoffeeOrders(config: APIConfig) async throws -> [Order]
 }

@@ -16,17 +16,8 @@ public final class CoffeeModuleRemoteAPI: RemoteAPI {
         self.networkService = networkService
     }
     
-    public func getOrders(config: APIConfig) -> Future<[Order], NetworkError> {
+    public func getOrders(config: APIConfig) async throws -> [Order] {
         let networkRequest = NetworkRequest(apiConfig: config)
-        
-        return Future<[Order], NetworkError> { [weak self] promise in
-            self?.networkService
-                .perform(request: networkRequest, response: [Order].self)
-                .sink { error in
-                    print(error)
-                } receiveValue: { coffeeList in
-                    promise(.success(coffeeList))
-                }
-        }
+        return try await self.networkService.perform(request: networkRequest, response: [Order].self)
     }
 }

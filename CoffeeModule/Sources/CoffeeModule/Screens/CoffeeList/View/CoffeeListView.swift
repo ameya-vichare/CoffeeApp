@@ -28,11 +28,11 @@ public struct CoffeeListView: View {
             }
             .listStyle(.plain)
             .background(AppColors.clear)
-            .onAppear() {
-                self.viewModel.makeInitialAPICalls()
+            .task {
+                await self.viewModel.makeInitialAPICalls()
             }
             .refreshable {
-                self.viewModel.makeInitialAPICalls()
+                await self.viewModel.makeInitialAPICalls()
             }
             
             handleState(state: viewModel.state)

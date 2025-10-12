@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AppEndpoints
-import Combine
 import AppModels
 
 struct CoffeeListCellItem: Identifiable, Equatable {
@@ -32,7 +31,6 @@ enum CoffeeListViewState {
 
 public final class CoffeeListViewModel: ObservableObject {
     public let repository: CoffeeModuleRepository
-    private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     @Published var datasource: [CoffeeListCellItem] = []
     @Published var state: CoffeeListViewState = .preparing
     
@@ -42,20 +40,19 @@ public final class CoffeeListViewModel: ObservableObject {
 }
 
 extension CoffeeListViewModel {
-    func makeInitialAPICalls() {
+    func makeInitialAPICalls() async {
         self.resetDatasource()
         self.state = .fetchingData
         let getCoffeeOrderConfig = CoffeeOrderEndpoint.getOrders
-        self.repository.getCoffeeOrders(config: getCoffeeOrderConfig)
-            .receive(on: DispatchQueue.main)
-            .sink { error in
-                print(error)
-            } receiveValue: { [weak self] coffeeList in
-                print(coffeeList)
-                self?.prepareDatasource(coffeeList: coffeeList)
-                self?.state = .dataFetched
-            }
-            .store(in: &cancellables)
+        
+        do {
+            let orders = try await self.repository.getCoffeeOrders(config: getCoffeeOrderConfig)
+            self.prepareDatasource(coffeeList: orders)
+            self.state = .dataFetched
+        }
+        catch {
+            print(error)
+        }
     }
     
     private func resetDatasource() {

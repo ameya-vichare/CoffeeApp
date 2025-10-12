@@ -16,7 +16,7 @@ public final class CoffeeModuleClientRepository: CoffeeModuleRepository {
         self.remoteAPI = remoteAPI
     }
     
-    public func getCoffeeOrders(config: APIConfig) -> Future<[Order], NetworkError> {
-        self.remoteAPI.getOrders(config: config)
+    public func getCoffeeOrders(config: APIConfig) async throws -> [Order] {
+        try await self.remoteAPI.getOrders(config: config)
     }
 }

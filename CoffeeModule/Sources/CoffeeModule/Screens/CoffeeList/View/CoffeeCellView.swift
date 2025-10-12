@@ -8,11 +8,14 @@
 import SwiftUI
 import AppModels
 import DesignSystem
+import ImageLoading
 
 struct CoffeeCellView: View {
-    private let viewModel: OrderCellViewModel
+    private var viewModel: OrderCellViewModel
     
-    init(viewModel: OrderCellViewModel) {
+    init(
+        viewModel: OrderCellViewModel
+    ) {
         self.viewModel = viewModel
     }
     
@@ -92,6 +95,7 @@ struct OrderHeaderView: View {
 
 struct OrderDetailView: View {
     private let viewModel: OrderItemCellViewModel
+    @Environment(\.imageService) var imageService
     
     init(viewModel: OrderItemCellViewModel) {
         self.viewModel = viewModel
@@ -99,15 +103,17 @@ struct OrderDetailView: View {
     
     var body: some View {
         HStack {
-            AsyncImage(url: viewModel.imageURL) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: AppPointSystem.point_48, height: AppPointSystem.point_48)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: AppPointSystem.point_12))
-            } placeholder: { EmptyView() }
-            .padding(.trailing, AppPointSystem.point_4)
+            CustomImageView(
+                url: viewModel.imageURL,
+                targetSize: CGSize(
+                    width: AppPointSystem.point_48,
+                    height: AppPointSystem.point_48
+                )
+            ) {
+                ProgressView()
+            }
+            .frame(width: AppPointSystem.point_48, height: AppPointSystem.point_48)
+            .clipShape(RoundedRectangle(cornerRadius: AppPointSystem.point_12))
             
             VStack(alignment: .leading) {
                 Text(viewModel.name)
