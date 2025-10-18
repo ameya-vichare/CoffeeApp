@@ -8,6 +8,7 @@
 import SwiftUI
 import CoffeeModule
 import ImageLoading
+import DesignSystem
 
 struct MainView: View {
     private let appDependencyContainer: AppDependencyContainer = AppDependencyContainer()
@@ -28,6 +29,7 @@ struct MainView: View {
                 Label("Order", systemImage: "cup.and.saucer")
             }
         }
+        .tint(AppColors.primaryGray)
         .environment(\.imageService, appDependencyContainer.getImageService())
     }
 }

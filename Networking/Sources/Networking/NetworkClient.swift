@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import Combine
 
 public protocol NetworkService {
     func perform<T: Decodable>(request: NetworkRequest, response: T.Type) async throws -> T
@@ -55,7 +54,17 @@ public class NetworkClient: NetworkService {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         
-        let (data, response) = try await session.data(for: urlRequest)
+        var (data, response): (Data?, URLResponse?)
+        
+        do {
+            (data, response) = try await self.session.data(for: urlRequest)
+        } catch let error as URLError {
+            if error.code == .cancelled {
+                throw NetworkError.cancelled
+            }
+        } catch {
+            throw NetworkError.requestFailed(error: error)
+        }
         
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse(statusCode: -1, data: data)
@@ -63,6 +72,10 @@ public class NetworkClient: NetworkService {
         
         guard (200...299).contains(response.statusCode) else {
             throw NetworkError.invalidResponse(statusCode: response.statusCode, data: data)
+        }
+        
+        guard let data else {
+            throw NetworkError.unableToDecode
         }
         
         return try await Task.detached(priority: .background) {
@@ -74,39 +87,5 @@ public class NetworkClient: NetworkService {
                 throw NetworkError.requestFailed(error: error)
             }
         }.value
-        
-        
-        
-//        let publisher = session
-//            .dataTaskPublisher(for: urlRequest)
-//            .tryMap { output -> Data in
-//                guard let response = output.response as? HTTPURLResponse else {
-//                    throw NetworkError.invalidResponse(statusCode: -1, data: output.data)
-//                }
-//                
-//                guard (200...299).contains(response.statusCode) else {
-//                    throw NetworkError.invalidResponse(statusCode: response.statusCode, data: output.data)
-//                }
-//                return output.data
-//            }
-//            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-//            .decode(type: T.self, decoder: decoder)
-//            .receive(on: DispatchQueue.main)
-//            .mapError { error in
-//                if let error = error as? NetworkError {
-//                    return error
-//                }
-//                else if let error = error as? URLError,
-//                            error.code == .cancelled {
-//                    return NetworkError.cancelled
-//                }
-//                else if let error = error as? DecodingError {
-//                    return NetworkError.decodingError(error: error)
-//                }
-//                return NetworkError.requestFailed(error: error)
-//            }
-//            .eraseToAnyPublisher()
-        
-//        return publisher
     }
 }

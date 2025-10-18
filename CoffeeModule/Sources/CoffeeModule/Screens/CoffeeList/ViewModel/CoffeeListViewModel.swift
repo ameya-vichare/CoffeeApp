@@ -40,18 +40,22 @@ public final class CoffeeListViewModel: ObservableObject {
 }
 
 extension CoffeeListViewModel {
+    @MainActor
     func makeInitialAPICalls() async {
         self.resetDatasource()
         self.state = .fetchingData
         let getCoffeeOrderConfig = CoffeeOrderEndpoint.getOrders
+        let _repository = self.repository
         
-        do {
-            let orders = try await self.repository.getCoffeeOrders(config: getCoffeeOrderConfig)
-            self.prepareDatasource(coffeeList: orders)
-            self.state = .dataFetched
-        }
-        catch {
-            print(error)
+        Task {
+            do {
+                let orders = try await _repository.getCoffeeOrders(config: getCoffeeOrderConfig)
+                self.prepareDatasource(coffeeList: orders)
+                self.state = .dataFetched
+            }
+            catch {
+                self.state = .error
+            }
         }
     }
     
@@ -88,3 +92,4 @@ extension CoffeeListViewModel {
         }
     }
 }
+

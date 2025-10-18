@@ -10,7 +10,7 @@ import AppConstants
 import Foundation
 import CoffeeModule
 import ImageLoading
-import SwiftUICore
+import SwiftUI
 
 final class AppDependencyContainer {
     let networkService: NetworkService
