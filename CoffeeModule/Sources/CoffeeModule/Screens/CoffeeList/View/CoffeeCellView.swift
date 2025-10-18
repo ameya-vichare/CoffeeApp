@@ -95,6 +95,7 @@ struct OrderHeaderView: View {
 
 struct OrderDetailView: View {
     private let viewModel: OrderItemCellViewModel
+    @Environment(\.imageService) var imageService: ImageService
     
     init(viewModel: OrderItemCellViewModel) {
         self.viewModel = viewModel
@@ -108,7 +109,7 @@ struct OrderDetailView: View {
                     width: AppPointSystem.point_48,
                     height: AppPointSystem.point_48
                 ),
-                imageService: SDWebImageService()
+                imageService: imageService
             ) {
                 ProgressView()
             }

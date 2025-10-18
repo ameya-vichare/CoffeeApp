@@ -13,7 +13,8 @@ import ImageLoading
 import SwiftUI
 
 final class AppDependencyContainer {
-    let networkService: NetworkService
+    private let networkService: NetworkService
+    private let imageService: ImageService
     
     init() {
         guard let url = URL(string: AppConstants.baseURL) else {
@@ -27,6 +28,11 @@ final class AppDependencyContainer {
             ]
         )
         
+        self.imageService = SDWebImageService()
+    }
+    
+    func getImageService() -> ImageService {
+        imageService
     }
 }
 
