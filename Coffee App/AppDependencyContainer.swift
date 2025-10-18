@@ -14,7 +14,6 @@ import SwiftUI
 
 final class AppDependencyContainer {
     let networkService: NetworkService
-    let imageService: ImageService
     
     init() {
         guard let url = URL(string: AppConstants.baseURL) else {
@@ -28,11 +27,6 @@ final class AppDependencyContainer {
             ]
         )
         
-        self.imageService = SDWebImageService()
-    }
-    
-    func getImageService() -> ImageService {
-        imageService
     }
 }
 

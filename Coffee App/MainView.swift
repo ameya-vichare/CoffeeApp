@@ -30,7 +30,6 @@ struct MainView: View {
             }
         }
         .tint(AppColors.primaryGray)
-        .environment(\.imageService, appDependencyContainer.getImageService())
     }
 }
 
