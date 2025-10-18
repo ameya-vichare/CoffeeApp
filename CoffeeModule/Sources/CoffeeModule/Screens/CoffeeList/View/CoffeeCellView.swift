@@ -26,13 +26,13 @@ struct CoffeeCellView: View {
             
             VStack {
                 OrderHeaderView(viewModel: viewModel)
-                
+
                 LazyVStack {
-                    ForEach(self.viewModel.items) { item in
+                    ForEach(self.viewModel.items, id: \.id) { item in
                         OrderDetailView(viewModel: item)
                     }
                 }
-                
+
                 Divider()
                     .background(AppColors.secondaryGray)
                     .padding([.top, .bottom], AppPointSystem.point_12)
@@ -108,7 +108,8 @@ struct OrderDetailView: View {
                 targetSize: CGSize(
                     width: AppPointSystem.point_48,
                     height: AppPointSystem.point_48
-                )
+                ),
+                imageService: imageService
             ) {
                 ProgressView()
             }

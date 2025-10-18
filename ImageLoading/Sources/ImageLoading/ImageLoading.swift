@@ -12,37 +12,15 @@ public struct ImageLoadingOptions {
     }
 }
 
-public protocol ImageLoadCancellable: Sendable {
-    func cancel()
-}
-
-public final class SDWebImageLoadCanceller: @unchecked Sendable, ImageLoadCancellable {
-    private let token: SDWebImageCombinedOperation
-    
-    public init(token: SDWebImageCombinedOperation) {
-        self.token = token
-    }
-    
-    public func cancel() {
-        token.cancel()
-    }
-}
-
 public protocol ImageService: Sendable {
-    func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> ImageLoadResult
-}
-
-public struct ImageLoadResult: Sendable {
-    public let image: UIImage
-    public let cancellable: ImageLoadCancellable
+    func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> UIImage
 }
 
 public final class SDWebImageService: ImageService {
     public init () {}
     
-    public func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> ImageLoadResult {
+    public func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> UIImage {
         let imageManager = SDWebImageManager.shared
-        var downloadToken: SDWebImageCombinedOperation?
         
         var context: [SDWebImageContextOption: Any] = [:]
         if let preferredSize = options.preferredSize {
@@ -51,16 +29,14 @@ public final class SDWebImageService: ImageService {
         }
         
         return try await withCheckedThrowingContinuation { continuation in
-            downloadToken = imageManager.loadImage(
+            imageManager.loadImage(
                 with: url,
                 context: context,
                 progress: nil) { image, data, error, cacheType, completed, url in
                     if let error {
                         continuation.resume(throwing: error)
-                    } else if let image, let downloadToken {
-                        let cancellable = SDWebImageLoadCanceller(token: downloadToken)
-                        let imageLoadResult = ImageLoadResult(image: image, cancellable: cancellable)
-                        continuation.resume(with: .success(imageLoadResult))
+                    } else if let image {
+                        continuation.resume(with: .success(image))
                     }
                 }
         }
@@ -71,7 +47,6 @@ public final class SDWebImageService: ImageService {
 public final class SwiftUIImageLoader: ObservableObject {
     @Published private(set) var image: UIImage?
     @Published private(set) var isLoading: Bool?
-    private var cancellable: ImageLoadCancellable?
     
     let imageService: ImageService
     
@@ -92,10 +67,9 @@ public final class SwiftUIImageLoader: ObservableObject {
         self.isLoading = true
         
         do {
-            let result = try await self.imageService.loadImage(with: url, options: options)
+            let image = try await self.imageService.loadImage(with: url, options: options)
             self.isLoading = false
-            self.image = result.image
-            self.cancellable = result.cancellable
+            self.image = image
         }
         catch {
             print(error)
@@ -106,11 +80,6 @@ public final class SwiftUIImageLoader: ObservableObject {
     private func reset() {
         self.image = nil
         self.isLoading = nil
-    }
-    
-    func cancel() {
-//        cancellables.forEach { $0.cancel() }
-//        cancellables.removeAll()
     }
 }
 
@@ -123,7 +92,7 @@ public struct CustomImageView<Placeholder: View>: View {
     public init(
         url: URL?,
         targetSize: CGSize? = nil,
-        imageService: ImageService = SDWebImageService(),
+        imageService: ImageService,
         @ViewBuilder placeholder: () -> Placeholder
     ) {
         self.url = url
@@ -145,7 +114,8 @@ public struct CustomImageView<Placeholder: View>: View {
                 placeholder
             }
         }
-        .task {
+        .id(url)
+        .task(id: url) {
             if let url {
                 do {
                     try await loader.loadImage(url: url, targetSize: targetSize)

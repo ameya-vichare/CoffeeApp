@@ -8,7 +8,7 @@
 import AppUtils
 import Foundation
 
-final class OrderCellViewModel {
+struct OrderCellViewModel {
     let id: String
     let userName: String
     let createdAt: String
@@ -39,7 +39,8 @@ final class OrderCellViewModel {
     }
 }
 
-final class OrderItemCellViewModel: Identifiable {
+struct OrderItemCellViewModel: Identifiable {
+    let id: UUID = UUID()
     let name: String
     let customisation: String
     let imageURL: URL?
