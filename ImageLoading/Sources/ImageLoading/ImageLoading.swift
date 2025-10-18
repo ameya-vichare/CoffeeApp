@@ -12,14 +12,35 @@ public struct ImageLoadingOptions {
     }
 }
 
+public protocol ImageLoadCancellable: Sendable {
+    func cancel()
+}
+
+public final class SDWebImageLoadCanceller: @unchecked Sendable, ImageLoadCancellable {
+    private let token: SDWebImageCombinedOperation
+    
+    public init(token: SDWebImageCombinedOperation) {
+        self.token = token
+    }
+    
+    public func cancel() {
+        token.cancel()
+    }
+}
+
 public protocol ImageService: Sendable {
-    func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> UIImage
+    func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> ImageLoadResult
+}
+
+public struct ImageLoadResult: Sendable {
+    public let image: UIImage
+    public let cancellable: ImageLoadCancellable
 }
 
 public final class SDWebImageService: ImageService {
     public init () {}
     
-    public func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> UIImage {
+    public func loadImage(with url: URL, options: ImageLoadingOptions) async throws -> ImageLoadResult {
         let imageManager = SDWebImageManager.shared
         var downloadToken: SDWebImageCombinedOperation?
         
@@ -30,39 +51,19 @@ public final class SDWebImageService: ImageService {
         }
         
         return try await withCheckedThrowingContinuation { continuation in
-            imageManager.loadImage(
+            downloadToken = imageManager.loadImage(
                 with: url,
                 context: context,
                 progress: nil) { image, data, error, cacheType, completed, url in
                     if let error {
                         continuation.resume(throwing: error)
-                    }
-                    
-                    if let image {
-                        continuation.resume(with: .success(image))
+                    } else if let image, let downloadToken {
+                        let cancellable = SDWebImageLoadCanceller(token: downloadToken)
+                        let imageLoadResult = ImageLoadResult(image: image, cancellable: cancellable)
+                        continuation.resume(with: .success(imageLoadResult))
                     }
                 }
         }
-        
-//        return Deferred {
-//            Future<UIImage, Error> { promise in
-//                downloadToken = imageManager.loadImage(
-//                    with: url,
-//                    context: context,
-//                    progress: nil) { image, data, error, cacheType, completed, url in
-//                        if let error {
-//                            promise(.failure(error))
-//                        }
-//                        
-//                        if let image {
-//                            promise(.success(image))
-//                        }
-//                    }
-//            }
-//        }
-//        .handleEvents(receiveCancel: {
-//            downloadToken?.cancel()
-//        }).eraseToAnyPublisher()
     }
 }
 
@@ -70,6 +71,7 @@ public final class SDWebImageService: ImageService {
 public final class SwiftUIImageLoader: ObservableObject {
     @Published private(set) var image: UIImage?
     @Published private(set) var isLoading: Bool?
+    private var cancellable: ImageLoadCancellable?
     
     let imageService: ImageService
     
@@ -90,9 +92,10 @@ public final class SwiftUIImageLoader: ObservableObject {
         self.isLoading = true
         
         do {
-            let image = try await self.imageService.loadImage(with: url, options: options)
+            let result = try await self.imageService.loadImage(with: url, options: options)
             self.isLoading = false
-            self.image = image
+            self.image = result.image
+            self.cancellable = result.cancellable
         }
         catch {
             print(error)
