@@ -12,16 +12,16 @@ public protocol NetworkService {
 }
 
 public class NetworkClient: NetworkService {
-    let baseURL: URL
-    let session: URLSession
+    let baseURL: URL?
+    let session: URLSessionProtocol
     let decoder: JSONDecoder
     let defaultHeaders: [String: String]
     
     public init(
-        baseURL: URL,
-        session: URLSession = .shared,
+        baseURL: URL?,
+        session: URLSessionProtocol = URLSession.shared,
         decoder: JSONDecoder = JSONDecoder(),
-        defaultHeaders: [String: String]
+        defaultHeaders: [String: String] = [:]
     ) {
         self.baseURL = baseURL
         self.session = session
@@ -29,9 +29,13 @@ public class NetworkClient: NetworkService {
         self.decoder = decoder
     }
     
-    
     public func perform<T: Decodable & Sendable>(request: NetworkRequest, response: T.Type) async throws -> T {
-        guard var components = URLComponents(url: baseURL.appendingPathComponent(request.path), resolvingAgainstBaseURL: false) else {
+        guard let baseURL,
+              var components = URLComponents(
+                url: baseURL.appendingPathComponent(request.path),
+                resolvingAgainstBaseURL: false
+              )
+        else {
             throw NetworkError.invalidURL
         }
         
@@ -57,7 +61,7 @@ public class NetworkClient: NetworkService {
         var (data, response): (Data?, URLResponse?)
         
         do {
-            (data, response) = try await self.session.data(for: urlRequest)
+            (data, response) = try await self.session.data(for: urlRequest, delegate: nil)
         } catch let error as URLError {
             if error.code == .cancelled {
                 throw NetworkError.cancelled
