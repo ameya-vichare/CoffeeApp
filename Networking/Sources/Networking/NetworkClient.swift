@@ -41,11 +41,7 @@ public class NetworkClient: NetworkService {
         
         components.queryItems = request.queryItems
 
-        guard let url = components.url else {
-            throw NetworkError.invalidURL
-        }
-
-        var urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: baseURL)
         urlRequest.httpMethod = request.httpMethod.rawValue
         urlRequest.httpBody = request.httpBody
         
@@ -67,7 +63,7 @@ public class NetworkClient: NetworkService {
                 throw NetworkError.cancelled
             }
         } catch {
-            throw NetworkError.requestFailed(error: error)
+            throw NetworkError.requestFailed(errorDescription: error.localizedDescription)
         }
         
         guard let response = response as? HTTPURLResponse else {
@@ -86,9 +82,9 @@ public class NetworkClient: NetworkService {
             do {
                 return try JSONDecoder().decode(T.self, from: data)
             } catch let error as DecodingError {
-                throw NetworkError.decodingError(error: error)
+                throw NetworkError.decodingError(errorDescription: error.localizedDescription)
             } catch {
-                throw NetworkError.requestFailed(error: error)
+                throw NetworkError.requestFailed(errorDescription: error.localizedDescription)
             }
         }.value
     }

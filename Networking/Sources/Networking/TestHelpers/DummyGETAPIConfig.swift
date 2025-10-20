@@ -9,7 +9,7 @@ import Foundation
 
 final class DummyGETAPIConfig: APIConfig {
     func path() -> String {
-        "somePath somePath"
+        "/somePath"
     }
     
     func queryItems() -> [URLQueryItem]? {
