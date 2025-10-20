@@ -7,3 +7,6 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 Coffee App.xcodeproj/xcuserdata
+Coffee App.xcodeproj/xcshareddata/xcschemes/Coffee App.xcscheme
+*.xcscheme
+Networking/.build

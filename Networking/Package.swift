@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "Networking",
     platforms: [
-        .iOS(.v17)
+        .iOS(.v17),
+        .macOS(.v12)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -22,7 +23,13 @@ let package = Package(
             name: "Networking"),
         .testTarget(
             name: "NetworkingTests",
-            dependencies: ["Networking"]
+            dependencies: [
+                "Networking"
+            ],
+            path: "Tests/NetworkingTests",
+            resources: [
+                // Add fixture folders here if needed, e.g. .process("Fixtures")
+            ]
         ),
     ]
 )
