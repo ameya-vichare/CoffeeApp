@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol NetworkService {
-    func perform<T: Decodable>(request: NetworkRequest, response: T.Type) async throws -> T
+    func perform<T: Decodable>(request: NetworkRequest, responseType: T.Type) async throws -> T
     func performRaw(request: NetworkRequest) async throws -> NetworkResponse
 }
 
@@ -30,7 +30,7 @@ public class NetworkClient: NetworkService {
         self.decoder = decoder
     }
     
-    public func perform<T: Decodable & Sendable>(request: NetworkRequest, response: T.Type) async throws -> T {
+    public func perform<T: Decodable & Sendable>(request: NetworkRequest, responseType: T.Type) async throws -> T {
         let urlRequest: URLRequest = try buildURLRequest(request: request)
         let (data, response): (Data, URLResponse) = try await performAPICall(with: urlRequest)
         let _ = try handleURLResponse(response: response, data: data)
