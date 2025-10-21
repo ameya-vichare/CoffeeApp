@@ -9,6 +9,7 @@ import Foundation
 
 public protocol NetworkService {
     func perform<T: Decodable>(request: NetworkRequest, response: T.Type) async throws -> T
+    func performRaw(request: NetworkRequest) async throws -> NetworkResponse
 }
 
 public class NetworkClient: NetworkService {
@@ -30,6 +31,25 @@ public class NetworkClient: NetworkService {
     }
     
     public func perform<T: Decodable & Sendable>(request: NetworkRequest, response: T.Type) async throws -> T {
+        let urlRequest: URLRequest = try buildURLRequest(request: request)
+        let (data, response): (Data, URLResponse) = try await performAPICall(with: urlRequest)
+        let _ = try handleURLResponse(response: response, data: data)
+        let parsedData: T = try await parseData(data: data, decoder: self.decoder)
+        
+        return parsedData
+    }
+    
+    public func performRaw(request: NetworkRequest) async throws -> NetworkResponse {
+        let urlRequest: URLRequest = try buildURLRequest(request: request)
+        let (data, response): (Data, URLResponse) = try await performAPICall(with: urlRequest)
+        let httpURLResponse: HTTPURLResponse = try handleURLResponse(response: response, data: data)
+        
+        return NetworkResponse(data: data, response: httpURLResponse)
+    }
+}
+
+extension NetworkClient {
+    func buildURLRequest(request: NetworkRequest) throws -> URLRequest {
         guard let baseURL,
               var components = URLComponents(
                 url: baseURL.appendingPathComponent(request.path),
@@ -40,8 +60,12 @@ public class NetworkClient: NetworkService {
         }
         
         components.queryItems = request.queryItems
+        
+        guard let url = components.url else {
+            throw NetworkError.invalidURL
+        }
 
-        var urlRequest = URLRequest(url: baseURL)
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.httpMethod.rawValue
         urlRequest.httpBody = request.httpBody
         
@@ -54,18 +78,21 @@ public class NetworkClient: NetworkService {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         
-        var (data, response): (Data?, URLResponse?)
-        
+        return urlRequest
+    }
+    
+    private func performAPICall(with urlRequest: URLRequest) async throws -> (Data, URLResponse) {
         do {
-            (data, response) = try await self.session.data(for: urlRequest, delegate: nil)
-        } catch let error as URLError {
-            if error.code == .cancelled {
-                throw NetworkError.cancelled
-            }
+            return try await self.session.data(for: urlRequest, delegate: nil)
+        } catch let error as URLError where error.code == .cancelled {
+            throw NetworkError.cancelled
         } catch {
             throw NetworkError.requestFailed(errorDescription: error.localizedDescription)
         }
-        
+    }
+    
+    @discardableResult
+    private func handleURLResponse(response: URLResponse, data: Data) throws -> HTTPURLResponse {
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse(statusCode: -1, data: data)
         }
@@ -74,13 +101,13 @@ public class NetworkClient: NetworkService {
             throw NetworkError.invalidResponse(statusCode: response.statusCode, data: data)
         }
         
-        guard let data else {
-            throw NetworkError.unableToDecode
-        }
-        
+        return response
+    }
+    
+    private func parseData<T: Decodable & Sendable>(data: Data, decoder: JSONDecoder) async throws -> T {
         return try await Task.detached(priority: .background) {
             do {
-                return try JSONDecoder().decode(T.self, from: data)
+                return try decoder.decode(T.self, from: data)
             } catch let error as DecodingError {
                 throw NetworkError.decodingError(errorDescription: error.localizedDescription)
             } catch {

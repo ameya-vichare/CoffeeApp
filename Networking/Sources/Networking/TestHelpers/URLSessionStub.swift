@@ -28,7 +28,8 @@ public final class URLSessionStub: URLSessionProtocol {
     
     static func getURLSessionStub(
         dataStr: String = "",
-        statusCode: Int = 200
+        statusCode: Int = 200,
+        error: Error? = nil
     ) -> URLSessionStub {
         let stubbedData = dataStr.data(using: .utf8)
         let stubbedResponse = HTTPURLResponse(
@@ -40,7 +41,7 @@ public final class URLSessionStub: URLSessionProtocol {
         return URLSessionStub(
             stubbedData: stubbedData!,
             stubbedResponse: stubbedResponse!,
-            stubbedError: nil
+            stubbedError: error
         )
     }
 }
