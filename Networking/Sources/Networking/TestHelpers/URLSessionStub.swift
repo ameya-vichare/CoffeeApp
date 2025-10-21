@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  URLSessionStub.swift
 //  Networking
 //
 //  Created by Ameya on 20/10/25.

@@ -22,7 +22,7 @@ public enum NetworkError: Error, Equatable {
     
     var statusCode: Int? {
         switch self {
-        case .invalidResponse(let statusCode, let data):
+        case .invalidResponse(let statusCode, _):
             return statusCode
         default:
             return nil

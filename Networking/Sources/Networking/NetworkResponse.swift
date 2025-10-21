@@ -8,6 +8,6 @@
 import Foundation
 
 public struct NetworkResponse {
-    let data: Data
-    let response: HTTPURLResponse
+    let data: Data?
+    let response: HTTPURLResponse?
 }

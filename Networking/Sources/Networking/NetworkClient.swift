@@ -46,6 +46,16 @@ public class NetworkClient: NetworkService {
         
         return NetworkResponse(data: data, response: httpURLResponse)
     }
+    
+    // TODO: Network call cancellation
+    
+    // TODO: Network retries with backoff
+    
+    // TODO: Network timeout
+    
+    // TODO: Offline error
+    
+    // TODO: Custom error handling
 }
 
 extension NetworkClient {

@@ -166,4 +166,10 @@ final class NetworkClientTests: XCTestCase {
         XCTAssertEqual(_error?.statusCode, 500, "When a 500 status code is received, NetworkClient perform() should have returned a 500 status code")
         XCTAssertNil(response, "When a 500 status code is received, NetworkClient perform() should not have returned a response")
     }
+    
+    // TODO: Test forming of URLRequest - right/wrong method, right/wrong query params, headers, body, encoding params
+    
+    // TODO: Test invalid server response returns apt error
+    
+    
 }
