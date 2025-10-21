@@ -32,7 +32,7 @@ final class NetworkClientTests: XCTestCase {
         
         //When
         do {
-            response = try await sut.perform(request: request, response: [String: String].self)
+            response = try await sut.perform(request: request, responseType: [String: String].self)
         } catch {
             XCTFail("When valid response is provided, NetworkClient perform() should not have returned an error.")
         }
@@ -55,7 +55,7 @@ final class NetworkClientTests: XCTestCase {
         
         //When
         do {
-            response = try await sut.perform(request: request, response: String.self)
+            response = try await sut.perform(request: request, responseType: String.self)
         } catch let error as NetworkError {
             _error = error
         } catch {
@@ -79,7 +79,7 @@ final class NetworkClientTests: XCTestCase {
         
         //When
         do {
-            response = try await sut.perform(request: request, response: String.self)
+            response = try await sut.perform(request: request, responseType: String.self)
         } catch let error as NetworkError {
             _error = error
         } catch {
@@ -104,7 +104,7 @@ final class NetworkClientTests: XCTestCase {
         
         // When
         do {
-            response = try await sut.perform(request: request, response: [String: String].self)
+            response = try await sut.perform(request: request, responseType: [String: String].self)
         } catch let error as NetworkError {
             _error = error
         } catch {
@@ -129,7 +129,7 @@ final class NetworkClientTests: XCTestCase {
         
         // When
         do {
-            response = try await sut.perform(request: request, response: [String: String].self)
+            response = try await sut.perform(request: request, responseType: [String: String].self)
         } catch let error as NetworkError {
             _error = error
         } catch {
@@ -154,7 +154,7 @@ final class NetworkClientTests: XCTestCase {
         
         // When
         do {
-            response = try await sut.perform(request: request, response: [String: String].self)
+            response = try await sut.perform(request: request, responseType: [String: String].self)
         } catch let error as NetworkError {
             _error = error
         } catch {
