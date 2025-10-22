@@ -29,7 +29,9 @@ public struct CoffeeListView: View {
             .listStyle(.plain)
             .background(AppColors.clear)
             .task {
-                await self.viewModel.makeInitialAPICalls()
+                if self.viewModel.state != .dataFetched {
+                    await self.viewModel.makeInitialAPICalls()
+                }
             }
             .refreshable {
                 await self.viewModel.makeInitialAPICalls()
