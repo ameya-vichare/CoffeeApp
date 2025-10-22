@@ -64,28 +64,44 @@ extension CoffeeListViewModel {
     }
     
     private func prepareDatasource(coffeeList: [Order]) {
-        self.datasource = coffeeList.map { order in
-            CoffeeListCellItem(
-                id: order.id ?? "1",
+        self.datasource = coffeeList.compactMap { order in
+            guard let orderID = order.id,
+                  !orderID.isEmpty else {
+                return nil
+            }
+            
+            func getItemsVM(items: [OrderItem]) -> [OrderItemCellViewModel] {
+                items.map { item in
+                    OrderItemCellViewModel(
+                        name: item.name ?? "",
+                        size: item.size ?? "",
+                        modifiers: item.modifier.compactMap{ $0.name },
+                        imageURL: item.imageURL ?? "",
+                        totalPrice: item.totalPrice ?? "",
+                        currency: item.currency ?? "",
+                        quantity: item.quantity ?? ""
+                    )
+                }
+            }
+            
+            func getOrderVM(order: Order, itemsVM: [OrderItemCellViewModel]) -> OrderCellViewModel {
+                OrderCellViewModel(
+                    id: orderID,
+                    userName: order.userName ?? "",
+                    createdAt: order.createdAt ?? "",
+                    totalPrice: order.totalPrice ?? "",
+                    currency: order.currency ?? "",
+                    status: order.status?.description ?? "",
+                    items: itemsVM
+                )
+            }
+
+            return CoffeeListCellItem(
+                id: orderID,
                 type: CoffeeListCellType.coffeeOrder(
-                    vm: OrderCellViewModel(
-                        id: order.id ?? "1",
-                        userName: order.userName ?? "",
-                        createdAt: order.createdAt ?? "",
-                        totalPrice: order.totalPrice ?? "",
-                        currency: order.currency ?? "",
-                        status: order.status?.description ?? "",
-                        items: order.items.map { item in
-                            OrderItemCellViewModel(
-                                name: item.name ?? "",
-                                size: item.size ?? "",
-                                modifiers: item.modifier.flatMap{ $0.name },
-                                imageURL: item.imageURL ?? "",
-                                totalPrice: item.totalPrice ?? "",
-                                currency: item.currency ?? "",
-                                quantity: item.quantity ?? ""
-                            )
-                        }
+                    vm: getOrderVM(
+                        order: order,
+                        itemsVM: getItemsVM(items: order.items)
                     )
                 )
             )
