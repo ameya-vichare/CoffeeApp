@@ -55,7 +55,7 @@ extension AppDependencyContainer {
 
 // MARK: - Coffee Order View
 extension AppDependencyContainer {
-    func makeCoffeeOrderView() -> CoffeeOrderView {
-        return CoffeeOrderView()
+    func makeCoffeeOrderView() -> CoffeeMenuView {
+        return CoffeeMenuView()
     }
 }

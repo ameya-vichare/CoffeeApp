@@ -9,8 +9,16 @@ public enum AppColors {
         Color("SecondaryGray", bundle: .module)
     }
     
+    public static var primaryCoffee: Color {
+        Color("PrimaryCoffee", bundle: .module)
+    }
+    
     public static var white: Color {
         Color("White", bundle: .module)
+    }
+    
+    public static var black: Color {
+        Color("Black", bundle: .module)
     }
     
     public static var clear: Color {

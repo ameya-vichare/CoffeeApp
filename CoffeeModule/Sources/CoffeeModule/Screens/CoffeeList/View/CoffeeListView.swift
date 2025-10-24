@@ -24,7 +24,7 @@ public struct CoffeeListView: View {
                 cell(for: item.type)
                     .listRowSeparator(.hidden)
                     .listRowBackground(AppColors.clear)
-                    .padding([.top], AppPointSystem.point_12)
+                    .listRowInsets(EdgeInsets(top: AppPointSystem.point_12, leading: AppPointSystem.point_16, bottom: AppPointSystem.point_12, trailing: AppPointSystem.point_16))
             }
             .listStyle(.plain)
             .background(AppColors.clear)
