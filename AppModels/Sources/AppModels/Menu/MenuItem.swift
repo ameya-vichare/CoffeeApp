@@ -91,14 +91,14 @@ import Foundation
 //        }
 
 public struct MenuItem: Decodable {
-    let id: Int?
-    let name: String?
-    let description: String?
-    let imageURL: String?
-    let basePrice: Double?
-    let basePriceCurrency: String?
-    let sizes: [MenuSize]?
-    let modifiers: [MenuModifier]?
+    public let id: Int?
+    public let name: String?
+    public let description: String?
+    public let imageURL: String?
+    public let basePrice: Double?
+    public let basePriceCurrency: String?
+    public let sizes: [MenuSize]?
+    public let modifiers: [MenuModifier]?
     
     enum CodingKeys: String, CodingKey {
         case id

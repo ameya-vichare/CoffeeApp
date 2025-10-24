@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct Menu: Decodable {
-    let menu: [MenuItem]?
+public struct MenuResponse: Decodable {
+    public let menu: [MenuItem]?
     
     public init(menu: [MenuItem]?) {
         self.menu = menu

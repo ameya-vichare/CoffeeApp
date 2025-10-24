@@ -9,7 +9,6 @@ import SwiftUI
 import DesignSystem
 
 public struct CoffeeMenuView: View {
-    @State var items = ["", "", ""]
     @ObservedObject var viewModel: MenuListViewModel
     
     public init(viewModel: MenuListViewModel) {
@@ -20,13 +19,8 @@ public struct CoffeeMenuView: View {
         ZStack {
             AppColors.secondaryGray
             
-            List(self.$items, id: \.self) { _ in
-                CoffeeMenuCellView()
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(AppColors.clear)
-                    .listRowInsets(
-                        EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                    )
+            List(self.viewModel.datasource) { menu in
+                handleCellType(type: menu.type)
             }
             .listStyle(.plain)
             .task {
@@ -36,6 +30,20 @@ public struct CoffeeMenuView: View {
             }
         }
         .navigationTitle("Menu")
+    }
+    
+    @ViewBuilder
+    private func handleCellType(type: MenuListCellType) -> some View {
+        switch type {
+        case .mainMenu(vm: let viewModel):
+            CoffeeMenuCellView(viewModel: viewModel)
+                .listRowSeparator(.hidden)
+                .listRowBackground(AppColors.clear)
+                .listRowInsets(
+                    EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                )
+                .environment(viewModel)
+        }
     }
 }
 

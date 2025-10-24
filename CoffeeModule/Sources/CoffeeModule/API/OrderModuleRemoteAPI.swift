@@ -20,8 +20,8 @@ public final class OrderModuleRemoteAPI: OrderModuleAPIProtocol {
         return try await self.networkService.perform(request: networkRequest, responseType: [Order].self)
     }
     
-    public func getMenu(config: any Networking.APIConfig) async throws -> Menu {
+    public func getMenu(config: any Networking.APIConfig) async throws -> MenuResponse {
         let networkRequest = NetworkRequest(apiConfig: config)
-        return try await self.networkService.perform(request: networkRequest, responseType: Menu.self)
+        return try await self.networkService.perform(request: networkRequest, responseType: MenuResponse.self)
     }
 }

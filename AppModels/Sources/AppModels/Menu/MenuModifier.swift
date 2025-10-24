@@ -8,12 +8,12 @@
 import Foundation
 
 public struct MenuModifier: Decodable {
-    let id: Int?
-    let name: String?
-    let selectionType: String?
-    let minSelect: Int?
-    let maxSelect: Int?
-    let options: [MenuModifierOption]?
+    public let id: Int?
+    public let name: String?
+    public let selectionType: String?
+    public let minSelect: Int?
+    public let maxSelect: Int?
+    public let options: [MenuModifierOption]?
     
     enum CodingKeys: String, CodingKey {
         case id

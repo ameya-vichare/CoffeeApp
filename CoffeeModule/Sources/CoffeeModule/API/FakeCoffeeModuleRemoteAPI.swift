@@ -40,8 +40,8 @@ public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
         ]
     }
     
-    public func getMenu(config: any Networking.APIConfig) async throws -> Menu {
-        return Menu(
+    public func getMenu(config: any Networking.APIConfig) async throws -> MenuResponse {
+        return MenuResponse(
                 menu: [MenuItem(
                     id: 8,
                     name: "Hot Americano",

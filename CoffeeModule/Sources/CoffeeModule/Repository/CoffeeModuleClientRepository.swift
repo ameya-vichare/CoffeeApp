@@ -19,7 +19,7 @@ public final class CoffeeModuleClientRepository: CoffeeModuleRepository {
         try await self.remoteAPI.getOrders(config: config)
     }
     
-    public func getMenu(config: any Networking.APIConfig) async throws -> Menu {
+    public func getMenu(config: any Networking.APIConfig) async throws -> MenuResponse {
         try await self.remoteAPI.getMenu(config: config)
     }
 }

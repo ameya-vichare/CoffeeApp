@@ -9,13 +9,13 @@
 import Foundation
 
 public struct MenuSize: Decodable {
-    let id: Int?
-    let code: String?
-    let label: String?
-    let price: Float?
-    let currency: String?
+    public let id: Int?
+    public let code: String?
+    public let label: String?
+    public let price: Double?
+    public let currency: String?
     
-    public init(id: Int?, code: String?, label: String?, price: Float?, currency: String?) {
+    public init(id: Int?, code: String?, label: String?, price: Double?, currency: String?) {
         self.id = id
         self.code = code
         self.label = label

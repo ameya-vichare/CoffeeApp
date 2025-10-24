@@ -8,12 +8,12 @@
 import Foundation
 
 public struct MenuModifierOption: Decodable {
-    let id: Int?
-    let name: String?
-    let price: Float?
-    let currency: String?
+    public let id: Int?
+    public let name: String?
+    public let price: Double?
+    public let currency: String?
     
-    public init(id: Int?, name: String?, price: Float?, currency: String?) {
+    public init(id: Int?, name: String?, price: Double?, currency: String?) {
         self.id = id
         self.name = name
         self.price = price
