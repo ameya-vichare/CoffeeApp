@@ -9,30 +9,10 @@ import SwiftUI
 import AppEndpoints
 import AppModels
 
-struct CoffeeListCellItem: Identifiable, Equatable {
-    let id: String
-    let type: CoffeeListCellType
-    
-    static func == (lhs: CoffeeListCellItem, rhs: CoffeeListCellItem) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
-enum CoffeeListCellType {
-    case coffeeOrder(vm: OrderCellViewModel)
-}
-
-enum CoffeeListViewState {
-    case preparing
-    case fetchingData
-    case dataFetched
-    case error
-}
-
 public final class CoffeeListViewModel: ObservableObject {
     public let repository: CoffeeModuleRepository
     @Published var datasource: [CoffeeListCellItem] = []
-    @Published var state: CoffeeListViewState = .preparing
+    @Published var state: ScreenViewState = .preparing
     
     public init(repository: CoffeeModuleRepository) {
         self.repository = repository
@@ -44,7 +24,7 @@ extension CoffeeListViewModel {
     func makeInitialAPICalls() async {
         self.resetDatasource()
         self.state = .fetchingData
-        let getCoffeeOrderConfig = CoffeeOrderEndpoint.getOrders
+        let getCoffeeOrderConfig = OrderEndpoint.getOrders
         let _repository = self.repository
         
         Task {

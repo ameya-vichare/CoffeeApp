@@ -120,5 +120,5 @@ struct BrewCrewMenuStepperButton: View {
 }
 
 #Preview {
-    CoffeeMenuView()
+    BrewCrewAddMenuView()
 }

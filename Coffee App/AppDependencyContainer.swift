@@ -42,7 +42,7 @@ extension AppDependencyContainer {
         func makeCoffeeListViewModel() -> CoffeeListViewModel {
             CoffeeListViewModel(
                 repository: CoffeeModuleClientRepository(
-                    remoteAPI: CoffeeModuleRemoteAPI(
+                    remoteAPI: OrderModuleRemoteAPI(
                         networkService: networkService
                     )
                 )
@@ -56,6 +56,16 @@ extension AppDependencyContainer {
 // MARK: - Coffee Order View
 extension AppDependencyContainer {
     func makeCoffeeOrderView() -> CoffeeMenuView {
-        return CoffeeMenuView()
+        func makeMenuListViewModel() -> MenuListViewModel {
+            MenuListViewModel(
+                repository: CoffeeModuleClientRepository(
+                    remoteAPI: OrderModuleRemoteAPI(
+                        networkService: networkService
+                    )
+                )
+            )
+        }
+        
+        return CoffeeMenuView(viewModel: makeMenuListViewModel())
     }
 }

@@ -10,8 +10,11 @@ import DesignSystem
 
 public struct CoffeeMenuView: View {
     @State var items = ["", "", ""]
+    @ObservedObject var viewModel: MenuListViewModel
     
-    public init() {}
+    public init(viewModel: MenuListViewModel) {
+        self.viewModel = viewModel
+    }
     
     public var body: some View {
         ZStack {
@@ -26,6 +29,11 @@ public struct CoffeeMenuView: View {
                     )
             }
             .listStyle(.plain)
+            .task {
+                Task {
+                    await self.viewModel.makeInitialAPICalls()
+                }
+            }
         }
         .navigationTitle("Menu")
     }
@@ -33,6 +41,12 @@ public struct CoffeeMenuView: View {
 
 #Preview {
     NavigationStack {
-        CoffeeMenuView()
+        CoffeeMenuView(
+            viewModel: MenuListViewModel(
+                repository: CoffeeModuleClientRepository(
+                    remoteAPI: FakeCoffeeModuleRemoteAPI()
+                )
+            )
+        )
     }
 }

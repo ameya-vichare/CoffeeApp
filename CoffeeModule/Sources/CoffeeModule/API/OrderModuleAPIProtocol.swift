@@ -8,6 +8,7 @@
 import AppModels
 import Networking
 
-public protocol RemoteAPI {
+public protocol OrderModuleAPIProtocol {
     func getOrders(config: APIConfig) async throws -> [Order]
+    func getMenu(config: APIConfig) async throws -> Menu
 }

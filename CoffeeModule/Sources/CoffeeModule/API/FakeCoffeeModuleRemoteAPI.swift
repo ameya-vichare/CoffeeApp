@@ -8,7 +8,7 @@
 import AppModels
 import Networking
 
-public final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
+public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
     public init () {}
     
     public func getOrders(config: APIConfig) async throws -> [Order] {
@@ -29,7 +29,7 @@ public final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
                         totalPrice: "12",
                         currency: "USD",
                         modifier: [
-                            Modifier(
+                            OrderModifier(
                                 group: "Toppings",
                                 name: "Whipped cream"
                             )
@@ -38,5 +38,45 @@ public final class FakeCoffeeModuleRemoteAPI: RemoteAPI {
                 ]
             )
         ]
+    }
+    
+    public func getMenu(config: any Networking.APIConfig) async throws -> Menu {
+        return Menu(
+                menu: [MenuItem(
+                    id: 8,
+                    name: "Hot Americano",
+                    description: "A shot of espresso, diluted to create a smooth black coffee.",
+                    imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
+                    basePrice: 14.00,
+                    basePriceCurrency: "USD",
+                    sizes: [
+                        MenuSize(
+                            id: 4,
+                            code: "S",
+                            label: "Small",
+                            price: 14.00,
+                            currency: "USD"
+                        )
+                    ],
+                    modifiers: [
+                        MenuModifier(
+                            id: 1,
+                            name: "Milk Type",
+                            selectionType: "single",
+                            minSelect: 1,
+                            maxSelect: 1,
+                            options: [
+                                MenuModifierOption(
+                                    id: 3,
+                                    name: "Oat Milk",
+                                    price: 0.50,
+                                    currency: "USD"
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
     }
 }

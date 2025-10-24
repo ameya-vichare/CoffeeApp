@@ -51,7 +51,7 @@ public struct CoffeeListView: View {
     }
     
     @ViewBuilder
-    private func handleState(state: CoffeeListViewState) -> some View {
+    private func handleState(state: ScreenViewState) -> some View {
         switch state {
         case .preparing, .dataFetched:
             EmptyView()

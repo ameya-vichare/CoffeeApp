@@ -8,7 +8,7 @@
 import Networking
 import Foundation
 
-public enum CoffeeOrderEndpoint: APIConfig {
+public enum OrderEndpoint: APIConfig {
     case getOrders
     case sendOrder
     
@@ -36,8 +36,12 @@ public enum CoffeeOrderEndpoint: APIConfig {
     }
     
     public func httpHeaders() -> [String : String]? {
-        nil
-//        ["Content-Type": "application/json"]
+        switch self {
+        case .getOrders:
+            return nil
+        case .sendOrder:
+            return ["Content-Type": "application/json"]
+        }
     }
     
     public func queryItems() -> [URLQueryItem]? {
