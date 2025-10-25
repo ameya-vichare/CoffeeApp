@@ -17,9 +17,8 @@ struct CoffeeMenuCellView: View {
     }
     
     var body: some View {
-        ZStack {
-            VStack {
-                HStack(alignment: .top, spacing: AppPointSystem.point_8) {
+        VStack {
+            HStack(alignment: .top, spacing: AppPointSystem.point_8) {
                     CoffeeMenuDetailView(viewModel: viewModel)
                     
                     Spacer()
@@ -29,9 +28,8 @@ struct CoffeeMenuCellView: View {
                 .padding([.bottom, .top], AppPointSystem.point_12)
                 .padding([.leading, .trailing], AppPointSystem.point_16)
                 
-                Divider()
-                    .background(AppColors.secondaryGray)
-            }
+            Divider()
+                .background(AppColors.secondaryGray)
         }
     }
 }
@@ -57,6 +55,7 @@ struct CoffeeMenuDetailView: View {
                 .font(AppFonts.captionMedium)
                 .foregroundStyle(AppColors.primaryGray)
                 .padding([.top], 2)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
