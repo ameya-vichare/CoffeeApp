@@ -48,7 +48,7 @@ public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
                     description: "A shot of espresso, diluted to create a smooth black coffee.",
                     imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
                     basePrice: 14.00,
-                    basePriceCurrency: "USD",
+                    currency: "USD",
                     sizes: [
                         MenuSize(
                             id: 4,

@@ -52,6 +52,7 @@ struct BrewCrewAddMenuButton: View {
             }
             .offset(y: AppPointSystem.point_44/2)
         }
+        .buttonStyle(.plain)
         .tint(AppColors.black)
     }
 }

@@ -30,6 +30,8 @@ public struct CoffeeMenuView: View {
                     }
                 }
             }
+            
+            handleState(state: viewModel.state)
         }
         .navigationTitle("Menu")
     }
@@ -44,6 +46,18 @@ public struct CoffeeMenuView: View {
                 .listRowInsets(
                     EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
                 )
+        }
+    }
+    
+    @ViewBuilder
+    private func handleState(state: ScreenViewState) -> some View {
+        switch state {
+        case .fetchingData:
+            ProgressView("Getting menu ...")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.thinMaterial)
+        default:
+            EmptyView()
         }
     }
 }

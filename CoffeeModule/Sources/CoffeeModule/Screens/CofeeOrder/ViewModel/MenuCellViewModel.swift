@@ -7,11 +7,11 @@
 
 import Foundation
 
-@Observable
 final class MenuCellViewModel {
     let name: String
     let currency: String
     let price: Double
+    let displayPrice: String
     let description: String
     let imageURL: URL?
     
@@ -25,6 +25,7 @@ final class MenuCellViewModel {
         self.name = name
         self.currency = currency
         self.price = price
+        self.displayPrice = price.formatPrice()
         self.description = description
         self.imageURL = URL(string: imageURL ?? "")
     }

@@ -96,7 +96,7 @@ public struct MenuItem: Decodable {
     public let description: String?
     public let imageURL: String?
     public let basePrice: Double?
-    public let basePriceCurrency: String?
+    public let currency: String?
     public let sizes: [MenuSize]?
     public let modifiers: [MenuModifier]?
     
@@ -106,18 +106,18 @@ public struct MenuItem: Decodable {
         case description
         case imageURL = "image_url"
         case basePrice = "base_price"
-        case basePriceCurrency = "base_price_currency"
+        case currency = "currency"
         case sizes
         case modifiers = "modifier_groups"
     }
     
-    public init(id: Int?, name: String?, description: String?, imageURL: String?, basePrice: Double?, basePriceCurrency: String?, sizes: [MenuSize]?, modifiers: [MenuModifier]?) {
+    public init(id: Int?, name: String?, description: String?, imageURL: String?, basePrice: Double?, currency: String?, sizes: [MenuSize]?, modifiers: [MenuModifier]?) {
         self.id = id
         self.name = name
         self.description = description
         self.imageURL = imageURL
         self.basePrice = basePrice
-        self.basePriceCurrency = basePriceCurrency
+        self.currency = currency
         self.sizes = sizes
         self.modifiers = modifiers
     }

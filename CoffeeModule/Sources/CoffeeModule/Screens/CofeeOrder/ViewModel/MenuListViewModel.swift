@@ -51,7 +51,7 @@ extension MenuListViewModel {
                 type: .mainMenu(
                     vm: MenuCellViewModel(
                         name: menuItem.name ?? "",
-                        currency: menuItem.basePriceCurrency ?? "",
+                        currency: menuItem.currency ?? "",
                         price: menuItem.basePrice ?? 0.0,
                         description: menuItem.description ?? "",
                         imageURL: menuItem.imageURL ?? ""
