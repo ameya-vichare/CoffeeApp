@@ -18,9 +18,6 @@ struct CoffeeMenuCellView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: AppPointSystem.point_12)
-                .foregroundStyle(AppColors.white)
-            
             HStack(alignment: .top) {
                 CoffeeMenuDetailView(viewModel: viewModel)
                 

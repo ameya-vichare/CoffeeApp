@@ -25,7 +25,9 @@ public struct CoffeeMenuView: View {
             .listStyle(.plain)
             .task {
                 Task {
-                    await self.viewModel.makeInitialAPICalls()
+                    if viewModel.state != .dataFetched {
+                        await self.viewModel.makeInitialAPICalls()
+                    }
                 }
             }
         }
@@ -42,7 +44,6 @@ public struct CoffeeMenuView: View {
                 .listRowInsets(
                     EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
                 )
-                .environment(viewModel)
         }
     }
 }
