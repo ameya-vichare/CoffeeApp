@@ -23,18 +23,30 @@ struct BrewCrewMenuModifierBottomSheet: View {
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     ForEach(self.viewModel.modifierViewModels) { item in
-                        Text(item.name)
-                        
-                        ForEach(item.options) { option in
-                            Text(option.name)
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundStyle(AppColors.white)
+                            
+                            VStack(alignment: .leading) {
+                                Text(item.name)
+                                Text(item.displayDescription)
+                                
+                                Divider()
+                                
+                                ForEach(item.options) { option in
+                                    Text(option.name)
+                                }
+                            }
+                            .padding()
                         }
                     }
                 }
             }
-            .background(AppColors.secondaryGray)
+            .padding()
             
             Spacer()
         }
+        .background(AppColors.secondaryGray)
     }
 }
 
