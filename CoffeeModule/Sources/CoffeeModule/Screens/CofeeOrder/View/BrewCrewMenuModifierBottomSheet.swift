@@ -10,21 +10,28 @@ import DesignSystem
 import ImageLoading
 
 struct BrewCrewMenuModifierBottomSheet: View {
+    private let viewModel: MenuModifierBottomSheetViewModel
     
-    var items : [String] = ["Regular", "Medium", "Large"]
+    init(viewModel: MenuModifierBottomSheetViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             MenuModifierHeaderView()
             
-            List(items, id: \.self) { item in
-                Section(header: Text("Fruits")) {
-                    Text("Apple")
-                        .listRowSeparator(.hidden)
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach(self.viewModel.modifierViewModels) { item in
+                        Text(item.name)
+                        
+                        ForEach(item.options) { option in
+                            Text(option.name)
+                        }
+                    }
                 }
-                
             }
-            .listStyle(.grouped)
+            .background(AppColors.secondaryGray)
             
             Spacer()
         }
@@ -65,5 +72,32 @@ struct MenuModifierHeaderView: View {
 }
 
 #Preview {
-    BrewCrewMenuModifierBottomSheet()
+    BrewCrewMenuModifierBottomSheet(
+        viewModel: MenuModifierBottomSheetViewModel(
+            modifierViewModels: [
+                MenuModifierViewModel(
+                    id: 0,
+                    name: "Milk",
+                    minSelection: 1,
+                    maxSelection: 1,
+                    options: [
+                        MenuModifierCellViewModel(
+                            id: 0,
+                            name: "Regular",
+                            price: 12.0,
+                            currency: "USD",
+                            isDefault: true
+                        ),
+                        MenuModifierCellViewModel(
+                            id: 2,
+                            name: "Small",
+                            price: 12.0,
+                            currency: "USD",
+                            isDefault: true
+                        )
+                    ]
+                )
+            ]
+        )
+    )
 }

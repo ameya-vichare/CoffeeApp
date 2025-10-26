@@ -49,15 +49,6 @@ public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
                     imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
                     basePrice: 14.00,
                     currency: "USD",
-                    sizes: [
-                        MenuSize(
-                            id: 4,
-                            code: "S",
-                            label: "Small",
-                            price: 14.00,
-                            currency: "USD"
-                        )
-                    ],
                     modifiers: [
                         MenuModifier(
                             id: 1,
@@ -70,7 +61,8 @@ public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
                                     id: 3,
                                     name: "Oat Milk",
                                     price: 0.50,
-                                    currency: "USD"
+                                    currency: "USD",
+                                    isDefault: true
                                 )
                             ]
                         )

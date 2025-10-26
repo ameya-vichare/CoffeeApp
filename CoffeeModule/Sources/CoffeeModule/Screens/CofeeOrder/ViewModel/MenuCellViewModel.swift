@@ -15,6 +15,8 @@ final class MenuCellViewModel: ObservableObject {
     let description: String
     let imageURL: URL?
     
+    let bottomSheetModel: MenuModifierBottomSheetViewModel
+    
     @Published var quantitySelection: Int = 0
     
     init(
@@ -22,7 +24,8 @@ final class MenuCellViewModel: ObservableObject {
         currency: String,
         price: Double,
         description: String,
-        imageURL: String
+        imageURL: String,
+        bottomSheetModel: MenuModifierBottomSheetViewModel
     ) {
         self.name = name
         self.currency = currency
@@ -30,6 +33,7 @@ final class MenuCellViewModel: ObservableObject {
         self.displayPrice = price.formatPrice()
         self.description = description
         self.imageURL = URL(string: imageURL ?? "")
+        self.bottomSheetModel = bottomSheetModel
     }
 }
 
@@ -47,10 +51,14 @@ enum MenuModifierCellType {
 }
 
 final class MenuModifierBottomSheetViewModel {
+    let modifierViewModels: [MenuModifierViewModel]
     
+    init(modifierViewModels: [MenuModifierViewModel]) {
+        self.modifierViewModels = modifierViewModels
+    }
 }
 
-final class MenuModifierViewModel {
+final class MenuModifierViewModel: Identifiable {
     let id: Int
     let name: String
     var displayDescription: String
@@ -80,7 +88,7 @@ enum MenuModifierSelectionType: String {
     case multiple
 }
 
-final class MenuModifierCellViewModel {
+final class MenuModifierCellViewModel: Identifiable {
     let id: Int
     let name: String
     let price: Double

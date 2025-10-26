@@ -89,14 +89,15 @@ struct CoffeeMenuActionView: View {
     }
 }
 
-#Preview {
-    CoffeeMenuCellView(
-        viewModel: MenuCellViewModel(
-            name: "Hot Americano",
-            currency: "USD",
-            price: 0.0,
-            description: "A shot of espresso, diluted to create a smooth black coffee.",
-            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e"
-        )
-    )
-}
+//#Preview {
+//    CoffeeMenuCellView(
+//        viewModel: MenuCellViewModel(
+//            name: "Hot Americano",
+//            currency: "USD",
+//            price: 0.0,
+//            description: "A shot of espresso, diluted to create a smooth black coffee.",
+//            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
+//            bottomSheetModel: <#MenuModifierBottomSheetViewModel#>
+//        )
+//    )
+//}

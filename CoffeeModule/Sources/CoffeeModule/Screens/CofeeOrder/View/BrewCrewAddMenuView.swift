@@ -24,7 +24,10 @@ struct BrewCrewAddMenuView: View {
     @ViewBuilder
     private func handleStateChange() -> some View {
         if viewModel.quantitySelection == 0 {
-            BrewCrewAddMenuButton(selectionCount: $viewModel.quantitySelection)
+            BrewCrewAddMenuButton(
+                selectionCount: $viewModel.quantitySelection,
+                viewModel: viewModel
+            )
         } else {
             BrewCrewMenuStepperButton(selectionCount: $viewModel.quantitySelection)
         }
@@ -35,6 +38,12 @@ struct BrewCrewAddMenuButton: View {
     @Binding var selectionCount: Int
     @State private var showSheet = false
     @State private var heightFraction: PresentationDetent = .fraction(0.3)
+    private var viewModel: MenuCellViewModel
+    
+    init(selectionCount: Binding<Int>, viewModel: MenuCellViewModel) {
+        self._selectionCount = selectionCount
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         Button {
@@ -62,7 +71,9 @@ struct BrewCrewAddMenuButton: View {
         .tint(AppColors.black)
         .sheet(isPresented: $showSheet) {
             VStack {
-                BrewCrewMenuModifierBottomSheet()
+                BrewCrewMenuModifierBottomSheet(
+                    viewModel: viewModel.bottomSheetModel
+                )
             }
             .presentationCornerRadius(AppPointSystem.point_20)
             .presentationDragIndicator(.visible)
@@ -134,14 +145,14 @@ struct BrewCrewMenuStepperButton: View {
     }
 }
 
-#Preview {
-    BrewCrewAddMenuView(
-        viewModel: MenuCellViewModel(
-            name: "",
-            currency: "",
-            price: 0.0,
-            description: "",
-            imageURL: ""
-        )
-    )
-}
+//#Preview {
+//    BrewCrewAddMenuView(
+//        viewModel: MenuCellViewModel(
+//            name: "",
+//            currency: "",
+//            price: 0.0,
+//            description: "",
+//            imageURL: ""
+//        )
+//    )
+//}
