@@ -54,7 +54,6 @@ extension CoffeeListViewModel {
                 items.map { item in
                     OrderItemCellViewModel(
                         name: item.name ?? "",
-                        size: item.size ?? "",
                         modifiers: item.modifier.compactMap{ $0.name },
                         imageURL: item.imageURL ?? "",
                         totalPrice: item.totalPrice ?? "",

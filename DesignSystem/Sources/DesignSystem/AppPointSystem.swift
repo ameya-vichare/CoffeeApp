@@ -21,6 +21,7 @@ public enum AppPointSystem {
     public static let point_44: CGFloat = 44.0
     public static let point_48: CGFloat = 48.0
     public static let point_60: CGFloat = 60.0
+    public static let point_80: CGFloat = 80.0
     public static let point_100: CGFloat = 100.0
     public static let point_120: CGFloat = 120.0
     public static let point_150: CGFloat = 150.0

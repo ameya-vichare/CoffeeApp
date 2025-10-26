@@ -12,6 +12,15 @@ public enum AppFonts {
         .title
     }
     
+    public static var title3: Font {
+        .title3
+    }
+    
+    public static var title3Medium: Font {
+        .title3
+        .weight(.medium)
+    }
+    
     public static var title2SemiBold: Font {
         .title2
         .weight(.semibold)

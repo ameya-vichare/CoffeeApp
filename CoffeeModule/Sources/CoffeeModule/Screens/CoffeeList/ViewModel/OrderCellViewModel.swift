@@ -49,7 +49,6 @@ struct OrderItemCellViewModel: Identifiable {
     
     init(
         name: String,
-        size: String,
         modifiers: [String],
         imageURL: String?,
         totalPrice: String,
@@ -57,7 +56,7 @@ struct OrderItemCellViewModel: Identifiable {
         quantity: String
     ) {
         self.name = name
-        self.customisation = size + (modifiers.isEmpty ? "" : ", " + modifiers.joined(separator: ", "))
+        self.customisation = modifiers.joined(separator: ", ")
         self.imageURL = URL(string: imageURL ?? "")
         self.displayPriceLabel = "\(currency) \(totalPrice)"
         self.displayQuantityLabel = "x\(quantity)"

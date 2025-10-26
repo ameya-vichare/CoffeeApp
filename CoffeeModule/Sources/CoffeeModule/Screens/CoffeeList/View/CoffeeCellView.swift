@@ -216,7 +216,6 @@ struct OrderStatusView: View {
             items: [
                 OrderItemCellViewModel(
                     name: "Latte",
-                    size: "Small",
                     modifiers: ["Oat Milk", "Caramel"],
                     imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
                     totalPrice: "5",

@@ -79,7 +79,9 @@ struct CoffeeMenuActionView: View {
                 .frame(width: AppPointSystem.point_150, height: AppPointSystem.point_150)
                 .clipShape(RoundedRectangle(cornerRadius: AppPointSystem.point_12))
                 .overlay(alignment: .bottom) {
-                    BrewCrewAddMenuView()
+                    BrewCrewAddMenuView(
+                        viewModel: viewModel
+                    )
                 }
                 .padding([.bottom], AppPointSystem.point_44/2)
 

@@ -11,7 +11,11 @@ import DesignSystem
 import ImageLoading
 
 struct BrewCrewAddMenuView: View {
-    @State var selectionCount: Int = 0
+    @ObservedObject var viewModel: MenuCellViewModel
+    
+    init(viewModel: MenuCellViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         handleStateChange()
@@ -19,20 +23,22 @@ struct BrewCrewAddMenuView: View {
     
     @ViewBuilder
     private func handleStateChange() -> some View {
-        if selectionCount == 0 {
-            BrewCrewAddMenuButton(selectionCount: $selectionCount)
+        if viewModel.quantitySelection == 0 {
+            BrewCrewAddMenuButton(selectionCount: $viewModel.quantitySelection)
         } else {
-            BrewCrewMenuStepperButton(selectionCount: $selectionCount)
+            BrewCrewMenuStepperButton(selectionCount: $viewModel.quantitySelection)
         }
     }
 }
 
 struct BrewCrewAddMenuButton: View {
     @Binding var selectionCount: Int
+    @State private var showSheet = false
+    @State private var heightFraction: PresentationDetent = .fraction(0.3)
     
     var body: some View {
         Button {
-            selectionCount += 1
+            showSheet = true
         } label: {
             ZStack(alignment: .center) {
                 RoundedRectangle(cornerRadius: AppPointSystem.point_12)
@@ -54,6 +60,14 @@ struct BrewCrewAddMenuButton: View {
         }
         .buttonStyle(.plain)
         .tint(AppColors.black)
+        .sheet(isPresented: $showSheet) {
+            VStack {
+                BrewCrewMenuModifierBottomSheet()
+            }
+            .presentationCornerRadius(AppPointSystem.point_20)
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.fraction(0.5),.large])
+        }
     }
 }
 
@@ -121,5 +135,13 @@ struct BrewCrewMenuStepperButton: View {
 }
 
 #Preview {
-    BrewCrewAddMenuView()
+    BrewCrewAddMenuView(
+        viewModel: MenuCellViewModel(
+            name: "",
+            currency: "",
+            price: 0.0,
+            description: "",
+            imageURL: ""
+        )
+    )
 }
