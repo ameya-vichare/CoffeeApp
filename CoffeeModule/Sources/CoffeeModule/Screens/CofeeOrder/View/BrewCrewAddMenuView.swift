@@ -5,15 +5,14 @@
 //  Created by Ameya on 23/10/25.
 //
 
-
 import SwiftUI
 import DesignSystem
 import ImageLoading
 
 struct BrewCrewAddMenuView: View {
-    @ObservedObject var viewModel: MenuCellViewModel
+    @ObservedObject var viewModel: MenuListCellViewModel
     
-    init(viewModel: MenuCellViewModel) {
+    init(viewModel: MenuListCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -38,9 +37,9 @@ struct BrewCrewAddMenuButton: View {
     @Binding var selectionCount: Int
     @State private var showSheet = false
     @State private var heightFraction: PresentationDetent = .fraction(0.3)
-    private var viewModel: MenuCellViewModel
+    private var viewModel: MenuListCellViewModel
     
-    init(selectionCount: Binding<Int>, viewModel: MenuCellViewModel) {
+    init(selectionCount: Binding<Int>, viewModel: MenuListCellViewModel) {
         self._selectionCount = selectionCount
         self.viewModel = viewModel
     }

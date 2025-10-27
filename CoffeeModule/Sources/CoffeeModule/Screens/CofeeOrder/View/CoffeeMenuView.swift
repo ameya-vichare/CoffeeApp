@@ -20,7 +20,7 @@ public struct CoffeeMenuView: View {
             AppColors.secondaryGray
             
             List(self.viewModel.datasource) { menu in
-                handleCellType(type: menu.type)
+                handleCellType(type: menu)
             }
             .listStyle(.plain)
             .task {

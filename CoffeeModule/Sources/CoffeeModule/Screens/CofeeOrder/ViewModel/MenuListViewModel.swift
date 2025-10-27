@@ -13,7 +13,7 @@ import AppModels
 public final class MenuListViewModel: ObservableObject {
     public let repository: CoffeeModuleRepository
     @Published var state: ScreenViewState = .preparing
-    @Published var datasource: [MenuListCellItem] = []
+    @Published var datasource: [MenuListCellType] = []
     
     public init(repository: CoffeeModuleRepository) {
         self.repository = repository
@@ -43,18 +43,17 @@ extension MenuListViewModel {
     }
     
     private func prepareDatasource(menuList: [MenuItem]) {
-        self.datasource = menuList.compactMap { (menuItem) -> MenuListCellItem? in
-            return MenuListCellItem(
-                id: String(menuItem.id ?? 1),
-                type: .mainMenu(
-                    vm: MenuCellViewModel(
-                        name: menuItem.name ?? "",
-                        currency: menuItem.currency ?? "",
-                        price: menuItem.basePrice ?? 0.0,
-                        description: menuItem.description ?? "",
-                        imageURL: menuItem.imageURL ?? "",
-                        modifiers: menuItem.modifiers ?? []
-                    )
+        self.datasource = menuList.compactMap { menuItem in
+            
+            return .mainMenu(
+                vm: MenuListCellViewModel(
+                    id: menuItem.id ?? 0,
+                    name: menuItem.name ?? "",
+                    currency: menuItem.currency ?? "",
+                    price: menuItem.basePrice ?? 0.0,
+                    description: menuItem.description ?? "",
+                    imageURL: menuItem.imageURL ?? "",
+                    modifiers: menuItem.modifiers ?? []
                 )
             )
         }

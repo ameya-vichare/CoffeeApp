@@ -37,9 +37,9 @@ struct BrewCrewMenuModifierBottomSheet: View {
 }
 
 struct MenuModifierCellView: View {
-    @ObservedObject private var viewModel: MenuModifierViewModel
+    @ObservedObject private var viewModel: MenuModifierCellViewModel
     
-    init(viewModel: MenuModifierViewModel) {
+    init(viewModel: MenuModifierCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -73,9 +73,9 @@ struct MenuModifierCellView: View {
 }
 
 struct MenuModifierSelectionView: View {
-    @ObservedObject private var viewModel: MenuModifierCellViewModel
+    @ObservedObject private var viewModel: MenuModifierSelectionViewModel
     
-    init(viewModel: MenuModifierCellViewModel) {
+    init(viewModel: MenuModifierSelectionViewModel) {
         self.viewModel = viewModel
     }
     

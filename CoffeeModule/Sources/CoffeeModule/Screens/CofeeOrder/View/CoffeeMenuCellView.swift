@@ -10,9 +10,9 @@ import DesignSystem
 import ImageLoading
 
 struct CoffeeMenuCellView: View {
-    private let viewModel: MenuCellViewModel
+    private let viewModel: MenuListCellViewModel
     
-    init(viewModel: MenuCellViewModel) {
+    init(viewModel: MenuListCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -35,9 +35,9 @@ struct CoffeeMenuCellView: View {
 }
 
 struct CoffeeMenuDetailView: View {
-    private let viewModel: MenuCellViewModel
+    private let viewModel: MenuListCellViewModel
     
-    init(viewModel: MenuCellViewModel) {
+    init(viewModel: MenuListCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -62,9 +62,9 @@ struct CoffeeMenuDetailView: View {
 
 struct CoffeeMenuActionView: View {
     @Environment(\.imageService) var imageService: ImageService
-    private let viewModel: MenuCellViewModel
+    private let viewModel: MenuListCellViewModel
     
-    init(viewModel: MenuCellViewModel) {
+    init(viewModel: MenuListCellViewModel) {
         self.viewModel = viewModel
     }
     
