@@ -72,7 +72,10 @@ struct BrewCrewAddMenuButton: View {
         .sheet(isPresented: $showSheet) {
             VStack {
                 BrewCrewMenuModifierBottomSheet(
-                    viewModel: viewModel.bottomSheetModel
+                    viewModel: MenuModifierBottomSheetViewModel(
+                        modifiers: viewModel
+                            .modifiers
+                    )
                 )
             }
             .presentationCornerRadius(AppPointSystem.point_20)

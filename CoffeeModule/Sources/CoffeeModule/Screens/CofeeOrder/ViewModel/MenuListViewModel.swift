@@ -44,33 +44,6 @@ extension MenuListViewModel {
     
     private func prepareDatasource(menuList: [MenuItem]) {
         self.datasource = menuList.compactMap { (menuItem) -> MenuListCellItem? in
-            // Require modifiers to build bottom sheet; skip items without them
-            guard let modifiers = menuItem.modifiers else { return nil }
-
-            // Build modifier view models explicitly typing the element type
-            let menuModifierViewModels: [MenuModifierViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierViewModel? in
-                guard let options = menuModifier.options else { return nil }
-
-                // Build option cell view models with explicit element type
-                let menuModifierCellViewModels: [MenuModifierCellViewModel] = options.map { option in
-                    MenuModifierCellViewModel(
-                        id: option.id ?? 0,
-                        name: option.name ?? "",
-                        price: option.price ?? 0.0,
-                        currency: option.currency ?? "",
-                        isDefault: option.isDefault ?? false
-                    )
-                }
-
-                return MenuModifierViewModel(
-                    id: menuModifier.id ?? 0,
-                    name: menuModifier.name ?? "",
-                    minSelection: menuModifier.minSelect ?? 0,
-                    maxSelection: menuModifier.maxSelect ?? 0,
-                    options: menuModifierCellViewModels
-                )
-            }
-
             return MenuListCellItem(
                 id: String(menuItem.id ?? 1),
                 type: .mainMenu(
@@ -80,9 +53,7 @@ extension MenuListViewModel {
                         price: menuItem.basePrice ?? 0.0,
                         description: menuItem.description ?? "",
                         imageURL: menuItem.imageURL ?? "",
-                        bottomSheetModel: MenuModifierBottomSheetViewModel(
-                            modifierViewModels: menuModifierViewModels
-                        )
+                        modifiers: menuItem.modifiers ?? []
                     )
                 )
             )

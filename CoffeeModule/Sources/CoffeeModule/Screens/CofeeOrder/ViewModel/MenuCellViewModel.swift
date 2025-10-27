@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AppModels
 
 final class MenuCellViewModel: ObservableObject {
     let name: String
@@ -14,9 +15,8 @@ final class MenuCellViewModel: ObservableObject {
     let displayPrice: String
     let description: String
     let imageURL: URL?
-    
-    let bottomSheetModel: MenuModifierBottomSheetViewModel
-    
+    let modifiers: [MenuModifier]
+
     @Published var quantitySelection: Int = 0
     
     init(
@@ -25,7 +25,7 @@ final class MenuCellViewModel: ObservableObject {
         price: Double,
         description: String,
         imageURL: String,
-        bottomSheetModel: MenuModifierBottomSheetViewModel
+        modifiers: [MenuModifier]
     ) {
         self.name = name
         self.currency = currency
@@ -33,7 +33,7 @@ final class MenuCellViewModel: ObservableObject {
         self.displayPrice = price.formatPrice()
         self.description = description
         self.imageURL = URL(string: imageURL ?? "")
-        self.bottomSheetModel = bottomSheetModel
+        self.modifiers = modifiers
     }
 }
 
@@ -50,15 +50,46 @@ enum MenuModifierCellType {
     case modifer(vm: MenuModifierViewModel)
 }
 
-final class MenuModifierBottomSheetViewModel {
+final class MenuModifierBottomSheetViewModel: ObservableObject {
     let modifierViewModels: [MenuModifierViewModel]
+    let modifiers: [MenuModifier]
     
-    init(modifierViewModels: [MenuModifierViewModel]) {
-        self.modifierViewModels = modifierViewModels
+    init(modifiers: [MenuModifier]) {
+        self.modifiers = modifiers
+        
+        let menuModifierViewModels: [MenuModifierViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierViewModel? in
+            guard let options = menuModifier.options else { return nil }
+
+            // Build option cell view models with explicit element type
+            let menuModifierCellViewModels: [MenuModifierCellViewModel] = options.map { option in
+                MenuModifierCellViewModel(
+                    id: option.id ?? 0,
+                    name: option.name ?? "",
+                    price: option.price ?? 0.0,
+                    currency: option.currency ?? "",
+                    isDefault: option.isDefault ?? false
+                )
+            }
+
+            return MenuModifierViewModel(
+                id: menuModifier.id ?? 0,
+                name: menuModifier.name ?? "",
+                minSelection: menuModifier.minSelect ?? 0,
+                maxSelection: menuModifier.maxSelect ?? 0,
+                options: menuModifierCellViewModels
+            )
+        }
+        
+        self.modifierViewModels = menuModifierViewModels
+    }
+
+    deinit {
+        print("PRINT: deinit MenuModifierBottomSheetViewModel")
     }
 }
 
-final class MenuModifierViewModel: Identifiable {
+
+final class MenuModifierViewModel: Identifiable, ObservableObject {
     let id: Int
     let name: String
     var displayDescription: String
@@ -77,9 +108,15 @@ final class MenuModifierViewModel: Identifiable {
         self.displayDescription = ""
         if minSelection > 0 {
             self.displayDescription += "Required • Select any \(minSelection) option"
+        } else {
+            self.displayDescription += "Optional"
         }
         
         self.options = options
+    }
+    
+    deinit {
+        print("PRINT: deinit MenuModifierViewModel")
     }
 }
 
@@ -88,18 +125,30 @@ enum MenuModifierSelectionType: String {
     case multiple
 }
 
-final class MenuModifierCellViewModel: Identifiable {
+final class MenuModifierCellViewModel: Identifiable, ObservableObject {
     let id: Int
     let name: String
     let price: Double
+    let displayPrice: String
     let currency: String
     let isDefault: Bool
+    
+    @Published var isSelected: Bool = false
     
     init(id: Int, name: String, price: Double, currency: String, isDefault: Bool) {
         self.id = id
         self.name = name
         self.price = price
+        self.displayPrice = price.formatPrice()
         self.currency = currency
         self.isDefault = isDefault
+        
+        if isDefault {
+            isSelected = true
+        }
+    }
+    
+    deinit {
+        "PRINT: deinit MenuModifierCellViewModel"
     }
 }

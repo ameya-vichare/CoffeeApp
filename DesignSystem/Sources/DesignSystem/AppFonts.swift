@@ -35,6 +35,11 @@ public enum AppFonts {
         .weight(.medium)
     }
     
+    public static var headlineRegular: Font {
+        .headline
+        .weight(.regular)
+    }
+    
     public static var captionMedium: Font {
         .caption
         .weight(.medium)

@@ -8,9 +8,10 @@
 import SwiftUI
 import DesignSystem
 import ImageLoading
+import AppModels
 
 struct BrewCrewMenuModifierBottomSheet: View {
-    private let viewModel: MenuModifierBottomSheetViewModel
+    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
     
     init(viewModel: MenuModifierBottomSheetViewModel) {
         self.viewModel = viewModel
@@ -22,23 +23,8 @@ struct BrewCrewMenuModifierBottomSheet: View {
             
             ScrollView {
                 LazyVStack(alignment: .leading) {
-                    ForEach(self.viewModel.modifierViewModels) { item in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(AppColors.white)
-                            
-                            VStack(alignment: .leading) {
-                                Text(item.name)
-                                Text(item.displayDescription)
-                                
-                                Divider()
-                                
-                                ForEach(item.options) { option in
-                                    Text(option.name)
-                                }
-                            }
-                            .padding()
-                        }
+                    ForEach(self.viewModel.modifierViewModels) { viewModel in
+                        MenuModifierCellView(viewModel: viewModel)
                     }
                 }
             }
@@ -47,6 +33,74 @@ struct BrewCrewMenuModifierBottomSheet: View {
             Spacer()
         }
         .background(AppColors.secondaryGray)
+    }
+}
+
+struct MenuModifierCellView: View {
+    @ObservedObject private var viewModel: MenuModifierViewModel
+    
+    init(viewModel: MenuModifierViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        ZStack(alignment: .leading) {
+            RoundedRectangle(
+                cornerRadius: AppPointSystem.point_12
+            )
+                .foregroundStyle(AppColors.white)
+                .padding([.bottom], AppPointSystem.point_12)
+            
+            VStack(alignment: .leading) {
+                Text(viewModel.name)
+                    .font(AppFonts.headline)
+                    .foregroundStyle(AppColors.black)
+                
+                Text(viewModel.displayDescription)
+                    .font(AppFonts.subHeadline)
+                    .foregroundStyle(AppColors.primaryGray)
+                
+                Divider()
+                    .padding([.bottom], 10)
+                
+                ForEach(viewModel.options) { viewModel in
+                    MenuModifierSelectionView(viewModel: viewModel)
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+struct MenuModifierSelectionView: View {
+    @ObservedObject private var viewModel: MenuModifierCellViewModel
+    
+    init(viewModel: MenuModifierCellViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        HStack {
+            Text(viewModel.name)
+                .font(AppFonts.subHeadline)
+                .foregroundStyle(AppColors.black)
+
+            Spacer()
+            
+            Text("\(viewModel.currency) \(viewModel.displayPrice)")
+                .font(AppFonts.subHeadline)
+                .foregroundStyle(AppColors.black)
+            
+            Image(systemName: viewModel.isSelected ? "record.circle" : "circle")
+                .foregroundStyle(
+                    AppColors.primaryCoffee
+                )
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            viewModel.isSelected.toggle()
+        }
+        .padding([.bottom], 10)
     }
 }
 
@@ -86,24 +140,18 @@ struct MenuModifierHeaderView: View {
 #Preview {
     BrewCrewMenuModifierBottomSheet(
         viewModel: MenuModifierBottomSheetViewModel(
-            modifierViewModels: [
-                MenuModifierViewModel(
-                    id: 0,
-                    name: "Milk",
-                    minSelection: 1,
-                    maxSelection: 1,
+            modifiers: [
+                MenuModifier(
+                    id: 1,
+                    name: "Milk Type",
+                    selectionType: "single",
+                    minSelect: 1,
+                    maxSelect: 1,
                     options: [
-                        MenuModifierCellViewModel(
-                            id: 0,
-                            name: "Regular",
-                            price: 12.0,
-                            currency: "USD",
-                            isDefault: true
-                        ),
-                        MenuModifierCellViewModel(
-                            id: 2,
-                            name: "Small",
-                            price: 12.0,
+                        MenuModifierOption(
+                            id: 3,
+                            name: "Oat Milk",
+                            price: 0.50,
                             currency: "USD",
                             isDefault: true
                         )
