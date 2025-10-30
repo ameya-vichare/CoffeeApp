@@ -30,6 +30,8 @@ struct BrewCrewMenuModifierBottomSheet: View {
             }
             .padding()
             
+            Text("\(viewModel.totalPrice.formatPrice())")
+            
             Spacer()
         }
         .background(AppColors.secondaryGray)
@@ -98,7 +100,7 @@ struct MenuModifierSelectionView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            viewModel.isSelected.toggle()
+            viewModel.toggleSelection()
         }
         .padding([.bottom], 10)
     }
@@ -144,7 +146,7 @@ struct MenuModifierHeaderView: View {
                 MenuModifier(
                     id: 1,
                     name: "Milk Type",
-                    selectionType: "single",
+                    selectionType: .single,
                     minSelect: 1,
                     maxSelect: 1,
                     options: [

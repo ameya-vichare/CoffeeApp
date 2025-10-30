@@ -10,7 +10,7 @@ import Foundation
 public struct MenuModifier: Decodable {
     public let id: Int?
     public let name: String?
-    public let selectionType: String?
+    public let selectionType: MenuSelectionType?
     public let minSelect: Int?
     public let maxSelect: Int?
     public let options: [MenuModifierOption]?
@@ -24,7 +24,7 @@ public struct MenuModifier: Decodable {
         case options
     }
     
-    public init(id: Int?, name: String?, selectionType: String?, minSelect: Int?, maxSelect: Int?, options: [MenuModifierOption]?) {
+    public init(id: Int?, name: String?, selectionType: MenuSelectionType?, minSelect: Int?, maxSelect: Int?, options: [MenuModifierOption]?) {
         self.id = id
         self.name = name
         self.selectionType = selectionType
@@ -32,4 +32,9 @@ public struct MenuModifier: Decodable {
         self.maxSelect = maxSelect
         self.options = options
     }
+}
+
+public enum MenuSelectionType: String, Codable {
+    case single
+    case multiple
 }

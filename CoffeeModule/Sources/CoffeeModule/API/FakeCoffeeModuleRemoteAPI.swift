@@ -53,7 +53,7 @@ public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
                         MenuModifier(
                             id: 1,
                             name: "Milk Type",
-                            selectionType: "single",
+                            selectionType: .single,
                             minSelect: 1,
                             maxSelect: 1,
                             options: [
