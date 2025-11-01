@@ -1,5 +1,5 @@
 //
-//  CoffeeListViewModel.swift
+//  OrderListViewModel.swift
 //  CoffeeModule
 //
 //  Created by Ameya on 13/09/25.
@@ -9,9 +9,9 @@ import SwiftUI
 import AppEndpoints
 import AppModels
 
-public final class CoffeeListViewModel: ObservableObject {
+public final class OrderListViewModel: ObservableObject {
     public let repository: CoffeeModuleRepository
-    @Published var datasource: [CoffeeListCellItem] = []
+    @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
     
     public init(repository: CoffeeModuleRepository) {
@@ -19,7 +19,7 @@ public final class CoffeeListViewModel: ObservableObject {
     }
 }
 
-extension CoffeeListViewModel {
+extension OrderListViewModel {
     @MainActor
     func makeInitialAPICalls() async {
         self.resetDatasource()
@@ -75,13 +75,10 @@ extension CoffeeListViewModel {
                 )
             }
 
-            return CoffeeListCellItem(
-                id: orderID,
-                type: CoffeeListCellType.coffeeOrder(
-                    vm: getOrderVM(
-                        order: order,
-                        itemsVM: getItemsVM(items: order.items)
-                    )
+            return OrderListCellType.coffeeOrder(
+                vm: getOrderVM(
+                    order: order,
+                    itemsVM: getItemsVM(items: order.items)
                 )
             )
         }

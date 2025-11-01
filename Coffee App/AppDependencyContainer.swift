@@ -38,9 +38,9 @@ final class AppDependencyContainer {
 
 // MARK: - Coffee List View
 extension AppDependencyContainer {
-    func makeCoffeeListView() -> CoffeeListView {
-        func makeCoffeeListViewModel() -> CoffeeListViewModel {
-            CoffeeListViewModel(
+    func makeCoffeeListView() -> OrderListView {
+        func makeCoffeeListViewModel() -> OrderListViewModel {
+            OrderListViewModel(
                 repository: CoffeeModuleClientRepository(
                     remoteAPI: OrderModuleRemoteAPI(
                         networkService: networkService
@@ -49,13 +49,13 @@ extension AppDependencyContainer {
             )
         }
         
-        return CoffeeListView(viewModel: makeCoffeeListViewModel())
+        return OrderListView(viewModel: makeCoffeeListViewModel())
     }
 }
 
 // MARK: - Coffee Order View
 extension AppDependencyContainer {
-    func makeCoffeeOrderView() -> CoffeeMenuView {
+    func makeCoffeeOrderView() -> MenuListView {
         func makeMenuListViewModel() -> MenuListViewModel {
             MenuListViewModel(
                 repository: CoffeeModuleClientRepository(
@@ -66,6 +66,6 @@ extension AppDependencyContainer {
             )
         }
         
-        return CoffeeMenuView(viewModel: makeMenuListViewModel())
+        return MenuListView(viewModel: makeMenuListViewModel())
     }
 }

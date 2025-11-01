@@ -8,7 +8,7 @@
 import SwiftUI
 import DesignSystem
 
-public struct CoffeeMenuView: View {
+public struct MenuListView: View {
     @ObservedObject var viewModel: MenuListViewModel
     
     public init(viewModel: MenuListViewModel) {
@@ -40,7 +40,7 @@ public struct CoffeeMenuView: View {
     private func handleCellType(type: MenuListCellType) -> some View {
         switch type {
         case .mainMenu(vm: let viewModel):
-            CoffeeMenuCellView(viewModel: viewModel)
+            MenuCellView(viewModel: viewModel)
                 .listRowSeparator(.hidden)
                 .listRowBackground(AppColors.clear)
                 .listRowInsets(
@@ -64,7 +64,7 @@ public struct CoffeeMenuView: View {
 
 #Preview {
     NavigationStack {
-        CoffeeMenuView(
+        MenuListView(
             viewModel: MenuListViewModel(
                 repository: CoffeeModuleClientRepository(
                     remoteAPI: FakeCoffeeModuleRemoteAPI()

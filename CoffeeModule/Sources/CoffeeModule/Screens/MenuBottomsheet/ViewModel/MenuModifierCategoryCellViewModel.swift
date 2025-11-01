@@ -9,11 +9,11 @@ import Foundation
 import AppModels
 import Combine
 
-final class MenuModifierCellViewModel: Identifiable, ObservableObject {
+final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     let id: Int
     let name: String
     var displayDescription: String
-    let options: [MenuModifierSelectionViewModel]
+    let options: [MenuModifierSelectionCellViewModel]
     let selectionType: MenuSelectionType
     
     private(set) var priceComputePublisher = PassthroughSubject<Void, Never>()
@@ -25,7 +25,7 @@ final class MenuModifierCellViewModel: Identifiable, ObservableObject {
         minSelection: Int,
         maxSelection: Int,
         selectionType: MenuSelectionType,
-        options: [MenuModifierSelectionViewModel]
+        options: [MenuModifierSelectionCellViewModel]
     ) {
         self.id = id
         self.name = name.capitalized

@@ -10,7 +10,7 @@ import DesignSystem
 import ImageLoading
 import AppModels
 
-struct BrewCrewMenuModifierBottomSheet: View {
+struct MenuModifierBottomSheet: View {
     @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
     
     init(viewModel: MenuModifierBottomSheetViewModel) {
@@ -30,18 +30,18 @@ struct BrewCrewMenuModifierBottomSheet: View {
             }
             .padding()
             
-            Text("\(viewModel.totalPrice.formatPrice())")
-            
             Spacer()
+            
+            MenuModifierFooterView(viewModel: viewModel)
         }
         .background(AppColors.secondaryGray)
     }
 }
 
 struct MenuModifierCellView: View {
-    @ObservedObject private var viewModel: MenuModifierCellViewModel
+    @ObservedObject private var viewModel: MenuModifierCategoryCellViewModel
     
-    init(viewModel: MenuModifierCellViewModel) {
+    init(viewModel: MenuModifierCategoryCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -75,9 +75,9 @@ struct MenuModifierCellView: View {
 }
 
 struct MenuModifierSelectionView: View {
-    @ObservedObject private var viewModel: MenuModifierSelectionViewModel
+    @ObservedObject private var viewModel: MenuModifierSelectionCellViewModel
     
-    init(viewModel: MenuModifierSelectionViewModel) {
+    init(viewModel: MenuModifierSelectionCellViewModel) {
         self.viewModel = viewModel
     }
     
@@ -139,8 +139,30 @@ struct MenuModifierHeaderView: View {
     
 }
 
+struct MenuModifierFooterView: View {
+    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    
+    init(viewModel: MenuModifierBottomSheetViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        Text("\(viewModel.totalPrice.formatPrice())")
+        
+        
+        Text("Add to Cart")
+            .font(AppFonts.title3Medium)
+            .foregroundColor(.white)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColors.primaryCoffee)
+            )
+    }
+}
+
 #Preview {
-    BrewCrewMenuModifierBottomSheet(
+    MenuModifierBottomSheet(
         viewModel: MenuModifierBottomSheetViewModel(
             modifiers: [
                 MenuModifier(

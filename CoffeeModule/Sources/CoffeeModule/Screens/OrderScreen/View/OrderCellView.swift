@@ -10,7 +10,7 @@ import AppModels
 import DesignSystem
 import ImageLoading
 
-struct CoffeeCellView: View {
+struct OrderCellView: View {
     private var viewModel: OrderCellViewModel
     
     init(
@@ -205,7 +205,7 @@ struct OrderStatusView: View {
 }
 
 #Preview {
-    CoffeeCellView(viewModel:
+    OrderCellView(viewModel:
         OrderCellViewModel(
             id: "2",
             userName: "John Doe",

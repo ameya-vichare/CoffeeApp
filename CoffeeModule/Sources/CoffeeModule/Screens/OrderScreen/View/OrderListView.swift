@@ -9,10 +9,10 @@ import SwiftUI
 import AppConstants
 import DesignSystem
 
-public struct CoffeeListView: View {
-    @ObservedObject var viewModel: CoffeeListViewModel
+public struct OrderListView: View {
+    @ObservedObject var viewModel: OrderListViewModel
     
-    public init(viewModel: CoffeeListViewModel) {
+    public init(viewModel: OrderListViewModel) {
         self.viewModel = viewModel
     }
     
@@ -21,7 +21,7 @@ public struct CoffeeListView: View {
             AppColors.secondaryGray
             
             List(self.viewModel.datasource) { item in
-                cell(for: item.type)
+                cell(for: item)
                     .listRowSeparator(.hidden)
                     .listRowBackground(AppColors.clear)
                     .listRowInsets(EdgeInsets(top: AppPointSystem.point_12, leading: AppPointSystem.point_16, bottom: AppPointSystem.point_12, trailing: AppPointSystem.point_16))
@@ -43,10 +43,10 @@ public struct CoffeeListView: View {
     }
     
     @ViewBuilder
-    private func cell(for type: CoffeeListCellType) -> some View {
+    private func cell(for type: OrderListCellType) -> some View {
         switch type {
         case .coffeeOrder(let viewModel):
-            CoffeeCellView(viewModel: viewModel)
+            OrderCellView(viewModel: viewModel)
         }
     }
     
@@ -67,8 +67,8 @@ public struct CoffeeListView: View {
 
 #Preview {
     NavigationStack {
-        CoffeeListView(
-            viewModel: CoffeeListViewModel(
+        OrderListView(
+            viewModel: OrderListViewModel(
                 repository: CoffeeModuleClientRepository(
                     remoteAPI: FakeCoffeeModuleRemoteAPI()
                 )
