@@ -25,6 +25,7 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     private var totalPrice: Double = 0.0
     private var quantitySelection: Int = 1
     
+    @Published var shouldDismissBottomSheet: Bool = false
     private var cancellables: Set<AnyCancellable> = []
     
     init(
@@ -105,6 +106,8 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
         )
         
         self.orderItemUpdates.send(createOrderItem)
+        
+        self.shouldDismissBottomSheet = true
     }
     
     private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {

@@ -13,6 +13,7 @@ import Combine
 
 struct MenuModifierBottomSheet: View {
     @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    @Environment(\.dismiss) private var dismiss
     
     init(viewModel: MenuModifierBottomSheetViewModel) {
         self.viewModel = viewModel
@@ -40,6 +41,13 @@ struct MenuModifierBottomSheet: View {
             )
         }
         .background(AppColors.secondaryGray)
+        .onReceive(
+            viewModel.$shouldDismissBottomSheet.receive(on: DispatchQueue.main)
+        ) { shouldDismiss in
+            if shouldDismiss {
+                dismiss()
+            }
+        }
     }
 }
 
