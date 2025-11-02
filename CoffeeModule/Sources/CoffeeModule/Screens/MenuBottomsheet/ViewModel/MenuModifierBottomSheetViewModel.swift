@@ -11,16 +11,24 @@ import Combine
 
 final class MenuModifierBottomSheetViewModel: ObservableObject {
     let modifierViewModels: [MenuModifierCategoryCellViewModel]
-    let modifiers: [MenuModifier]
     let currency: String
+    let name: String
+    let imageURL: URL?
     
     @Published private(set) var totalPrice: Double = 0.0
+    @Published private(set) var quantitySelection: Int = 1
     
     private var cancellables: Set<AnyCancellable> = []
     
-    init(modifiers: [MenuModifier], currency: String) {
-        self.modifiers = modifiers
+    init(
+        modifiers: [MenuModifier],
+        currency: String,
+        name: String,
+        imageURL: URL?
+    ) {
         self.currency = currency
+        self.name = name
+        self.imageURL = imageURL
         
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }
@@ -61,13 +69,24 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     }
     
     private func computeTotalPrice() {
-        self.totalPrice = self.modifierViewModels.flatMap { $0.options }
+        let itemPrice = self.modifierViewModels.flatMap { $0.options }
             .filter { $0.isSelected }
             .reduce(0.0) { $0 + $1.price }
+        
+        self.totalPrice = itemPrice * Double(quantitySelection)
     }
+}
 
-    deinit {
-        print("PRINT: deinit MenuModifierBottomSheetViewModel")
+// MARK: - Public functions
+extension MenuModifierBottomSheetViewModel {
+    func incrementQuantity() {
+        quantitySelection += 1
+        computeTotalPrice()
+    }
+    
+    func decrementQuantity() {
+        quantitySelection = max(1, quantitySelection - 1)
+        computeTotalPrice()
     }
 }
 

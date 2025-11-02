@@ -47,7 +47,9 @@ struct AddMenuButton: View {
                 MenuModifierBottomSheet(
                     viewModel: MenuModifierBottomSheetViewModel(
                         modifiers: viewModel.modifiers,
-                        currency: viewModel.currency
+                        currency: viewModel.currency,
+                        name: viewModel.name,
+                        imageURL: viewModel.imageURL
                     )
                 )
             }

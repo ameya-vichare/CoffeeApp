@@ -19,7 +19,7 @@ struct MenuModifierBottomSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            MenuModifierHeaderView()
+            MenuModifierHeaderView(viewModel: viewModel)
             
             ScrollView {
                 LazyVStack(alignment: .leading) {
@@ -109,6 +109,12 @@ struct MenuModifierSelectionView: View {
 struct MenuModifierHeaderView: View {
     @Environment(\.imageService) var imageService
     
+    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    
+    init(viewModel: MenuModifierBottomSheetViewModel) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -118,7 +124,7 @@ struct MenuModifierHeaderView: View {
             
             HStack(spacing: AppPointSystem.point_12) {
                 CustomImageView(
-                    url: URL(string: "https://www.acouplecooks.com/wp-content/uploads/2020/10/how-to-make-cappuccino-005.jpg"),
+                    url: viewModel.imageURL,
                     targetSize: CGSize(width: AppPointSystem.point_60, height: AppPointSystem.point_60),
                     imageService: imageService) {
                         ProgressView()
@@ -128,7 +134,7 @@ struct MenuModifierHeaderView: View {
                         RoundedRectangle(cornerRadius: AppPointSystem.point_12)
                     )
                 
-                Text("Hot Cappuccino")
+                Text(viewModel.name)
                     .font(AppFonts.title3Medium)
                 
                 Spacer()
@@ -153,7 +159,7 @@ struct MenuModifierFooterView: View {
                 .foregroundStyle(AppColors.white)
             
             HStack(alignment: .center, spacing: AppPointSystem.point_4) {
-                MenuStepperButton()
+                MenuStepperButton(viewModel: viewModel)
                 
                 Spacer()
                 
@@ -207,7 +213,9 @@ struct MenuAddToCartButton: View {
                     ]
                 )
             ],
-            currency: "USD"
+            currency: "USD",
+            name: "Hot Capuccino",
+            imageURL: URL(string: "")
         )
     )
 }

@@ -11,8 +11,13 @@ import ImageLoading
 import AppModels
 
 struct MenuStepperButton: View {
-    @State var selectionCount: Int = 1
     @State private var isIncrementing: Bool = false
+    
+    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    
+    init(viewModel: MenuModifierBottomSheetViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -27,7 +32,7 @@ struct MenuStepperButton: View {
             HStack(spacing: 0) {
                 Button {
                     isIncrementing = false
-                    selectionCount = max(1, selectionCount - 1)
+                    viewModel.decrementQuantity()
                 } label: {
                     Image(systemName: "minus")
                         .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
@@ -37,11 +42,11 @@ struct MenuStepperButton: View {
                 .contentShape(Rectangle())
                 
                 ZStack {
-                    Text("\(selectionCount)")
+                    Text("\(viewModel.quantitySelection)")
                         .font(AppFonts.headline)
                         .foregroundStyle(AppColors.black)
                         .frame(width: AppPointSystem.point_24, alignment: .center)
-                        .id(selectionCount)
+                        .id(viewModel.quantitySelection)
                         .transition(
                             .asymmetric(
                                 insertion: .move(
@@ -54,13 +59,13 @@ struct MenuStepperButton: View {
                         )
                 }.animation(
                     .spring(response: 0.35, dampingFraction: 0.75),
-                    value: selectionCount
+                    value: viewModel.quantitySelection
                 )
                 
 
                 Button {
                     isIncrementing = true
-                    selectionCount += 1
+                    viewModel.incrementQuantity()
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
@@ -74,5 +79,29 @@ struct MenuStepperButton: View {
 }
 
 #Preview {
-    MenuStepperButton()
+    MenuStepperButton(
+        viewModel: MenuModifierBottomSheetViewModel(
+            modifiers: [
+                MenuModifier(
+                    id: 1,
+                    name: "Milk Type",
+                    selectionType: .single,
+                    minSelect: 1,
+                    maxSelect: 1,
+                    options: [
+                        MenuModifierOption(
+                            id: 3,
+                            name: "Oat Milk",
+                            price: 0.50,
+                            currency: "USD",
+                            isDefault: true
+                        )
+                    ]
+                )
+            ],
+            currency: "USD",
+            name: "Hot Capuccino",
+            imageURL: URL(string: "")
+        )
+    )
 }
