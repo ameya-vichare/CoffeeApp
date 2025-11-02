@@ -50,8 +50,4 @@ final class MenuModifierSelectionCellViewModel: Identifiable, ObservableObject {
         isSelected.toggle()
         selectionPassthroughSubject.send(id)
     }
-    
-    deinit {
-        "PRINT: deinit MenuModifierCellViewModel"
-    }
 }

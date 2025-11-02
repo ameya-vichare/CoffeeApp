@@ -9,14 +9,17 @@ import Foundation
 import AppModels
 import Combine
 
+@MainActor
 final class MenuModifierBottomSheetViewModel: ObservableObject {
     let modifierViewModels: [MenuModifierCategoryCellViewModel]
+    let footerViewModel: MenuModifierBottomSheetFooterViewModel
+    let headerViewModel: MenuModifierBottomSheetHeaderViewModel
     let currency: String
     let name: String
     let imageURL: URL?
     
-    @Published private(set) var totalPrice: Double = 0.0
-    @Published private(set) var quantitySelection: Int = 1
+    private var totalPrice: Double = 0.0
+    private var quantitySelection: Int = 1
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -55,6 +58,9 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
         }
         
         self.modifierViewModels = menuModifierViewModels
+        self.footerViewModel = .init(currency: currency)
+        self.headerViewModel = .init(name: name, imageURL: imageURL)
+        
         self.bindChildren()
         self.computeTotalPrice()
     }
@@ -62,10 +68,20 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     private func bindChildren() {
         let merged = Publishers.MergeMany(self.modifierViewModels.map { $0.priceComputePublisher})
 
-        merged.sink { [weak self] _ in
-            self?.computeTotalPrice()
-        }
-        .store(in: &cancellables)
+        merged
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.computeTotalPrice()
+            }
+            .store(in: &cancellables)
+        
+        footerViewModel.$quantitySelection
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] quantity in
+                self?.quantitySelection = quantity
+                self?.computeTotalPrice()
+            }
+            .store(in: &cancellables)
     }
     
     private func computeTotalPrice() {
@@ -74,19 +90,7 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
             .reduce(0.0) { $0 + $1.price }
         
         self.totalPrice = itemPrice * Double(quantitySelection)
-    }
-}
-
-// MARK: - Public functions
-extension MenuModifierBottomSheetViewModel {
-    func incrementQuantity() {
-        quantitySelection += 1
-        computeTotalPrice()
-    }
-    
-    func decrementQuantity() {
-        quantitySelection = max(1, quantitySelection - 1)
-        computeTotalPrice()
+        self.footerViewModel.setTotalPrice(price: self.totalPrice)
     }
 }
 

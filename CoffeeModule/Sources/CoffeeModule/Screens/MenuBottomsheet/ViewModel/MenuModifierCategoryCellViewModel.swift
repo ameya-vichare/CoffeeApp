@@ -46,21 +46,23 @@ final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     private func bindChildren() {
         let merged = Publishers.MergeMany(options.map { $0.selectionPassthroughSubject})
         
-        merged.sink { [weak self] id in
-            guard let self = self,
-                  selectionType == .single
-            else {
-                self?.computeTotalPrice()
-                return
+        merged
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] id in
+                guard let self = self,
+                      selectionType == .single
+                else {
+                    self?.computeTotalPrice()
+                    return
+                }
+                
+                /// Deselect all other items
+                for option in self.options where option.id != id {
+                    option.isSelected = false
+                }
+                self.computeTotalPrice()
             }
-            
-            /// Deselect all other items
-            for option in self.options where option.id != id {
-                option.isSelected = false
-            }
-            self.computeTotalPrice()
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
     }
     
     private func computeTotalPrice() {

@@ -13,9 +13,9 @@ import AppModels
 struct MenuStepperButton: View {
     @State private var isIncrementing: Bool = false
     
-    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    @ObservedObject private var viewModel: MenuModifierBottomSheetFooterViewModel
     
-    init(viewModel: MenuModifierBottomSheetViewModel) {
+    init(viewModel: MenuModifierBottomSheetFooterViewModel) {
         self.viewModel = viewModel
     }
     
@@ -80,28 +80,6 @@ struct MenuStepperButton: View {
 
 #Preview {
     MenuStepperButton(
-        viewModel: MenuModifierBottomSheetViewModel(
-            modifiers: [
-                MenuModifier(
-                    id: 1,
-                    name: "Milk Type",
-                    selectionType: .single,
-                    minSelect: 1,
-                    maxSelect: 1,
-                    options: [
-                        MenuModifierOption(
-                            id: 3,
-                            name: "Oat Milk",
-                            price: 0.50,
-                            currency: "USD",
-                            isDefault: true
-                        )
-                    ]
-                )
-            ],
-            currency: "USD",
-            name: "Hot Capuccino",
-            imageURL: URL(string: "")
-        )
+        viewModel: MenuModifierBottomSheetFooterViewModel(currency: "USD")
     )
 }

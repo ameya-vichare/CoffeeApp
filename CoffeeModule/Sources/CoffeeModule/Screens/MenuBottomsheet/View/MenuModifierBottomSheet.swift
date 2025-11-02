@@ -19,7 +19,9 @@ struct MenuModifierBottomSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            MenuModifierHeaderView(viewModel: viewModel)
+            MenuModifierHeaderView(
+                viewModel: viewModel.headerViewModel
+            )
             
             ScrollView {
                 LazyVStack(alignment: .leading) {
@@ -32,7 +34,9 @@ struct MenuModifierBottomSheet: View {
             
             Spacer()
             
-            MenuModifierFooterView(viewModel: viewModel)
+            MenuModifierFooterView(
+                viewModel: viewModel.footerViewModel
+            )
         }
         .background(AppColors.secondaryGray)
     }
@@ -84,13 +88,13 @@ struct MenuModifierSelectionView: View {
     var body: some View {
         HStack {
             Text(viewModel.name)
-                .font(AppFonts.subHeadline)
+                .font(viewModel.isSelected ? AppFonts.subHeadlineMedium : AppFonts.subHeadline)
                 .foregroundStyle(AppColors.black)
 
             Spacer()
             
             Text("\(viewModel.currency) \(viewModel.displayPrice)")
-                .font(AppFonts.subHeadline)
+                .font(viewModel.isSelected ? AppFonts.subHeadlineMedium : AppFonts.subHeadline)
                 .foregroundStyle(AppColors.black)
             
             Image(systemName: viewModel.isSelected ? "record.circle" : "circle")
@@ -109,9 +113,9 @@ struct MenuModifierSelectionView: View {
 struct MenuModifierHeaderView: View {
     @Environment(\.imageService) var imageService
     
-    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    private var viewModel: MenuModifierBottomSheetHeaderViewModel
     
-    init(viewModel: MenuModifierBottomSheetViewModel) {
+    init(viewModel: MenuModifierBottomSheetHeaderViewModel) {
         self.viewModel = viewModel
     }
     
@@ -146,9 +150,9 @@ struct MenuModifierHeaderView: View {
 }
 
 struct MenuModifierFooterView: View {
-    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    @ObservedObject private var viewModel: MenuModifierBottomSheetFooterViewModel
     
-    init(viewModel: MenuModifierBottomSheetViewModel) {
+    init(viewModel: MenuModifierBottomSheetFooterViewModel) {
         self.viewModel = viewModel
     }
     
@@ -171,9 +175,9 @@ struct MenuModifierFooterView: View {
 }
 
 struct MenuAddToCartButton: View {
-    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    @ObservedObject private var viewModel: MenuModifierBottomSheetFooterViewModel
     
-    init(viewModel: MenuModifierBottomSheetViewModel) {
+    init(viewModel: MenuModifierBottomSheetFooterViewModel) {
         self.viewModel = viewModel
     }
     
