@@ -9,6 +9,7 @@ import Foundation
 import AppModels
 import Combine
 
+@MainActor
 final class MenuModifierSelectionCellViewModel: Identifiable, ObservableObject {
     let id: Int
     let name: String

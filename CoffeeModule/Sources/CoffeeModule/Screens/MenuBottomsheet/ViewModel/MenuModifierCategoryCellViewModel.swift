@@ -9,6 +9,7 @@ import Foundation
 import AppModels
 import Combine
 
+@MainActor
 final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     let id: Int
     let name: String
@@ -17,6 +18,7 @@ final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     let selectionType: MenuSelectionType
     
     private(set) var priceComputePublisher = PassthroughSubject<Void, Never>()
+    
     private var cancellables: Set<AnyCancellable> = []
     
     init(
@@ -64,6 +66,7 @@ final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     
     private func computeTotalPrice() {
         self.priceComputePublisher.send()
+            
     }
     
     deinit {

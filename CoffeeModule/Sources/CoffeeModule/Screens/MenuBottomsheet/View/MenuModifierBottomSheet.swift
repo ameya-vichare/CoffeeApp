@@ -182,17 +182,22 @@ struct MenuAddToCartButton: View {
     }
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: AppPointSystem.point_12)
-                .frame(height: AppPointSystem.point_44)
-                .foregroundStyle(AppColors.primaryCoffee)
-            
-            Text(
-                "Add item - \(viewModel.currency) \(viewModel.totalPrice.formatPrice())"
-            )
-            .font(AppFonts.mediumSixteen)
-                .foregroundStyle(AppColors.white)
+        Button {
+            viewModel.addItemPressed()
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: AppPointSystem.point_12)
+                    .frame(height: AppPointSystem.point_44)
+                    .foregroundStyle(AppColors.primaryCoffee)
+                
+                Text(
+                    "Add item - \(viewModel.currency) \(viewModel.totalPrice.formatPrice())"
+                )
+                .font(AppFonts.mediumSixteen)
+                    .foregroundStyle(AppColors.white)
+            }
         }
+        .buttonStyle(.plain)
     }
 }
 

@@ -75,15 +75,37 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
                 self?.computeTotalPrice()
             }
             .store(in: &cancellables)
+        
+        footerViewModel.addItemPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.createOrderItem()
+            }
+            .store(in: &cancellables)
     }
     
     private func computeTotalPrice() {
-        let itemPrice = self.modifierViewModels.flatMap { $0.options }
-            .filter { $0.isSelected }
+        let itemPrice = getSelectedItemViewModels()
             .reduce(0.0) { $0 + $1.price }
         
         self.totalPrice = itemPrice * Double(quantitySelection)
         self.footerViewModel.setTotalPrice(price: self.totalPrice)
+    }
+    
+    private func createOrderItem() {
+        let selectedOptionIds: [Int] = getSelectedItemViewModels().map { $0.id }
+        let createOrderItem = CreateOrderItem(
+            itemID: id,
+            quantity: quantitySelection,
+            optionIDs: selectedOptionIds
+        )
+        
+        print(createOrderItem)
+    }
+    
+    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
+        self.modifierViewModels.flatMap { $0.options }
+            .filter { $0.isSelected }
     }
 }
 
