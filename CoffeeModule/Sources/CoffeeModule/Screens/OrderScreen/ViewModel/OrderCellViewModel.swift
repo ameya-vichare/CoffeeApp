@@ -7,6 +7,7 @@
 
 import AppUtils
 import Foundation
+import AppModels
 
 struct OrderCellViewModel {
     let id: String
@@ -14,24 +15,19 @@ struct OrderCellViewModel {
     let createdAt: String
     let displayTotalPriceLabel: String
     let statusDisplayLabel: String
-    let items: [OrderItemCellViewModel]
+    let itemsViewModel: [OrderItemCellViewModel]
     
     init(
-        id: String,
-        userName: String,
-        createdAt: String,
-        totalPrice: String,
-        currency: String,
-        status: String,
-        items: [OrderItemCellViewModel]
+        order: Order,
+        itemsViewModel: [OrderItemCellViewModel]
     ) {
-        self.id = id
-        self.userName = userName
-        self.displayTotalPriceLabel = "\(currency) \(totalPrice)"
-        self.statusDisplayLabel = status
-        self.items = items
+        self.id = order.id ?? ""
+        self.userName = order.userName ?? ""
+        self.displayTotalPriceLabel = "\(order.currency ?? "") \(order.totalPrice ?? "")"
+        self.statusDisplayLabel = order.status?.rawValue ?? ""
+        self.itemsViewModel = itemsViewModel
         
-        if let createdAt = createdAt.formatDate(dateFormat: DateFormat.shortDate) {
+        if let createdAt = order.createdAt?.formatDate(dateFormat: DateFormat.shortDate) {
             self.createdAt = createdAt
         } else {
             self.createdAt = ""
@@ -48,17 +44,13 @@ struct OrderItemCellViewModel: Identifiable {
     let displayQuantityLabel: String
     
     init(
-        name: String,
-        modifiers: [String],
-        imageURL: String?,
-        totalPrice: String,
-        currency: String,
-        quantity: String
+        item: OrderItem
     ) {
-        self.name = name
-        self.customisation = modifiers.joined(separator: ", ")
-        self.imageURL = URL(string: imageURL ?? "")
-        self.displayPriceLabel = "\(currency) \(totalPrice)"
-        self.displayQuantityLabel = "x\(quantity)"
+        self.name = item.name ?? ""
+        self.customisation = item.modifier
+            .compactMap { $0.name }.joined(separator: ", ")
+        self.imageURL = URL(string: item.imageURL ?? "")
+        self.displayPriceLabel = "\(item.currency ?? "") \(item.totalPrice ?? "")"
+        self.displayQuantityLabel = "x\(item.quantity ?? "")"
     }
 }

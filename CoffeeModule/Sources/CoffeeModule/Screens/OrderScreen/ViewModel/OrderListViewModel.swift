@@ -51,27 +51,13 @@ extension OrderListViewModel {
             }
             
             func getItemsVM(items: [OrderItem]) -> [OrderItemCellViewModel] {
-                items.map { item in
-                    OrderItemCellViewModel(
-                        name: item.name ?? "",
-                        modifiers: item.modifier.compactMap{ $0.name },
-                        imageURL: item.imageURL ?? "",
-                        totalPrice: item.totalPrice ?? "",
-                        currency: item.currency ?? "",
-                        quantity: item.quantity ?? ""
-                    )
-                }
+                items.map { OrderItemCellViewModel(item: $0) }
             }
             
             func getOrderVM(order: Order, itemsVM: [OrderItemCellViewModel]) -> OrderCellViewModel {
                 OrderCellViewModel(
-                    id: orderID,
-                    userName: order.userName ?? "",
-                    createdAt: order.createdAt ?? "",
-                    totalPrice: order.totalPrice ?? "",
-                    currency: order.currency ?? "",
-                    status: order.status?.description ?? "",
-                    items: itemsVM
+                    order: order,
+                    itemsViewModel: itemsVM
                 )
             }
 

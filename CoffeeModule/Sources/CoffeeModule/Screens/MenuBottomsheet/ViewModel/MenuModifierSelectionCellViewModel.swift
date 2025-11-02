@@ -21,13 +21,16 @@ final class MenuModifierSelectionCellViewModel: Identifiable, ObservableObject {
     @Published var isSelected: Bool = false
     private(set) var selectionPassthroughSubject = PassthroughSubject<Int, Never>()
     
-    init(id: Int, name: String, price: Double, currency: String, isDefault: Bool, minimumSelection: Int) {
-        self.id = id
-        self.name = name
-        self.price = price
+    init(
+        option: MenuModifierOption,
+        minimumSelection: Int
+    ) {
+        self.id = option.id ?? 0
+        self.name = option.name ?? ""
+        self.price = option.price ?? 0
         self.displayPrice = price.formatPrice()
-        self.currency = currency
-        self.isDefault = isDefault
+        self.currency = option.currency ?? ""
+        self.isDefault = option.isDefault ?? false
         self.minimumSelection = minimumSelection
         
         if isDefault {

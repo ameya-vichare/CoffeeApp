@@ -32,6 +32,10 @@ public struct MenuModifier: Decodable {
         self.maxSelect = maxSelect
         self.options = options
     }
+    
+    public static func createFake() -> MenuModifier {
+        MenuModifier(id: 1, name: "Test", selectionType: .single, minSelect: 1, maxSelect: 1, options: nil)
+    }
 }
 
 public enum MenuSelectionType: String, Codable {

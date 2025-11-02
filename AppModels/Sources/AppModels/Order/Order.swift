@@ -41,6 +41,33 @@ public struct Order: Decodable {
         self.status = status
         self.items = items
     }
+    
+    public static func createFake() -> Order {
+        Order(
+            id: "1",
+            createdAt: "2025-09-13T09:13:15.732796+00:00",
+            userName: "Ameya",
+            currency: "USD",
+            totalPrice: "12",
+            status: .pending,
+            items: [
+                OrderItem(
+                    name: "Latte",
+                    imageURL: "https://via.placeholder.com/150",
+                    size: "Medium",
+                    quantity: "1",
+                    totalPrice: "12",
+                    currency: "USD",
+                    modifier: [
+                        OrderModifier(
+                            group: "Toppings",
+                            name: "Whipped cream"
+                        )
+                    ]
+                )
+            ]
+        )
+    }
 }
 
 

@@ -31,4 +31,16 @@ public struct OrderItem: Decodable {
         self.currency = currency
         self.modifier = modifier
     }
+    
+    public static func createFake() -> OrderItem {
+        OrderItem(
+            name: "Latte",
+            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
+            size: "Small",
+            quantity: "5",
+            totalPrice: "USD",
+            currency: "1",
+            modifier: []
+        )
+    }
 }

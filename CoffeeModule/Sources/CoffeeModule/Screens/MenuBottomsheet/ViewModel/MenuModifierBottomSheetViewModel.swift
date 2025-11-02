@@ -14,6 +14,8 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     let modifierViewModels: [MenuModifierCategoryCellViewModel]
     let footerViewModel: MenuModifierBottomSheetFooterViewModel
     let headerViewModel: MenuModifierBottomSheetHeaderViewModel
+    
+    let id: Int
     let currency: String
     let name: String
     let imageURL: URL?
@@ -25,34 +27,25 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     
     init(
         modifiers: [MenuModifier],
+        id: Int,
         currency: String,
         name: String,
         imageURL: URL?
     ) {
         self.currency = currency
+        self.id = id
         self.name = name
         self.imageURL = imageURL
         
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }
 
-            let menuModifierCellViewModels: [MenuModifierSelectionCellViewModel] = options.map { option in
-                MenuModifierSelectionCellViewModel(
-                    id: option.id ?? 0,
-                    name: option.name ?? "",
-                    price: option.price ?? 0.0,
-                    currency: option.currency ?? "",
-                    isDefault: option.isDefault ?? false,
-                    minimumSelection: menuModifier.minSelect ?? 0
-                )
+            let menuModifierCellViewModels: [MenuModifierSelectionCellViewModel] = options.map {
+                MenuModifierSelectionCellViewModel(option: $0, minimumSelection: menuModifier.minSelect ?? 0)
             }
 
             return MenuModifierCategoryCellViewModel(
-                id: menuModifier.id ?? 0,
-                name: menuModifier.name ?? "",
-                minSelection: menuModifier.minSelect ?? 0,
-                maxSelection: menuModifier.maxSelect ?? 0,
-                selectionType: menuModifier.selectionType ?? .single,
+                menuModifier: menuModifier,
                 options: menuModifierCellViewModels
             )
         }

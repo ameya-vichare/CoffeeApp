@@ -44,17 +44,8 @@ extension MenuListViewModel {
     
     private func prepareDatasource(menuList: [MenuItem]) {
         self.datasource = menuList.compactMap { menuItem in
-            
             return .mainMenu(
-                vm: MenuListCellViewModel(
-                    id: menuItem.id ?? 0,
-                    name: menuItem.name ?? "",
-                    currency: menuItem.currency ?? "",
-                    price: menuItem.basePrice ?? 0.0,
-                    description: menuItem.description ?? "",
-                    imageURL: menuItem.imageURL ?? "",
-                    modifiers: menuItem.modifiers ?? []
-                )
+                vm: MenuListCellViewModel(menuItem: menuItem)
             )
         }
     }

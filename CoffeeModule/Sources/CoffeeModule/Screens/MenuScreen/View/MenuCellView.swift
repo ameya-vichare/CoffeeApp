@@ -93,30 +93,7 @@ struct CoffeeMenuActionView: View {
 #Preview {
     MenuCellView(
         viewModel: MenuListCellViewModel(
-            id: 0,
-            name: "Hot Americano",
-            currency: "USD",
-            price: 0.0,
-            description: "A shot of espresso, diluted to create a smooth black coffee.",
-            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
-            modifiers: [
-                MenuModifier(
-                    id: 1,
-                    name: "Milk Type",
-                    selectionType: .single,
-                    minSelect: 1,
-                    maxSelect: 1,
-                    options: [
-                        MenuModifierOption(
-                            id: 3,
-                            name: "Oat Milk",
-                            price: 0.50,
-                            currency: "USD",
-                            isDefault: true
-                        )
-                    ]
-                )
-            ]
+            menuItem: MenuItem.createFake()
         )
     )
 }

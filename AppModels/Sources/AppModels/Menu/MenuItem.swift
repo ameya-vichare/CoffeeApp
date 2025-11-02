@@ -35,4 +35,33 @@ public struct MenuItem: Decodable {
         self.currency = currency
         self.modifiers = modifiers
     }
+    
+    public static func createFake() -> MenuItem {
+        MenuItem(
+            id: 8,
+            name: "Hot Americano",
+            description: "A shot of espresso, diluted to create a smooth black coffee.",
+            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
+            basePrice: 14.00,
+            currency: "USD",
+            modifiers: [
+                MenuModifier(
+                    id: 1,
+                    name: "Milk Type",
+                    selectionType: .single,
+                    minSelect: 1,
+                    maxSelect: 1,
+                    options: [
+                        MenuModifierOption(
+                            id: 3,
+                            name: "Oat Milk",
+                            price: 0.50,
+                            currency: "USD",
+                            isDefault: true
+                        )
+                    ]
+                )
+            ]
+        )
+    }
 }

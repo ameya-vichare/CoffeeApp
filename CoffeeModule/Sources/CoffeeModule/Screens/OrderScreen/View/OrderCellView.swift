@@ -28,7 +28,7 @@ struct OrderCellView: View {
                 OrderHeaderView(viewModel: viewModel)
 
                 LazyVStack {
-                    ForEach(self.viewModel.items, id: \.id) { item in
+                    ForEach(self.viewModel.itemsViewModel, id: \.id) { item in
                         OrderDetailView(viewModel: item)
                     }
                 }
@@ -207,20 +207,10 @@ struct OrderStatusView: View {
 #Preview {
     OrderCellView(viewModel:
         OrderCellViewModel(
-            id: "2",
-            userName: "John Doe",
-            createdAt: "2025-10-11T17:04:19.881007+00:00",
-            totalPrice: "10",
-            currency: "USD",
-            status: "Pending",
-            items: [
+            order: Order.createFake(),
+            itemsViewModel: [
                 OrderItemCellViewModel(
-                    name: "Latte",
-                    modifiers: ["Oat Milk", "Caramel"],
-                    imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
-                    totalPrice: "5",
-                    currency: "USD",
-                    quantity: "1"
+                    item: OrderItem.createFake()
                 )
             ]
         )

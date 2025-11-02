@@ -20,24 +20,21 @@ final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     
     init(
-        id: Int,
-        name: String,
-        minSelection: Int,
-        maxSelection: Int,
-        selectionType: MenuSelectionType,
+        menuModifier: MenuModifier,
         options: [MenuModifierSelectionCellViewModel]
     ) {
-        self.id = id
-        self.name = name.capitalized
+        self.id = menuModifier.id ?? 0
+        self.name = menuModifier.name?.capitalized ?? ""
         
         self.displayDescription = ""
+        let minSelection = menuModifier.minSelect ?? 0
         if minSelection > 0 {
             self.displayDescription += "Required • Select any \(minSelection) option"
         } else {
             self.displayDescription += "Optional"
         }
         
-        self.selectionType = selectionType
+        self.selectionType = menuModifier.selectionType ?? .single
         self.options = options
         
         self.bindChildren()

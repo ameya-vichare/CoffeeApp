@@ -8,7 +8,7 @@
 import Foundation
 import AppModels
 
-final class MenuListCellViewModel: ObservableObject {
+struct MenuListCellViewModel {
     let id: Int
     let name: String
     let currency: String
@@ -18,25 +18,17 @@ final class MenuListCellViewModel: ObservableObject {
     let imageURL: URL?
     let modifiers: [MenuModifier]
 
-    @Published var quantitySelection: Int = 0
-    
     init(
-        id: Int,
-        name: String,
-        currency: String,
-        price: Double,
-        description: String,
-        imageURL: String,
-        modifiers: [MenuModifier]
+        menuItem: MenuItem
     ) {
-        self.id = id
-        self.name = name
-        self.currency = currency
-        self.price = price
+        self.id = menuItem.id ?? 0
+        self.name = menuItem.name ?? ""
+        self.currency = menuItem.currency ?? ""
+        self.price = menuItem.basePrice ?? 0.0
         self.displayPrice = price.formatPrice()
-        self.description = description
-        self.imageURL = URL(string: imageURL ?? "")
-        self.modifiers = modifiers
+        self.description = menuItem.description ?? ""
+        self.imageURL = URL(string: menuItem.imageURL ?? "")
+        self.modifiers = menuItem.modifiers ?? []
     }
 }
 
