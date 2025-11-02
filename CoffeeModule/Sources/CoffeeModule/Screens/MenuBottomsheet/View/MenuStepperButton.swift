@@ -17,11 +17,12 @@ struct MenuStepperButton: View {
     var body: some View {
         ZStack(alignment: .center) {
             RoundedRectangle(cornerRadius: AppPointSystem.point_12)
+                .stroke(AppColors.primaryCoffee, lineWidth: 1)
                 .frame(
                     width: AppPointSystem.point_120,
                     height: AppPointSystem.point_44
                 )
-                .foregroundStyle(AppColors.primaryCoffee)
+                .foregroundStyle(AppColors.white)
             
             HStack(spacing: 0) {
                 Button {
@@ -30,7 +31,7 @@ struct MenuStepperButton: View {
                 } label: {
                     Image(systemName: "minus")
                         .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
-                        .foregroundStyle(AppColors.white)
+                        .foregroundStyle(AppColors.primaryCoffee)
                 }
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
@@ -38,7 +39,7 @@ struct MenuStepperButton: View {
                 ZStack {
                     Text("\(selectionCount)")
                         .font(AppFonts.headline)
-                        .foregroundStyle(AppColors.white)
+                        .foregroundStyle(AppColors.black)
                         .frame(width: AppPointSystem.point_24, alignment: .center)
                         .id(selectionCount)
                         .transition(
@@ -63,13 +64,12 @@ struct MenuStepperButton: View {
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
-                        .foregroundStyle(AppColors.white)
+                        .foregroundStyle(AppColors.primaryCoffee)
                 }
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
             }
         }
-        .offset(y: AppPointSystem.point_44/2)
     }
 }
 

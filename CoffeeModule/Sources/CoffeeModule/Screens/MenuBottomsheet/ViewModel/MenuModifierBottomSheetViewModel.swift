@@ -12,11 +12,15 @@ import Combine
 final class MenuModifierBottomSheetViewModel: ObservableObject {
     let modifierViewModels: [MenuModifierCategoryCellViewModel]
     let modifiers: [MenuModifier]
-    private var cancellables: Set<AnyCancellable> = []
+    let currency: String
+    
     @Published private(set) var totalPrice: Double = 0.0
     
-    init(modifiers: [MenuModifier]) {
+    private var cancellables: Set<AnyCancellable> = []
+    
+    init(modifiers: [MenuModifier], currency: String) {
         self.modifiers = modifiers
+        self.currency = currency
         
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }

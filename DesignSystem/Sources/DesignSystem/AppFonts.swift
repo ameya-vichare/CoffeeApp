@@ -53,4 +53,9 @@ public enum AppFonts {
         .subheadline
         .weight(.medium)
     }
+    
+    public static var mediumSixteen: Font {
+        .system(size: 16)
+        .weight(.medium)
+    }
 }

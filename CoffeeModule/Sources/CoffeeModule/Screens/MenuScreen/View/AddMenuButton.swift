@@ -46,13 +46,14 @@ struct AddMenuButton: View {
             VStack {
                 MenuModifierBottomSheet(
                     viewModel: MenuModifierBottomSheetViewModel(
-                        modifiers: viewModel.modifiers
+                        modifiers: viewModel.modifiers,
+                        currency: viewModel.currency
                     )
                 )
             }
             .presentationCornerRadius(AppPointSystem.point_20)
             .presentationDragIndicator(.visible)
-            .presentationDetents([.fraction(0.5),.large])
+            .presentationDetents([.large])
         }
     }
 }

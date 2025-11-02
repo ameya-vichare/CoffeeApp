@@ -147,17 +147,42 @@ struct MenuModifierFooterView: View {
     }
     
     var body: some View {
-        Text("\(viewModel.totalPrice.formatPrice())")
-        
-        
-        Text("Add to Cart")
-            .font(AppFonts.title3Medium)
-            .foregroundColor(.white)
+        ZStack {
+            Rectangle()
+                .frame(height: AppPointSystem.point_80)
+                .foregroundStyle(AppColors.white)
+            
+            HStack(alignment: .center, spacing: AppPointSystem.point_4) {
+                MenuStepperButton()
+                
+                Spacer()
+                
+                MenuAddToCartButton(viewModel: viewModel)
+            }
             .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(AppColors.primaryCoffee)
+        }
+    }
+}
+
+struct MenuAddToCartButton: View {
+    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    
+    init(viewModel: MenuModifierBottomSheetViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: AppPointSystem.point_12)
+                .frame(height: AppPointSystem.point_44)
+                .foregroundStyle(AppColors.primaryCoffee)
+            
+            Text(
+                "Add item - \(viewModel.currency) \(viewModel.totalPrice.formatPrice())"
             )
+            .font(AppFonts.mediumSixteen)
+                .foregroundStyle(AppColors.white)
+        }
     }
 }
 
@@ -181,7 +206,8 @@ struct MenuModifierFooterView: View {
                         )
                     ]
                 )
-            ]
+            ],
+            currency: "USD"
         )
     )
 }
