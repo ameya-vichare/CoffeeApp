@@ -7,6 +7,7 @@
 
 import Foundation
 import AppModels
+import Combine
 
 struct MenuListCellViewModel {
     let id: Int
@@ -17,9 +18,12 @@ struct MenuListCellViewModel {
     let description: String
     let imageURL: URL?
     let modifiers: [MenuModifier]
+    
+    let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
 
     init(
-        menuItem: MenuItem
+        menuItem: MenuItem,
+        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
     ) {
         self.id = menuItem.id ?? 0
         self.name = menuItem.name ?? ""
@@ -29,6 +33,7 @@ struct MenuListCellViewModel {
         self.description = menuItem.description ?? ""
         self.imageURL = URL(string: menuItem.imageURL ?? "")
         self.modifiers = menuItem.modifiers ?? []
+        self.orderItemUpdates = orderItemUpdates
     }
 }
 

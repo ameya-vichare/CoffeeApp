@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import ImageLoading
 import AppModels
+import Combine
 
 struct MenuModifierBottomSheet: View {
     @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
@@ -210,7 +211,8 @@ struct MenuAddToCartButton: View {
             id: 0,
             currency: "USD",
             name: "Hot Capuccino",
-            imageURL: URL(string: "")
+            imageURL: URL(string: ""),
+            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
         )
     )
 }

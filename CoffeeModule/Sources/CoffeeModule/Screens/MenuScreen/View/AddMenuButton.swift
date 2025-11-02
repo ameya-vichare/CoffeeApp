@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import ImageLoading
 import AppModels
+import Combine
 
 struct AddMenuButton: View {
     @State private var showSheet = false
@@ -50,7 +51,8 @@ struct AddMenuButton: View {
                         id: viewModel.id,
                         currency: viewModel.currency,
                         name: viewModel.name,
-                        imageURL: viewModel.imageURL
+                        imageURL: viewModel.imageURL,
+                        orderItemUpdates: viewModel.orderItemUpdates
                     )
                 )
             }
@@ -64,7 +66,8 @@ struct AddMenuButton: View {
 #Preview {
     AddMenuButton(
         viewModel: MenuListCellViewModel(
-            menuItem: MenuItem.createFake()
+            menuItem: MenuItem.createFake(),
+            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
         )
     )
 }

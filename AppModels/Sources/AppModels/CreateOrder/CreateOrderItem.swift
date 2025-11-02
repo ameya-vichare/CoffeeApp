@@ -5,7 +5,7 @@
 //  Created by Ameya on 02/11/25.
 //
 
-public struct CreateOrderItem: Codable {
+public struct CreateOrderItem: Codable, Sendable {
     let itemID: Int
     let quantity: Int
     let optionIDs: [Int]

@@ -24,4 +24,9 @@ public final class OrderModuleRemoteAPI: OrderModuleAPIProtocol {
         let networkRequest = NetworkRequest(apiConfig: config)
         return try await self.networkService.perform(request: networkRequest, responseType: MenuResponse.self)
     }
+    
+    public func createOrder(config: APIConfig) async throws -> CreateOrderResponse {
+        let networkRequest = NetworkRequest(apiConfig: config)
+        return try await self.networkService.perform(request: networkRequest, responseType: CreateOrderResponse.self)
+    }
 }

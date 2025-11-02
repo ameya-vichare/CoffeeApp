@@ -11,4 +11,5 @@ import Networking
 public protocol CoffeeModuleRepository {
     func getCoffeeOrders(config: APIConfig) async throws -> [Order]
     func getMenu(config: APIConfig) async throws -> MenuResponse
+    func createOrder(config: APIConfig) async throws -> CreateOrderResponse
 }

@@ -12,6 +12,7 @@ import CoffeeModule
 import ImageLoading
 import SwiftUI
 
+@MainActor
 final class AppDependencyContainer {
     private let networkService: NetworkService
     private let imageService: ImageService
@@ -69,3 +70,4 @@ extension AppDependencyContainer {
         return MenuListView(viewModel: makeMenuListViewModel())
     }
 }
+

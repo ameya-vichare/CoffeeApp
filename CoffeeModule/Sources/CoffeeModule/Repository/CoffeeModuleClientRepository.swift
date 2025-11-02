@@ -22,4 +22,8 @@ public final class CoffeeModuleClientRepository: CoffeeModuleRepository {
     public func getMenu(config: any Networking.APIConfig) async throws -> MenuResponse {
         try await self.remoteAPI.getMenu(config: config)
     }
+    
+    public func createOrder(config: APIConfig) async throws -> CreateOrderResponse {
+        try await self.remoteAPI.createOrder(config: config)
+    }
 }

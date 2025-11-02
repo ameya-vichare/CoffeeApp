@@ -31,7 +31,6 @@ public enum OrderEndpoint: APIConfig {
     }
     
     public func httpBody() -> Data? {
-        //TO DO
         nil
     }
     

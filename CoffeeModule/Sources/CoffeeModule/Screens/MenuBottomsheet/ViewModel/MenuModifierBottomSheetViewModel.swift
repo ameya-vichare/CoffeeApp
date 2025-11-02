@@ -20,6 +20,8 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
     let name: String
     let imageURL: URL?
     
+    let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+    
     private var totalPrice: Double = 0.0
     private var quantitySelection: Int = 1
     
@@ -30,12 +32,14 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
         id: Int,
         currency: String,
         name: String,
-        imageURL: URL?
+        imageURL: URL?,
+        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
     ) {
         self.currency = currency
         self.id = id
         self.name = name
         self.imageURL = imageURL
+        self.orderItemUpdates = orderItemUpdates
         
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }
@@ -100,7 +104,7 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
             optionIDs: selectedOptionIds
         )
         
-        print(createOrderItem)
+        self.orderItemUpdates.send(createOrderItem)
     }
     
     private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {

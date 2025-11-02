@@ -9,19 +9,24 @@ import Foundation
 import AppEndpoints
 import Networking
 import AppModels
+import Combine
 
+@MainActor
 public final class MenuListViewModel: ObservableObject {
     public let repository: CoffeeModuleRepository
     @Published var state: ScreenViewState = .preparing
     @Published var datasource: [MenuListCellType] = []
     
+    private var orderItemUpdates = PassthroughSubject<CreateOrderItem, Never>()
+    private var cancellables = Set<AnyCancellable>()
+    
     public init(repository: CoffeeModuleRepository) {
         self.repository = repository
+        self.bindChildren()
     }
 }
 
 extension MenuListViewModel {
-    @MainActor
     func makeInitialAPICalls() async {
         let _repository = self.repository
         let getMenuAPIConfig = MenuEndpoint.getMenuItems
@@ -42,10 +47,40 @@ extension MenuListViewModel {
         }
     }
     
+    private func bindChildren() {
+        self.orderItemUpdates
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] orderItem in
+                guard let self else { return }
+                Task {
+                    await self.createOrder(orderItem: orderItem)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func createOrder(orderItem: CreateOrderItem) async {
+        let orderData = CreateOrder(userId: 1, items: [orderItem])
+        let createOrderAPIConfig = CreateOrderEndpoint.createOrder(data: orderData)
+        let _repository = self.repository
+        
+        Task {
+            do {
+                let response = try await _repository.createOrder(config: createOrderAPIConfig)
+                print(response)
+            } catch {
+                self.state = .error
+            }
+        }
+    }
+    
     private func prepareDatasource(menuList: [MenuItem]) {
         self.datasource = menuList.compactMap { menuItem in
             return .mainMenu(
-                vm: MenuListCellViewModel(menuItem: menuItem)
+                vm: MenuListCellViewModel(
+                    menuItem: menuItem,
+                    orderItemUpdates: orderItemUpdates
+                )
             )
         }
     }

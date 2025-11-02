@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import ImageLoading
 import AppModels
+import Combine
 
 struct MenuCellView: View {
     private let viewModel: MenuListCellViewModel
@@ -93,7 +94,8 @@ struct CoffeeMenuActionView: View {
 #Preview {
     MenuCellView(
         viewModel: MenuListCellViewModel(
-            menuItem: MenuItem.createFake()
+            menuItem: MenuItem.createFake(),
+            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
         )
     )
 }
