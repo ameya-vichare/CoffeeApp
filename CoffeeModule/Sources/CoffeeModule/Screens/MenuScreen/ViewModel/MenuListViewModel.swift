@@ -10,6 +10,8 @@ import AppEndpoints
 import Networking
 import AppModels
 import Combine
+import DesignSystem
+import SwiftUI
 
 @MainActor
 public final class MenuListViewModel: ObservableObject {
@@ -18,6 +20,7 @@ public final class MenuListViewModel: ObservableObject {
     @Published var datasource: [MenuListCellType] = []
     
     private var orderItemUpdates = PassthroughSubject<CreateOrderItem, Never>()
+    private(set) var alertPublisher = PassthroughSubject<AlertData?, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     public init(repository: CoffeeModuleRepository) {
@@ -67,11 +70,24 @@ extension MenuListViewModel {
         Task {
             do {
                 let response = try await _repository.createOrder(config: createOrderAPIConfig)
-                print(response)
+                self.showSuccessAlert()
             } catch {
                 self.state = .error
             }
         }
+    }
+    
+    private func showSuccessAlert() {
+        let alert = AlertData(
+            title: "Order Success",
+            message: "Your order has been placed!",
+            buttons: [
+                Alert.Button.default(Text("Vooho!"), action: {
+                    self.alertPublisher.send(nil)
+                })
+            ]
+        )
+        self.alertPublisher.send(alert)
     }
     
     private func prepareDatasource(menuList: [MenuItem]) {

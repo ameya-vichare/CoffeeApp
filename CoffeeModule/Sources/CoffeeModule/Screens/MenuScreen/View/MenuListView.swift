@@ -7,9 +7,12 @@
 
 import SwiftUI
 import DesignSystem
+import Combine
 
 public struct MenuListView: View {
     @ObservedObject var viewModel: MenuListViewModel
+    @State var activeAlert: AlertData?
+    @State private var cancellables = Set<AnyCancellable>()
     
     public init(viewModel: MenuListViewModel) {
         self.viewModel = viewModel
@@ -33,6 +36,21 @@ public struct MenuListView: View {
             
             handleState(state: viewModel.state)
         }
+        .onAppear(perform: {
+            viewModel.alertPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { alertData in
+                    activeAlert = alertData
+                }
+                .store(in: &cancellables)
+        })
+        .alert(item: $activeAlert, content: { alertData in
+            Alert(
+                title: Text(alertData.title),
+                message: Text(alertData.message),
+                dismissButton: alertData.buttons.first
+            )
+        })
         .navigationTitle("Menu")
     }
     
