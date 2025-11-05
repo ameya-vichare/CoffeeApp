@@ -11,11 +11,13 @@ import Foundation
 import CoffeeModule
 import ImageLoading
 import SwiftUI
+import Persistence
 
 @MainActor
 final class AppDependencyContainer {
     private let networkService: NetworkService
     private let imageService: ImageService
+    private let persistentProvider: PersistentContainerProvider
     
     init() {
         guard let url = URL(string: AppConstants.baseURL) else {
@@ -30,6 +32,8 @@ final class AppDependencyContainer {
         )
         
         self.imageService = SDWebImageService()
+        
+        self.persistentProvider = PersistentContainerProvider(modelName: "AppModel")
     }
     
     func getImageService() -> ImageService {
@@ -39,12 +43,15 @@ final class AppDependencyContainer {
 
 // MARK: - Coffee List View
 extension AppDependencyContainer {
-    func makeCoffeeListView() -> OrderListView {
+    func makeOrderListView() -> OrderListView {
         func makeCoffeeListViewModel() -> OrderListViewModel {
             OrderListViewModel(
-                repository: CoffeeModuleClientRepository(
+                repository: OrderModuleClientRepository(
                     remoteAPI: OrderModuleRemoteAPI(
                         networkService: networkService
+                    ),
+                    dataStore: OrderModuleCoreDataStore(
+                        container: persistentProvider.container
                     )
                 )
             )
@@ -56,12 +63,15 @@ extension AppDependencyContainer {
 
 // MARK: - Coffee Order View
 extension AppDependencyContainer {
-    func makeCoffeeOrderView() -> MenuListView {
+    func makeMenuListView() -> MenuListView {
         func makeMenuListViewModel() -> MenuListViewModel {
             MenuListViewModel(
-                repository: CoffeeModuleClientRepository(
+                repository: OrderModuleClientRepository(
                     remoteAPI: OrderModuleRemoteAPI(
                         networkService: networkService
+                    ),
+                    dataStore: OrderModuleCoreDataStore(
+                        container: persistentProvider.container
                     )
                 )
             )

@@ -16,14 +16,14 @@ struct MainView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                appDependencyContainer.makeCoffeeListView()
+                appDependencyContainer.makeOrderListView()
             }
             .tabItem {
                 Label("List", systemImage: "list.bullet")
             }
             
             NavigationStack {
-                appDependencyContainer.makeCoffeeOrderView()
+                appDependencyContainer.makeMenuListView()
             }
             .tabItem {
                 Label("Order", systemImage: "cup.and.saucer")

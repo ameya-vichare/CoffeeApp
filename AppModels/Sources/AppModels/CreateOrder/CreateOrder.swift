@@ -6,15 +6,15 @@
 //
 
 public struct CreateOrder: Codable {
-    let userId: Int
-    let items: [CreateOrderItem]
+    public let userId: Int
+    public let items: [CreateOrderItem]
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
         case items
     }
     
-    public init(userId: Int, items: [CreateOrderItem]) {
+    public init(userId: Int, items: [CreateOrderItem] = []) {
         self.userId = userId
         self.items = items
     }

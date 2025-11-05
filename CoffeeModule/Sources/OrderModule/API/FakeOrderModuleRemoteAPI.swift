@@ -8,7 +8,7 @@
 import AppModels
 import Networking
 
-public final class FakeCoffeeModuleRemoteAPI: OrderModuleAPIProtocol {
+public final class FakeOrderModuleRemoteAPI: OrderModuleAPIProtocol {
     public init () {}
     
     public func getOrders(config: APIConfig) async throws -> [Order] {

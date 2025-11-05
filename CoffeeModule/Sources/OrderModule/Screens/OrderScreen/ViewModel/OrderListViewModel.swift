@@ -10,11 +10,11 @@ import AppEndpoints
 import AppModels
 
 public final class OrderListViewModel: ObservableObject {
-    public let repository: CoffeeModuleRepository
+    public let repository: OrderModuleRepositoryProtocol
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
     
-    public init(repository: CoffeeModuleRepository) {
+    public init(repository: OrderModuleRepositoryProtocol) {
         self.repository = repository
     }
 }
@@ -29,7 +29,7 @@ extension OrderListViewModel {
         
         Task {
             do {
-                let orders = try await _repository.getCoffeeOrders(config: getCoffeeOrderConfig)
+                let orders = try await _repository.getOrders(config: getCoffeeOrderConfig)
                 self.prepareDatasource(coffeeList: orders)
                 self.state = .dataFetched
             }

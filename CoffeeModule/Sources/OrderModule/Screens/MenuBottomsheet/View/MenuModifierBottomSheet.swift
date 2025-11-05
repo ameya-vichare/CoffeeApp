@@ -1,5 +1,5 @@
 //
-//  BrewCrewMenuModifierBottomSheet.swift
+//  MenuModifierBottomSheet.swift
 //  CoffeeModule
 //
 //  Created by Ameya on 25/10/25.

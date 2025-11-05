@@ -8,6 +8,7 @@
 import SwiftUI
 import AppConstants
 import DesignSystem
+import Persistence
 
 public struct OrderListView: View {
     @ObservedObject var viewModel: OrderListViewModel
@@ -69,8 +70,9 @@ public struct OrderListView: View {
     NavigationStack {
         OrderListView(
             viewModel: OrderListViewModel(
-                repository: CoffeeModuleClientRepository(
-                    remoteAPI: FakeCoffeeModuleRemoteAPI()
+                repository: OrderModuleClientRepository(
+                    remoteAPI: FakeOrderModuleRemoteAPI(),
+                    dataStore: FakeOrderModuleDataStore()
                 )
             )
         )

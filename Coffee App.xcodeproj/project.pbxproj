@@ -16,6 +16,8 @@
 		9D4741B42E75A84200C16B6D /* AppUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B32E75A84200C16B6D /* AppUtils */; };
 		9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B62E7716B700C16B6D /* DesignSystem */; };
 		9DDE06A22E9B90C600161FC9 /* ImageLoading in Frameworks */ = {isa = PBXBuildFile; productRef = 9DDE06A12E9B90C600161FC9 /* ImageLoading */; };
+		9DEB36662EBA40F4003DDC93 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9DEB36652EBA40F4003DDC93 /* Persistence */; };
+		9DEB367E2EBA511F003DDC93 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9DEB367D2EBA511F003DDC93 /* Persistence */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,9 +59,11 @@
 				9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */,
 				9D47416B2E75706900C16B6D /* AppConstants in Frameworks */,
 				9D47416E2E75707400C16B6D /* AppEndpoints in Frameworks */,
+				9DEB36662EBA40F4003DDC93 /* Persistence in Frameworks */,
 				9DDE06A22E9B90C600161FC9 /* ImageLoading in Frameworks */,
 				9D4741712E75708600C16B6D /* AppModels in Frameworks */,
 				9D47415F2E756FE400C16B6D /* Networking in Frameworks */,
+				9DEB367E2EBA511F003DDC93 /* Persistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +124,8 @@
 				9D4741B32E75A84200C16B6D /* AppUtils */,
 				9D4741B62E7716B700C16B6D /* DesignSystem */,
 				9DDE06A12E9B90C600161FC9 /* ImageLoading */,
+				9DEB36652EBA40F4003DDC93 /* Persistence */,
+				9DEB367D2EBA511F003DDC93 /* Persistence */,
 			);
 			productName = "Coffee App";
 			productReference = 9D4741432E756E8100C16B6D /* Coffee App.app */;
@@ -185,6 +191,7 @@
 				9D4741B22E75A84200C16B6D /* XCLocalSwiftPackageReference "AppUtils" */,
 				9D4741B52E7716B700C16B6D /* XCLocalSwiftPackageReference "DesignSystem" */,
 				9DDE06A02E9B90C600161FC9 /* XCLocalSwiftPackageReference "ImageLoading" */,
+				9DEB367C2EBA511F003DDC93 /* XCLocalSwiftPackageReference "Persistence" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D4741442E756E8100C16B6D /* Products */;
@@ -536,6 +543,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ImageLoading;
 		};
+		9DEB367C2EBA511F003DDC93 /* XCLocalSwiftPackageReference "Persistence" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Persistence;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -574,6 +585,14 @@
 		9DDE06A12E9B90C600161FC9 /* ImageLoading */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ImageLoading;
+		};
+		9DEB36652EBA40F4003DDC93 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
+		9DEB367D2EBA511F003DDC93 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

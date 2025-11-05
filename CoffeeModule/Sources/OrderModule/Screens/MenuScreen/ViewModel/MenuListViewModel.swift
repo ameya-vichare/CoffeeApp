@@ -15,7 +15,7 @@ import SwiftUI
 
 @MainActor
 public final class MenuListViewModel: ObservableObject {
-    public let repository: CoffeeModuleRepository
+    public let repository: OrderModuleRepositoryProtocol
     @Published var state: ScreenViewState = .preparing
     @Published var datasource: [MenuListCellType] = []
     
@@ -23,7 +23,7 @@ public final class MenuListViewModel: ObservableObject {
     private(set) var alertPublisher = PassthroughSubject<AlertData?, Never>()
     private var cancellables = Set<AnyCancellable>()
     
-    public init(repository: CoffeeModuleRepository) {
+    public init(repository: OrderModuleRepositoryProtocol) {
         self.repository = repository
         self.bindChildren()
     }

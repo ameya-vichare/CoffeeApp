@@ -8,6 +8,7 @@
 import SwiftUI
 import DesignSystem
 import Combine
+import Persistence
 
 public struct MenuListView: View {
     @ObservedObject var viewModel: MenuListViewModel
@@ -84,8 +85,9 @@ public struct MenuListView: View {
     NavigationStack {
         MenuListView(
             viewModel: MenuListViewModel(
-                repository: CoffeeModuleClientRepository(
-                    remoteAPI: FakeCoffeeModuleRemoteAPI()
+                repository: OrderModuleClientRepository(
+                    remoteAPI: FakeOrderModuleRemoteAPI(),
+                    dataStore: FakeOrderModuleDataStore()
                 )
             )
         )

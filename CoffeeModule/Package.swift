@@ -22,7 +22,8 @@ let package = Package(
         .package(path: "../AppConstants"),
         .package(path: "../AppUtils"),
         .package(path: "../DesignSystem"),
-        .package(path: "../ImageLoading")
+        .package(path: "../ImageLoading"),
+        .package(path: "../Persistence")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -36,7 +37,8 @@ let package = Package(
                 "AppConstants",
                 "AppUtils",
                 "DesignSystem",
-                "ImageLoading"
+                "ImageLoading",
+                "Persistence"
             ]
         ),
         .testTarget(

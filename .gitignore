@@ -10,3 +10,6 @@ Coffee App.xcodeproj/xcuserdata
 Coffee App.xcodeproj/xcshareddata/xcschemes/Coffee App.xcscheme
 *.xcscheme
 Networking/.build
+Persistence/Sources/BrewCrewDataModel.xcdatamodeld/Model.xcdatamodel/contents
+Persistence/Sources/Persistence/Model/AppModel.xcdatamodeld/Model.xcdatamodel/contents
+Persistence/Sources/Persistence/Model/AppModel.xcdatamodeld/Model.xcdatamodel/contents
