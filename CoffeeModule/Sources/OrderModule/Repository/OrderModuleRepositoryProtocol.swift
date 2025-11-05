@@ -11,5 +11,5 @@ import Networking
 public protocol OrderModuleRepositoryProtocol {
     func getOrders(config: APIConfig) async throws -> [Order]
     func getMenu(config: APIConfig) async throws -> MenuResponse
-    func createOrder(config: APIConfig) async throws -> CreateOrderResponse
+    func createOrder(config: APIConfig, order: CreateOrder) async throws -> CreateOrderResponse
 }

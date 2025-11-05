@@ -6,9 +6,9 @@
 //
 
 public struct CreateOrderItem: Codable, Sendable {
-    let itemID: Int
-    let quantity: Int
-    let optionIDs: [Int]
+    public let itemID: Int
+    public let quantity: Int
+    public let optionIDs: [Int]
     
     enum CodingKeys: String, CodingKey {
         case itemID = "item_id"

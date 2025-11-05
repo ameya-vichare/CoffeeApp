@@ -21,6 +21,13 @@ public final class PersistentContainerProvider {
             fatalError("Failed to load model \(modelName) from Bundle.module")
         }
         
+        //Transformers
+        ValueTransformer
+            .setValueTransformer(
+                IntArrayTransformer(),
+                forName: NSValueTransformerName("IntArrayTransformer")
+            )
+        
         container = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel)
         if inMemory {
             let desc = NSPersistentStoreDescription()

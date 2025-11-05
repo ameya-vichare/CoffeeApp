@@ -14,7 +14,7 @@ public struct CreateOrder: Codable {
         case items
     }
     
-    public init(userId: Int, items: [CreateOrderItem] = []) {
+    public init(userId: Int, items: [CreateOrderItem]) {
         self.userId = userId
         self.items = items
     }

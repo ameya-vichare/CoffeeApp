@@ -69,7 +69,10 @@ extension MenuListViewModel {
         
         Task {
             do {
-                let response = try await _repository.createOrder(config: createOrderAPIConfig)
+                let response = try await _repository.createOrder(
+                    config: createOrderAPIConfig,
+                    order: orderData
+                )
                 self.showSuccessAlert()
             } catch {
                 self.state = .error

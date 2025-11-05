@@ -26,12 +26,8 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol {
         try await self.remoteAPI.getMenu(config: config)
     }
     
-    public func createOrder(config: APIConfig) async throws -> CreateOrderResponse {
-        do {
-            try await self.dataStore.storeOrder(order: CreateOrder(userId: 1))
-        } catch {
-            print(error.localizedDescription)
-        }
+    public func createOrder(config: APIConfig, order: CreateOrder) async throws -> CreateOrderResponse {
+        try await self.dataStore.storeOrder(order: order)
         
         let orders = try await self.dataStore.fetchCreateOrder()
         print(orders)

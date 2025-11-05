@@ -1,18 +1,25 @@
 //
-//  CreateOrderEntity+CoreDataProperties.swift
+//  CreateOrderEntity+CoreDataClass.swift
 //  Coffee App
 //
 //  Created by Ameya on 04/11/25.
 //
 //
 
-public import Foundation
-public import CoreData
+import Foundation
+import CoreData
+
+@objc(CreateOrderEntity)
+public class CreateOrderEntity: NSManagedObject {
+
+}
 
 extension CreateOrderEntity {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CreateOrderEntity> {
         return NSFetchRequest<CreateOrderEntity>(entityName: "CreateOrderEntity")
     }
 
+    @NSManaged public var id: UUID
     @NSManaged public var userId: Int16
+    @NSManaged public var items: NSOrderedSet?
 }
