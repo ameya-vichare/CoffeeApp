@@ -10,13 +10,13 @@ public enum NetworkStatus {
 public protocol NetworkMonitoring {
     var status: NetworkStatus { get }
     
-    func start() async
+    func start()
     func stop()
 }
 
 public actor NetworkMonitor: @preconcurrency NetworkMonitoring {
-    
     public var status: NetworkStatus = .unavailable
+    private var isMonitoring: Bool = false
     
     let monitor = NWPathMonitor()
     let monitorQueue = DispatchQueue(label: "nw.network.monitor")
@@ -29,8 +29,6 @@ public actor NetworkMonitor: @preconcurrency NetworkMonitoring {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
-    
-    private var isMonitoring: Bool = false
     
     public init() {
         monitor.pathUpdateHandler = { [weak self] path in
@@ -50,11 +48,11 @@ public actor NetworkMonitor: @preconcurrency NetworkMonitoring {
         monitoringSubject.send(status)
     }
 
-    public func start() async {
+    public func start() {
         guard !isMonitoring else { return }
         isMonitoring = true
         monitor.start(queue: monitorQueue)
-        await updateStatus(for: monitor.currentPath.status)
+        updateStatus(for: monitor.currentPath.status)
     }
 
     public func stop() {
