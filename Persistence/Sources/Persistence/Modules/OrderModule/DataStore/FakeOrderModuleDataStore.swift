@@ -7,7 +7,7 @@
 
 import AppModels
 
-public class FakeOrderModuleDataStore: OrderModuleDataStoreProtocol {
+public final class FakeOrderModuleDataStore: OrderModuleDataStoreProtocol {
     public init () {
         
     }

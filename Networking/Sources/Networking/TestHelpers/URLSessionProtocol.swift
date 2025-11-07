@@ -8,7 +8,7 @@
 import Foundation
 
 // Protocol for injecting a mock for URLSession
-public protocol URLSessionProtocol {
+public protocol URLSessionProtocol: Sendable {
     func data(for request: URLRequest, delegate: (URLSessionTaskDelegate)?) async throws -> (Data, URLResponse)
 }
 

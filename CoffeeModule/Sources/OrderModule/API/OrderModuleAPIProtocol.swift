@@ -8,7 +8,7 @@
 import AppModels
 import Networking
 
-public protocol OrderModuleAPIProtocol {
+public protocol OrderModuleAPIProtocol: Sendable {
     func getOrders(config: APIConfig) async throws -> [Order]
     func getMenu(config: APIConfig) async throws -> MenuResponse
     func createOrder(config: APIConfig) async throws -> CreateOrderResponse

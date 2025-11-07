@@ -31,22 +31,21 @@ public final class MenuListViewModel: ObservableObject {
 
 extension MenuListViewModel {
     func makeInitialAPICalls() async {
-        let _repository = self.repository
         let getMenuAPIConfig = MenuEndpoint.getMenuItems
         self.state = .fetchingData
         
-        Task {
-            do {
-                let response = try await _repository.getMenu(config: getMenuAPIConfig)
-                if let menuList = response.menu {
-                    self.prepareDatasource(menuList: menuList)
-                    self.state = .dataFetched
-                } else {
-                    self.state = .error
-                }
-            } catch {
+        do {
+            let response = try await self.repository.getMenu(
+                config: getMenuAPIConfig
+            )
+            if let menuList = response.menu {
+                self.prepareDatasource(menuList: menuList)
+                self.state = .dataFetched
+            } else {
                 self.state = .error
             }
+        } catch {
+            self.state = .error
         }
     }
     
@@ -65,18 +64,15 @@ extension MenuListViewModel {
     private func createOrder(orderItem: CreateOrderItem) async {
         let orderData = CreateOrder(userId: 1, items: [orderItem])
         let createOrderAPIConfig = CreateOrderEndpoint.createOrder(data: orderData)
-        let _repository = self.repository
         
-        Task {
-            do {
-                let response = try await _repository.createOrder(
-                    config: createOrderAPIConfig,
-                    order: orderData
-                )
-                self.showSuccessAlert()
-            } catch {
-                self.state = .error
-            }
+        do {
+            let response = try await self.repository.createOrder(
+                config: createOrderAPIConfig,
+                order: orderData
+            )
+            self.showSuccessAlert()
+        } catch {
+            self.state = .error
         }
     }
     

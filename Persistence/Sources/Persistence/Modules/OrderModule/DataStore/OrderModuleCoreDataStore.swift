@@ -8,7 +8,7 @@
 import AppModels
 import CoreData
 
-public class OrderModuleCoreDataStore: OrderModuleDataStoreProtocol {
+public final class OrderModuleCoreDataStore: OrderModuleDataStoreProtocol {
     private let container: NSPersistentContainer
     private let mapper = CreateOrderMapper()
     

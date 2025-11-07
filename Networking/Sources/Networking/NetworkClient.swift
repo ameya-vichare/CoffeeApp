@@ -7,12 +7,12 @@
 
 import Foundation
 
-public protocol NetworkService {
+public protocol NetworkService: Sendable {
     func perform<T: Decodable>(request: NetworkRequest, responseType: T.Type) async throws -> T
     func performRaw(request: NetworkRequest) async throws -> NetworkResponse
 }
 
-public class NetworkClient: NetworkService {
+public final class NetworkClient: NetworkService {
     let baseURL: URL?
     let session: URLSessionProtocol
     let decoder: JSONDecoder
