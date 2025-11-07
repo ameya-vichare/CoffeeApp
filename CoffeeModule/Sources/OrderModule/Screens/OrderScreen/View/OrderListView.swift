@@ -9,6 +9,7 @@ import SwiftUI
 import AppConstants
 import DesignSystem
 import Persistence
+import NetworkMonitoring
 
 public struct OrderListView: View {
     @ObservedObject var viewModel: OrderListViewModel

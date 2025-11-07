@@ -67,8 +67,7 @@ extension MenuListViewModel {
         
         do {
             let response = try await self.repository.createOrder(
-                config: createOrderAPIConfig,
-                order: orderData
+                config: createOrderAPIConfig
             )
             self.showSuccessAlert()
         } catch {

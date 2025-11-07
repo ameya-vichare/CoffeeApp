@@ -6,6 +6,7 @@
 //
 
 import Networking
+import NetworkMonitoring
 import AppConstants
 import Foundation
 import CoffeeModule
@@ -13,11 +14,11 @@ import ImageLoading
 import SwiftUI
 import Persistence
 
-@MainActor
 final class AppDependencyContainer {
     private let networkService: NetworkService
     private let imageService: ImageService
     private let persistentProvider: PersistentContainerProvider
+    private let networkMonitoringService: NetworkMonitoring
     
     init() {
         guard let url = URL(string: AppConstants.baseURL) else {
@@ -34,6 +35,9 @@ final class AppDependencyContainer {
         self.imageService = SDWebImageService()
         
         self.persistentProvider = PersistentContainerProvider(modelName: "AppModel")
+        
+        self.networkMonitoringService = NetworkMonitor()
+        self.networkMonitoringService.start()
     }
     
     func getImageService() -> ImageService {
@@ -41,43 +45,38 @@ final class AppDependencyContainer {
     }
 }
 
-// MARK: - Coffee List View
+// MARK: - Order Module Views
 extension AppDependencyContainer {
     func makeOrderListView() -> OrderListView {
         func makeCoffeeListViewModel() -> OrderListViewModel {
             OrderListViewModel(
-                repository: OrderModuleClientRepository(
-                    remoteAPI: OrderModuleRemoteAPI(
-                        networkService: networkService
-                    ),
-                    dataStore: OrderModuleCoreDataStore(
-                        container: persistentProvider.container
-                    )
-                )
+                repository: getOrderModuleClientRepository()
             )
         }
         
         return OrderListView(viewModel: makeCoffeeListViewModel())
     }
-}
-
-// MARK: - Coffee Order View
-extension AppDependencyContainer {
+    
+    @MainActor
     func makeMenuListView() -> MenuListView {
         func makeMenuListViewModel() -> MenuListViewModel {
             MenuListViewModel(
-                repository: OrderModuleClientRepository(
-                    remoteAPI: OrderModuleRemoteAPI(
-                        networkService: networkService
-                    ),
-                    dataStore: OrderModuleCoreDataStore(
-                        container: persistentProvider.container
-                    )
-                )
+                repository: getOrderModuleClientRepository()
             )
         }
         
         return MenuListView(viewModel: makeMenuListViewModel())
+    }
+    
+    private func getOrderModuleClientRepository() -> OrderModuleClientRepository {
+        OrderModuleClientRepository(
+            remoteAPI: OrderModuleRemoteAPI(
+                networkService: networkService
+            ),
+            dataStore: OrderModuleCoreDataStore(
+                container: persistentProvider.container
+            )
+        )
     }
 }
 

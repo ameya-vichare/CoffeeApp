@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import Combine
 import Persistence
+import NetworkMonitoring
 
 public struct MenuListView: View {
     @ObservedObject var viewModel: MenuListViewModel
