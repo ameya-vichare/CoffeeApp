@@ -12,11 +12,15 @@ public class FakeOrderModuleDataStore: OrderModuleDataStoreProtocol {
         
     }
     
-    public func storeOrder(order: CreateOrder) async throws {
+    public func storeCreateOrder(order: CreateOrder) async throws {
         
     }
     
     public func fetchCreateOrder() async throws -> [CreateOrder] {
         []
+    }
+    
+    public func deleteAllCreateOrders() async throws {
+
     }
 }

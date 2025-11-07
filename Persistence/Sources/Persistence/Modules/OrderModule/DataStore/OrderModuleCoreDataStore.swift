@@ -16,7 +16,7 @@ public class OrderModuleCoreDataStore: OrderModuleDataStoreProtocol {
         self.container = container
     }
 
-    public func storeOrder(order: CreateOrder) async throws {
+    public func storeCreateOrder(order: CreateOrder) async throws {
         try await container.performBackgroundTask { context in
             let entity = self.mapper.toEntity(order: order, in: context)
             if context.hasChanges {
@@ -30,6 +30,14 @@ public class OrderModuleCoreDataStore: OrderModuleDataStoreProtocol {
             let fetchRequest = CreateOrderEntity.fetchRequest()
             let entities = try self.container.viewContext.fetch(fetchRequest)
             return entities.map { self.mapper.toDomain(entity: $0) }
+        }
+    }
+    
+    public func deleteAllCreateOrders() async throws {
+        try await container.performBackgroundTask { context in
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CreateOrderEntity.fetchRequest()
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            try context.execute(deleteRequest)
         }
     }
 }

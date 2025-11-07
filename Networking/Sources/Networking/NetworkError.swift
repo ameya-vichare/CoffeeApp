@@ -15,6 +15,7 @@ public enum NetworkError: Error, Equatable {
     case cancelled
     case urlError(errorDescription: String)
     case requestFailed(errorDescription: String)
+    case noInternet
     
     public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
         lhs.localizedDescription == rhs.localizedDescription

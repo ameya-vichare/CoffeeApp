@@ -8,6 +8,7 @@
 import AppModels
 
 public protocol OrderModuleDataStoreProtocol {
-    func storeOrder(order: CreateOrder) async throws
+    func storeCreateOrder(order: CreateOrder) async throws
     func fetchCreateOrder() async throws -> [CreateOrder]
+    func deleteAllCreateOrders() async throws
 }
