@@ -27,7 +27,7 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol {
     }
     
     public func createOrder(config: APIConfig, order: CreateOrder) async throws -> CreateOrderResponse {
-        try await self.dataStore.storeOrder(order: order)
+        try await self.dataStore.storeCreateOrder(order: order)
         
         let orders = try await self.dataStore.fetchCreateOrder()
         print(orders)
