@@ -34,13 +34,30 @@ public struct OrderItem: Decodable {
     
     public static func createFake() -> OrderItem {
         OrderItem(
-            name: "Latte",
-            imageURL: "https://images.unsplash.com/photo-1669872484166-e11b9638b50e",
-            size: "Small",
-            quantity: "5",
-            totalPrice: "USD",
-            currency: "1",
-            modifier: []
+            name: "Hot Orange Zest Mocha Orange Zest Mocha",
+            imageURL: "https://via.placeholder.com/150",
+            size: "Medium",
+            quantity: "1",
+            totalPrice: "12",
+            currency: "USD",
+            modifier: [
+                OrderModifier(
+                    group: "Toppings",
+                    name: "Whipped cream"
+                ),
+                OrderModifier(
+                    group: "Toppings",
+                    name: "Whipped cream"
+                ),
+                OrderModifier(
+                    group: "Toppings",
+                    name: "Whipped cream"
+                ),
+                OrderModifier(
+                    group: "Toppings",
+                    name: "Whipped cream"
+                )
+            ]
         )
     }
 }

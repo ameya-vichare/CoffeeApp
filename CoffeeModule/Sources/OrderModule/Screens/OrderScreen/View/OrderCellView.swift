@@ -119,12 +119,13 @@ struct OrderDetailView: View {
             VStack(alignment: .leading) {
                 Text(viewModel.name)
                     .font(AppFonts.headlineMedium)
+                    .lineLimit(1)
                 
                 Text(viewModel.customisation)
                     .font(AppFonts.captionMedium)
                     .foregroundStyle(AppColors.primaryGray)
+                    .lineLimit(1)
             }
-            
             
             Spacer()
             
@@ -135,6 +136,7 @@ struct OrderDetailView: View {
             
             Text(viewModel.displayPriceLabel)
                 .font(AppFonts.subHeadline)
+                .fixedSize()
         }
     }
 }

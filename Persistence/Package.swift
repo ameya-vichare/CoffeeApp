@@ -25,10 +25,7 @@ let package = Package(
             name: "Persistence",
             dependencies: [
                 "AppModels"
-            ],
-//            resources: [
-//                .process("Model/AppModel.xcdatamodeld")
-//            ]
+            ]
         ),
         .testTarget(
             name: "PersistenceTests",

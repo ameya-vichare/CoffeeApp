@@ -89,7 +89,8 @@ public struct MenuListView: View {
                 repository: OrderModuleClientRepository(
                     remoteAPI: FakeOrderModuleRemoteAPI(),
                     dataStore: FakeOrderModuleDataStore()
-                )
+                ),
+                networkMonitor: FakeNetworkMonitor()
             )
         )
     }

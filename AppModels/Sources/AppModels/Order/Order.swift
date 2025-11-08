@@ -52,13 +52,25 @@ public struct Order: Decodable {
             status: .pending,
             items: [
                 OrderItem(
-                    name: "Latte",
+                    name: "Hot Orange Zest Mocha",
                     imageURL: "https://via.placeholder.com/150",
                     size: "Medium",
                     quantity: "1",
                     totalPrice: "12",
                     currency: "USD",
                     modifier: [
+                        OrderModifier(
+                            group: "Toppings",
+                            name: "Whipped cream"
+                        ),
+                        OrderModifier(
+                            group: "Toppings",
+                            name: "Whipped cream"
+                        ),
+                        OrderModifier(
+                            group: "Toppings",
+                            name: "Whipped cream"
+                        ),
                         OrderModifier(
                             group: "Toppings",
                             name: "Whipped cream"

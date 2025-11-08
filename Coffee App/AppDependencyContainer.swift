@@ -61,7 +61,8 @@ extension AppDependencyContainer {
     func makeMenuListView() -> MenuListView {
         func makeMenuListViewModel() -> MenuListViewModel {
             MenuListViewModel(
-                repository: getOrderModuleClientRepository()
+                repository: getOrderModuleClientRepository(),
+                networkMonitor: networkMonitoringService
             )
         }
         
