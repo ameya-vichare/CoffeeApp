@@ -5,21 +5,21 @@
 //  Created by Ameya on 02/11/25.
 //
 
-import SwiftUI
+import Foundation
 
 public struct AlertData: Identifiable {
     public let id: UUID = UUID()
     public let title: String
     public let message: String
-    public let buttons: [Alert.Button]
+    public let button: (text: String, action: (() -> Void)?)
     
     public init(
         title: String,
         message: String,
-        buttons: [Alert.Button] = [.default(Text("OK"))]
+        button: (text: String, action: (() -> Void)?)
     ) {
         self.title = title
         self.message = message
-        self.buttons = buttons
+        self.button = button
     }
 }

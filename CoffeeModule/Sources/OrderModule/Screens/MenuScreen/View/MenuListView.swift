@@ -39,7 +39,7 @@ public struct MenuListView: View {
             handleState(state: viewModel.state)
         }
         .onAppear(perform: {
-            viewModel.alertPublisher
+            viewModel.alertSubject
                 .receive(on: DispatchQueue.main)
                 .sink { alertData in
                     activeAlert = alertData
@@ -50,7 +50,10 @@ public struct MenuListView: View {
             Alert(
                 title: Text(alertData.title),
                 message: Text(alertData.message),
-                dismissButton: alertData.buttons.first
+                dismissButton: .default(
+                    Text(alertData.button.text),
+                    action: alertData.button.action
+                )
             )
         })
         .navigationTitle("Menu")

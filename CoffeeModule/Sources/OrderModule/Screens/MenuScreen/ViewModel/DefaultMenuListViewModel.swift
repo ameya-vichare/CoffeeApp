@@ -8,14 +8,14 @@
 import AppModels
 import Combine
 import DesignSystem
-import SwiftUI
+import Foundation
 import NetworkMonitoring
 
 protocol MenuListViewModelOutput {
     var state: ScreenViewState { get }
     var datasource: [MenuListCellType] { get }
-    var orderItemUpdates: PassthroughSubject<CreateOrderItem, Never> { get }
-    var alertPublisher: PassthroughSubject<AlertData?, Never> { get }
+    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> { get }
+    var alertPublisher: AnyPublisher<AlertData?, Never> { get }
 }
 
 protocol MenuListViewModelInput {
@@ -38,8 +38,15 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     @Published private(set) var state: ScreenViewState = .preparing
     @Published private(set) var datasource: [MenuListCellType] = []
     
-    private(set) var orderItemUpdates = PassthroughSubject<CreateOrderItem, Never>()
-    private(set) var alertPublisher = PassthroughSubject<AlertData?, Never>()
+    private(set) var orderItemUpdatesSubject = PassthroughSubject<CreateOrderItem, Never>()
+    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> {
+        self.orderItemUpdatesSubject.eraseToAnyPublisher()
+    }
+    
+    private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
+    var alertPublisher: AnyPublisher<AlertData?, Never> {
+        self.alertSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - Init
     public init(
@@ -57,7 +64,7 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     
     // MARK: - Private
     private func bindChildren() {
-        self.orderItemUpdates
+        self.orderItemUpdatesSubject
             .receive(on: DispatchQueue.main)
             .sink { [weak self] orderItem in
                 guard let self else { return }
@@ -106,13 +113,11 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
         let alert = AlertData(
             title: title,
             message: message,
-            buttons: [
-                Alert.Button.default(Text("Vooho!"), action: {
-                    self.alertPublisher.send(nil)
-                })
-            ]
+            button: (text: "Vooho", action: { [weak self] in
+                self?.alertSubject.send(nil)
+            })
         )
-        self.alertPublisher.send(alert)
+        self.alertSubject.send(alert)
     }
     
     private func prepareDatasource(using response: MenuResponse?) {
@@ -122,7 +127,7 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
             return .mainMenu(
                 vm: MenuListCellViewModel(
                     menuItem: menuItem,
-                    orderItemUpdates: orderItemUpdates
+                    orderItemUpdates: orderItemUpdatesSubject
                 )
             )
         }
