@@ -13,3 +13,4 @@ Networking/.build
 Persistence/Sources/BrewCrewDataModel.xcdatamodeld/Model.xcdatamodel/contents
 Persistence/Sources/Persistence/Model/AppModel.xcdatamodeld/Model.xcdatamodel/contents
 Persistence/Sources/Persistence/Model/AppModel.xcdatamodeld/Model.xcdatamodel/contents
+*.xcworkspacedata

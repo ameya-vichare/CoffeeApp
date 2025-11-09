@@ -14,5 +14,5 @@ public protocol OrderModuleRepositoryProtocol: Sendable {
     func createOrder(config: APIConfig) async throws -> CreateOrderResponse
     
     func storeCreateOrder(order: CreateOrder) async throws
-    func retryPendingOrders() async
+    func retryPendingOrders() async throws
 }

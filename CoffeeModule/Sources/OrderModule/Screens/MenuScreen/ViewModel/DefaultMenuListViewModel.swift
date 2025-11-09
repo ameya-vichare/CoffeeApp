@@ -14,45 +14,42 @@ import DesignSystem
 import SwiftUI
 import NetworkMonitoring
 
+protocol MenuListViewModelOutput {
+    var state: ScreenViewState { get }
+    var datasource: [MenuListCellType] { get }
+    
+    var orderItemUpdates: PassthroughSubject<CreateOrderItem, Never> { get }
+    var alertPublisher: PassthroughSubject<AlertData?, Never> { get }
+}
+
+protocol MenuListViewModelInput {
+    func viewDidLoad() async
+}
+
+typealias MenuListViewModel = MenuListViewModelInput & MenuListViewModelOutput
+
 @MainActor
-public final class MenuListViewModel: ObservableObject {
+public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel {
     public let repository: OrderModuleRepositoryProtocol
     public let networkMonitor: NetworkMonitoring
     
-    @Published var state: ScreenViewState = .preparing
-    @Published var datasource: [MenuListCellType] = []
-    
-    private var orderItemUpdates = PassthroughSubject<CreateOrderItem, Never>()
-    private(set) var alertPublisher = PassthroughSubject<AlertData?, Never>()
     private var cancellables = Set<AnyCancellable>()
     
+    // MARK: - Output
+    @Published private(set) var state: ScreenViewState = .preparing
+    @Published private(set) var datasource: [MenuListCellType] = []
+    
+    private(set) var orderItemUpdates = PassthroughSubject<CreateOrderItem, Never>()
+    private(set) var alertPublisher = PassthroughSubject<AlertData?, Never>()
+    
+    // MARK: - Init
     public init(repository: OrderModuleRepositoryProtocol, networkMonitor: NetworkMonitoring) {
         self.repository = repository
         self.networkMonitor = networkMonitor
         self.bindChildren()
     }
-}
-
-extension MenuListViewModel {
-    func makeInitialAPICalls() async {
-        let getMenuAPIConfig = MenuEndpoint.getMenuItems
-        self.state = .fetchingData
     
-        do {
-            let response = try await self.repository.getMenu(
-                config: getMenuAPIConfig
-            )
-            if let menuList = response.menu {
-                self.prepareDatasource(menuList: menuList)
-                self.state = .dataFetched
-            } else {
-                self.state = .error
-            }
-        } catch {
-            self.state = .error
-        }
-    }
-    
+    // MARK: - Private
     private func bindChildren() {
         self.orderItemUpdates
             .receive(on: DispatchQueue.main)
@@ -76,10 +73,22 @@ extension MenuListViewModel {
                     return
                 }
                 Task {
-                    await self.repository.retryPendingOrders()
+                    await self.retryPendingOrders()
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    private func retryPendingOrders() async {
+        do {
+            try await self.repository.retryPendingOrders()
+            self.showAlert(title: "Order Retry Success", message: "We have sent your previously failed order!")
+        } catch {
+            if let error = error as? OrderRepositoryError,
+               error != .noPendingOrders {
+                self.showAlert(title: "Order Retry Failed", message: "We couldn't send your previously failed order.")
+            }
+        }
     }
     
     private func createOrder(orderItem: CreateOrderItem) async {
@@ -122,6 +131,28 @@ extension MenuListViewModel {
                     orderItemUpdates: orderItemUpdates
                 )
             )
+        }
+    }
+}
+
+// MARK: - Input
+extension DefaultMenuListViewModel {
+    func viewDidLoad() async {
+        let getMenuAPIConfig = MenuEndpoint.getMenuItems
+        self.state = .fetchingData
+    
+        do {
+            let response = try await self.repository.getMenu(
+                config: getMenuAPIConfig
+            )
+            if let menuList = response.menu {
+                self.prepareDatasource(menuList: menuList)
+                self.state = .dataFetched
+            } else {
+                self.state = .error
+            }
+        } catch {
+            self.state = .error
         }
     }
 }

@@ -31,8 +31,6 @@ public struct CustomImageView<Placeholder: View>: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
-            } else if loader.isLoading {
-                placeholder
             } else {
                 placeholder
             }
@@ -42,9 +40,7 @@ public struct CustomImageView<Placeholder: View>: View {
             if let url = url {
                 do {
                     try await loader.loadImage(with: url, preferredSize: preferredSize)
-                } catch {
-                    
-                }
+                } catch {}
             }
         }
     }

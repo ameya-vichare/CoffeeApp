@@ -12,11 +12,11 @@ import Persistence
 import NetworkMonitoring
 
 public struct MenuListView: View {
-    @ObservedObject var viewModel: MenuListViewModel
+    @ObservedObject var viewModel: DefaultMenuListViewModel
     @State var activeAlert: AlertData?
     @State private var cancellables = Set<AnyCancellable>()
     
-    public init(viewModel: MenuListViewModel) {
+    public init(viewModel: DefaultMenuListViewModel) {
         self.viewModel = viewModel
     }
     
@@ -30,8 +30,8 @@ public struct MenuListView: View {
             .listStyle(.plain)
             .task {
                 Task {
-                    if viewModel.state != .dataFetched {
-                        await self.viewModel.makeInitialAPICalls()
+                    if viewModel.state != ScreenViewState.dataFetched {
+                        await self.viewModel.viewDidLoad()
                     }
                 }
             }
@@ -85,7 +85,7 @@ public struct MenuListView: View {
 #Preview {
     NavigationStack {
         MenuListView(
-            viewModel: MenuListViewModel(
+            viewModel: DefaultMenuListViewModel(
                 repository: OrderModuleClientRepository(
                     remoteAPI: FakeOrderModuleRemoteAPI(),
                     dataStore: FakeOrderModuleDataStore()
