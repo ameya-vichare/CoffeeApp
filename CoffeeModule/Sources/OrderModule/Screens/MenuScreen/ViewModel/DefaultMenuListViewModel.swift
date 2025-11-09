@@ -61,8 +61,17 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
         self.retryPendingOrdersUsecase = retryPendingOrdersUsecase
         self.bindChildren()
     }
-    
-    // MARK: - Private
+}
+
+// MARK: - Input
+extension DefaultMenuListViewModel {
+    func viewDidLoad() async {
+        await getMenuItems()
+    }
+}
+
+// MARK: - Binding
+extension DefaultMenuListViewModel {
     private func bindChildren() {
         self.orderItemUpdatesSubject
             .receive(on: DispatchQueue.main)
@@ -90,14 +99,19 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
             }
             .store(in: &cancellables)
     }
-    
-    private func retryPendingOrders() async {
+}
+
+// MARK: - Usecase execution
+extension DefaultMenuListViewModel {
+    private func getMenuItems() async {
         do {
-            try await self.retryPendingOrdersUsecase.execute()
-            self.showAlert(title: "Order Retry Success", message: "We have sent your previously failed order!")
-        } catch let error as OrderModuleUsecaseError {
-            self.showAlert(title: error.title, message: error.message)
-        } catch {}
+            self.state = .fetchingData
+            let response = try await self.getMenuUseCase.execute()
+            self.prepareDatasource(using: response)
+            self.state = .dataFetched
+        } catch {
+            
+        }
     }
     
     private func createOrder(orderItem: CreateOrderItem) async {
@@ -109,6 +123,18 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
         } catch {}
     }
     
+    private func retryPendingOrders() async {
+        do {
+            try await self.retryPendingOrdersUsecase.execute()
+            self.showAlert(title: "Order Retry Success", message: "We have sent your previously failed order!")
+        } catch let error as OrderModuleUsecaseError {
+            self.showAlert(title: error.title, message: error.message)
+        } catch {}
+    }
+}
+
+// MARK: - Output
+extension DefaultMenuListViewModel {
     private func showAlert(title: String, message: String) {
         let alert = AlertData(
             title: title,
@@ -130,20 +156,6 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
                     orderItemUpdates: orderItemUpdatesSubject
                 )
             )
-        }
-    }
-}
-
-// MARK: - Input
-extension DefaultMenuListViewModel {
-    func viewDidLoad() async {
-        do {
-            self.state = .fetchingData
-            let response = try await self.getMenuUseCase.execute()
-            self.prepareDatasource(using: response)
-            self.state = .dataFetched
-        } catch {
-            
         }
     }
 }
