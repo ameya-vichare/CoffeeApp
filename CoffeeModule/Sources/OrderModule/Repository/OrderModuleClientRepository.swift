@@ -32,7 +32,6 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @
         let orders = try await self.dataStore.fetchCreateOrder()
         guard !orders.isEmpty else {
             throw OrderRepositoryError.noPendingOrders
-            return
         }
         
         let createOrder = CreateOrder(

@@ -84,13 +84,23 @@ public struct MenuListView: View {
 
 #Preview {
     NavigationStack {
+        let orderRepository = OrderModuleClientRepository(
+            remoteAPI: FakeOrderModuleRemoteAPI(),
+            dataStore: FakeOrderModuleDataStore()
+        )
         MenuListView(
             viewModel: DefaultMenuListViewModel(
-                repository: OrderModuleClientRepository(
-                    remoteAPI: FakeOrderModuleRemoteAPI(),
-                    dataStore: FakeOrderModuleDataStore()
+                networkMonitor: FakeNetworkMonitor(),
+                getMenuUseCase: GetMenuUsecase(
+                    repository: orderRepository
                 ),
-                networkMonitor: FakeNetworkMonitor()
+                createOrderUseCase: CreateOrderUsecase(
+                    repository: orderRepository,
+                    networkMonitor: FakeNetworkMonitor()
+                ),
+                retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
+                    repository: orderRepository
+                )
             )
         )
     }
