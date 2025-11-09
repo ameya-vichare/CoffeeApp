@@ -91,15 +91,16 @@ public struct MenuListView: View {
             remoteAPI: FakeOrderModuleRemoteAPI(),
             dataStore: FakeOrderModuleDataStore()
         )
+        let networkMonitor = FakeNetworkMonitor()
         MenuListView(
             viewModel: DefaultMenuListViewModel(
-                networkMonitor: FakeNetworkMonitor(),
+                networkMonitor: networkMonitor,
                 getMenuUseCase: GetMenuUsecase(
                     repository: orderRepository
                 ),
                 createOrderUseCase: CreateOrderUsecase(
                     repository: orderRepository,
-                    networkMonitor: FakeNetworkMonitor()
+                    networkMonitor: networkMonitor
                 ),
                 retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
                     repository: orderRepository
