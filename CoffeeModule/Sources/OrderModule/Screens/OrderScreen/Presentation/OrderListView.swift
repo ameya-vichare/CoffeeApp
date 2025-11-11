@@ -90,9 +90,11 @@ public struct OrderListView: View {
     NavigationStack {
         OrderListView(
             viewModel: DefaultOrderListViewModel(
-                repository: OrderModuleClientRepository(
-                    remoteAPI: FakeOrderModuleRemoteAPI(),
-                    dataStore: FakeOrderModuleDataStore()
+                getOrdersUseCase: GetOrdersUseCase(
+                    repository: OrderModuleClientRepository(
+                        remoteAPI: FakeOrderModuleRemoteAPI(),
+                        dataStore: FakeOrderModuleDataStore()
+                    )
                 )
             )
         )

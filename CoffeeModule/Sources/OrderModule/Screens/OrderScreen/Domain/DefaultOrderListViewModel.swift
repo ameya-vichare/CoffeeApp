@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AppEndpoints
 import AppModels
 import Networking
 import DesignSystem
@@ -15,6 +14,7 @@ import Combine
 protocol OrderListViewModelOutput {
     var datasource: [OrderListCellType] { get }
     var state: ScreenViewState { get }
+    var alertSubject: PassthroughSubject<AlertData?, Never> { get }
 }
 
 protocol OrderListViewModelInput {
@@ -26,7 +26,9 @@ typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutpu
 
 @MainActor
 public final class DefaultOrderListViewModel: ObservableObject, OrderListViewModel {
-    public let repository: OrderModuleRepositoryProtocol
+    public let getOrdersUseCase: GetOrdersUseCaseProtocol
+    
+    // MARK: - Output
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
     
@@ -35,46 +37,43 @@ public final class DefaultOrderListViewModel: ObservableObject, OrderListViewMod
         self.alertSubject.eraseToAnyPublisher()
     }
     
-    public init(repository: OrderModuleRepositoryProtocol) {
-        self.repository = repository
+    // MARK: - Init
+    public init(getOrdersUseCase: GetOrdersUseCaseProtocol) {
+        self.getOrdersUseCase = getOrdersUseCase
     }
 }
 
+// MARK: - Input
 extension DefaultOrderListViewModel {
     func viewDidLoad() async {
-        await self.makeInitialAPICalls()
+        await self.getOrders()
     }
     
     func didRefresh() async {
-        await self.makeInitialAPICalls()
+        await self.getOrders()
     }
 
-    private func makeInitialAPICalls() async {
+    private func getOrders() async {
         self.resetDatasource()
         self.state = .fetchingData
-        let getCoffeeOrderConfig = OrderEndpoint.getOrders
-        let _repository = self.repository
-        
-        Task {
-            do {
-                let orders = try await _repository.getOrders(config: getCoffeeOrderConfig)
-                self.prepareDatasource(coffeeList: orders)
-                self.state = .dataFetched
-            } catch let error as NetworkError {
-                self.state = .error
-                self.showAlert(title: error.title, message: error.message)
-            } catch {
-                self.state = .error
-            }
+
+        do {
+            let orders = try await self.getOrdersUseCase.execute()
+            self.prepareDatasource(orders: orders)
+            self.state = .dataFetched
+        } catch let error as NetworkError {
+            self.state = .error
+            self.showAlert(title: error.title, message: error.message)
+        } catch {
+            self.state = .error
         }
     }
-    
-    private func resetDatasource() {
-        self.datasource = []
-    }
-    
-    private func prepareDatasource(coffeeList: [Order]) {
-        self.datasource = coffeeList.compactMap { order in
+}
+
+// MARK: - Output
+extension DefaultOrderListViewModel {
+    private func prepareDatasource(orders: [Order]) {
+        self.datasource = orders.compactMap { order in
             guard let orderID = order.id,
                   !orderID.isEmpty else {
                 return nil
@@ -100,6 +99,10 @@ extension DefaultOrderListViewModel {
         }
     }
     
+    private func resetDatasource() {
+        self.datasource = []
+    }
+    
     private func showAlert(title: String, message: String) {
         let alert = AlertData(
             title: title,
@@ -111,4 +114,3 @@ extension DefaultOrderListViewModel {
         self.alertSubject.send(alert)
     }
 }
-
