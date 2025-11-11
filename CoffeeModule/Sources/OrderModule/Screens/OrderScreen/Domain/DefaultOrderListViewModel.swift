@@ -14,7 +14,7 @@ import Combine
 protocol OrderListViewModelOutput {
     var datasource: [OrderListCellType] { get }
     var state: ScreenViewState { get }
-    var alertSubject: PassthroughSubject<AlertData?, Never> { get }
+    var alertPublisher: AnyPublisher<AlertData?, Never> { get }
 }
 
 protocol OrderListViewModelInput {

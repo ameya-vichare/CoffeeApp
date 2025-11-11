@@ -12,10 +12,10 @@ import AppModels
 import Combine
 
 struct MenuModifierBottomSheet: View {
-    @ObservedObject private var viewModel: MenuModifierBottomSheetViewModel
+    @ObservedObject private var viewModel: DefaultMenuModifierBottomSheetViewModel
     @Environment(\.dismiss) private var dismiss
     
-    init(viewModel: MenuModifierBottomSheetViewModel) {
+    init(viewModel: DefaultMenuModifierBottomSheetViewModel) {
         self.viewModel = viewModel
     }
 
@@ -159,9 +159,9 @@ struct MenuModifierHeaderView: View {
 }
 
 struct MenuModifierFooterView: View {
-    @ObservedObject private var viewModel: MenuModifierBottomSheetFooterViewModel
+    @ObservedObject private var viewModel: DefaultMenuModifierBottomSheetFooterViewModel
     
-    init(viewModel: MenuModifierBottomSheetFooterViewModel) {
+    init(viewModel: DefaultMenuModifierBottomSheetFooterViewModel) {
         self.viewModel = viewModel
     }
     
@@ -184,9 +184,9 @@ struct MenuModifierFooterView: View {
 }
 
 struct MenuAddToCartButton: View {
-    @ObservedObject private var viewModel: MenuModifierBottomSheetFooterViewModel
+    @ObservedObject private var viewModel: DefaultMenuModifierBottomSheetFooterViewModel
     
-    init(viewModel: MenuModifierBottomSheetFooterViewModel) {
+    init(viewModel: DefaultMenuModifierBottomSheetFooterViewModel) {
         self.viewModel = viewModel
     }
     
@@ -212,7 +212,7 @@ struct MenuAddToCartButton: View {
 
 #Preview {
     MenuModifierBottomSheet(
-        viewModel: MenuModifierBottomSheetViewModel(
+        viewModel: DefaultMenuModifierBottomSheetViewModel(
             modifiers: [
                 MenuModifier.createFake()
             ],
@@ -220,7 +220,10 @@ struct MenuAddToCartButton: View {
             currency: "USD",
             name: "Hot Capuccino",
             imageURL: URL(string: ""),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
+            orderItemUpdates: PassthroughSubject<CreateOrderItem,
+            Never>(),
+            priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
+            createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
         )
     )
 }

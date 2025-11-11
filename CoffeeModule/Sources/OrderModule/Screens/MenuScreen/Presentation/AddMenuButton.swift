@@ -46,13 +46,15 @@ struct AddMenuButton: View {
         .sheet(isPresented: $showSheet) {
             VStack {
                 MenuModifierBottomSheet(
-                    viewModel: MenuModifierBottomSheetViewModel(
+                    viewModel: DefaultMenuModifierBottomSheetViewModel(
                         modifiers: viewModel.modifiers,
                         id: viewModel.id,
                         currency: viewModel.currency,
                         name: viewModel.name,
                         imageURL: viewModel.imageURL,
-                        orderItemUpdates: viewModel.orderItemUpdates
+                        orderItemUpdates: viewModel.orderItemUpdates,
+                        priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
+                        createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
                     )
                 )
             }

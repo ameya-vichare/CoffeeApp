@@ -9,38 +9,57 @@ import Foundation
 import AppModels
 import Combine
 
-@MainActor
-final class MenuModifierBottomSheetViewModel: ObservableObject {
-    let modifierViewModels: [MenuModifierCategoryCellViewModel]
-    let footerViewModel: MenuModifierBottomSheetFooterViewModel
-    let headerViewModel: MenuModifierBottomSheetHeaderViewModel
+protocol MenuModifierBottomSheetViewModelInput {
     
+}
+
+protocol MenuModifierBottomSheetViewModelOutput {
+    var shouldDismissBottomSheet: Bool { get }
+}
+
+typealias MenuModifierBottomSheetViewModel = MenuModifierBottomSheetViewModelInput & MenuModifierBottomSheetViewModelOutput
+
+@MainActor
+final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModifierBottomSheetViewModel {
     let id: Int
     let currency: String
     let name: String
     let imageURL: URL?
-    
     let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+    
+    let priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol
+    let createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCaseProtocol
+    
+    let modifierViewModels: [MenuModifierCategoryCellViewModel]
+    let footerViewModel: DefaultMenuModifierBottomSheetFooterViewModel
+    let headerViewModel: MenuModifierBottomSheetHeaderViewModel
     
     private var totalPrice: Double = 0.0
     private var quantitySelection: Int = 1
     
-    @Published var shouldDismissBottomSheet: Bool = false
     private var cancellables: Set<AnyCancellable> = []
     
+    // MARK: - Output
+    @Published var shouldDismissBottomSheet: Bool = false
+    
+    // MARK: - Init
     init(
         modifiers: [MenuModifier],
         id: Int,
         currency: String,
         name: String,
         imageURL: URL?,
-        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>,
+        priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol,
+        createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCaseProtocol
     ) {
         self.currency = currency
         self.id = id
         self.name = name
         self.imageURL = imageURL
         self.orderItemUpdates = orderItemUpdates
+        self.priceComputeUseCase = priceComputeUseCase
+        self.createOrderUseCase = createOrderUseCase
         
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }
@@ -63,6 +82,36 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
         self.computeTotalPrice()
     }
     
+    private func computeTotalPrice() {
+        self.totalPrice = self.priceComputeUseCase
+            .execute(
+                selectedItemViewModels: getSelectedItemViewModels(),
+                quantitySelection: quantitySelection
+            )
+        
+        self.footerViewModel.setTotalPrice(price: self.totalPrice)
+    }
+    
+    private func createOrderItem() {
+        let createOrderItem = self.createOrderUseCase
+            .execute(
+                selectedItemViewModels: getSelectedItemViewModels(),
+                id: id,
+                quantitySelection: quantitySelection
+            )
+        
+        self.orderItemUpdates.send(createOrderItem)
+        self.shouldDismissBottomSheet = true
+    }
+    
+    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
+        self.modifierViewModels.flatMap { $0.options }
+            .filter { $0.isSelected }
+    }
+}
+
+// MARK: - Bindings
+extension DefaultMenuModifierBottomSheetViewModel {
     private func bindChildren() {
         let merged = Publishers.MergeMany(self.modifierViewModels.map { $0.priceComputePublisher})
 
@@ -88,31 +137,4 @@ final class MenuModifierBottomSheetViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
-    private func computeTotalPrice() {
-        let itemPrice = getSelectedItemViewModels()
-            .reduce(0.0) { $0 + $1.price }
-        
-        self.totalPrice = itemPrice * Double(quantitySelection)
-        self.footerViewModel.setTotalPrice(price: self.totalPrice)
-    }
-    
-    private func createOrderItem() {
-        let selectedOptionIds: [Int] = getSelectedItemViewModels().map { $0.id }
-        let createOrderItem = CreateOrderItem(
-            itemID: id,
-            quantity: quantitySelection,
-            optionIDs: selectedOptionIds
-        )
-        
-        self.orderItemUpdates.send(createOrderItem)
-        
-        self.shouldDismissBottomSheet = true
-    }
-    
-    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
-        self.modifierViewModels.flatMap { $0.options }
-            .filter { $0.isSelected }
-    }
 }
-
