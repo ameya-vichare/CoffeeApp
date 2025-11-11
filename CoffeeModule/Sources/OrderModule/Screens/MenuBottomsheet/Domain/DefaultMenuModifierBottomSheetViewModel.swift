@@ -81,33 +81,6 @@ final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModif
         self.bindChildren()
         self.computeTotalPrice()
     }
-    
-    private func computeTotalPrice() {
-        self.totalPrice = self.priceComputeUseCase
-            .execute(
-                selectedItemViewModels: getSelectedItemViewModels(),
-                quantitySelection: quantitySelection
-            )
-        
-        self.footerViewModel.setTotalPrice(price: self.totalPrice)
-    }
-    
-    private func createOrderItem() {
-        let createOrderItem = self.createOrderUseCase
-            .execute(
-                selectedItemViewModels: getSelectedItemViewModels(),
-                id: id,
-                quantitySelection: quantitySelection
-            )
-        
-        self.orderItemUpdates.send(createOrderItem)
-        self.shouldDismissBottomSheet = true
-    }
-    
-    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
-        self.modifierViewModels.flatMap { $0.options }
-            .filter { $0.isSelected }
-    }
 }
 
 // MARK: - Bindings
@@ -136,5 +109,35 @@ extension DefaultMenuModifierBottomSheetViewModel {
                 self?.createOrderItem()
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Use case execution
+extension DefaultMenuModifierBottomSheetViewModel {
+    private func computeTotalPrice() {
+        self.totalPrice = self.priceComputeUseCase
+            .getTotalPrice(
+                selectedItemViewModels: getSelectedItemViewModels(),
+                quantitySelection: quantitySelection
+            )
+        
+        self.footerViewModel.setTotalPrice(price: self.totalPrice)
+    }
+    
+    private func createOrderItem() {
+        let createOrderItem = self.createOrderUseCase
+            .buildCreateOrderItem(
+                selectedItemViewModels: getSelectedItemViewModels(),
+                id: id,
+                quantitySelection: quantitySelection
+            )
+        
+        self.orderItemUpdates.send(createOrderItem)
+        self.shouldDismissBottomSheet = true
+    }
+    
+    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
+        self.modifierViewModels.flatMap { $0.options }
+            .filter { $0.isSelected }
     }
 }

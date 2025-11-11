@@ -6,13 +6,13 @@
 //
 
 protocol MenuModifierBottomSheetPriceComputeUsecaseProtocol {
-    func execute(selectedItemViewModels: [MenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double
+    func getTotalPrice(selectedItemViewModels: [MenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double
 }
 
 class MenuModifierBottomSheetPriceComputeUsecase: MenuModifierBottomSheetPriceComputeUsecaseProtocol {
     init() {}
     
-    public func execute(selectedItemViewModels: [MenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double {
+    public func getTotalPrice(selectedItemViewModels: [MenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double {
         let itemPrice = selectedItemViewModels
             .reduce(0.0) { $0 + $1.price }
         
