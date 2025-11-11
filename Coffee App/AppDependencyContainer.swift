@@ -47,9 +47,10 @@ final class AppDependencyContainer {
 
 // MARK: - Order Module Views
 extension AppDependencyContainer {
+    @MainActor
     func makeOrderListView() -> OrderListView {
-        func makeCoffeeListViewModel() -> OrderListViewModel {
-            OrderListViewModel(
+        func makeCoffeeListViewModel() -> DefaultOrderListViewModel {
+            DefaultOrderListViewModel(
                 repository: getOrderModuleClientRepository()
             )
         }

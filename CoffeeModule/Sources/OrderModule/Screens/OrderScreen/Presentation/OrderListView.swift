@@ -13,11 +13,11 @@ import NetworkMonitoring
 import Combine
 
 public struct OrderListView: View {
-    @ObservedObject var viewModel: OrderListViewModel
+    @ObservedObject var viewModel: DefaultOrderListViewModel
     @State var activeAlert: AlertData?
     @State private var cancellables = Set<AnyCancellable>()
     
-    public init(viewModel: OrderListViewModel) {
+    public init(viewModel: DefaultOrderListViewModel) {
         self.viewModel = viewModel
     }
     
@@ -35,11 +35,11 @@ public struct OrderListView: View {
             .background(AppColors.clear)
             .task {
                 if self.viewModel.state != .dataFetched {
-                    await self.viewModel.makeInitialAPICalls()
+                    await self.viewModel.viewDidLoad()
                 }
             }
             .refreshable {
-                await self.viewModel.makeInitialAPICalls()
+                await self.viewModel.didRefresh()
             }
             .onAppear(perform: {
                 viewModel.alertSubject
@@ -89,7 +89,7 @@ public struct OrderListView: View {
 #Preview {
     NavigationStack {
         OrderListView(
-            viewModel: OrderListViewModel(
+            viewModel: DefaultOrderListViewModel(
                 repository: OrderModuleClientRepository(
                     remoteAPI: FakeOrderModuleRemoteAPI(),
                     dataStore: FakeOrderModuleDataStore()

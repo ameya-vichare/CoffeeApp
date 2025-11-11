@@ -18,12 +18,14 @@ protocol OrderListViewModelOutput {
 }
 
 protocol OrderListViewModelInput {
-    func viewDidLoad()
+    func viewDidLoad() async
+    func didRefresh() async
 }
 
-//typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutput
+typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutput
 
-public final class OrderListViewModel: ObservableObject {
+@MainActor
+public final class DefaultOrderListViewModel: ObservableObject, OrderListViewModel {
     public let repository: OrderModuleRepositoryProtocol
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
@@ -38,10 +40,16 @@ public final class OrderListViewModel: ObservableObject {
     }
 }
 
-extension OrderListViewModel {
+extension DefaultOrderListViewModel {
+    func viewDidLoad() async {
+        await self.makeInitialAPICalls()
+    }
     
-    @MainActor
-    func makeInitialAPICalls() async {
+    func didRefresh() async {
+        await self.makeInitialAPICalls()
+    }
+
+    private func makeInitialAPICalls() async {
         self.resetDatasource()
         self.state = .fetchingData
         let getCoffeeOrderConfig = OrderEndpoint.getOrders
