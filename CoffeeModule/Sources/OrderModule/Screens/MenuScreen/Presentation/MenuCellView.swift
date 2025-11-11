@@ -86,7 +86,6 @@ struct CoffeeMenuActionView: View {
                     )
                 }
                 .padding([.bottom], AppPointSystem.point_44/2)
-
         }
     }
 }

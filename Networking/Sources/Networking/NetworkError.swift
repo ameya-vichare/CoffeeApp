@@ -29,4 +29,22 @@ public enum NetworkError: Error, Equatable {
             return nil
         }
     }
+    
+    public var title: String {
+        switch self {
+        case .noInternet:
+            "No Internet Connection."
+        default:
+            "Something went wrong."
+        }
+    }
+    
+    public var message: String {
+        switch self {
+        case .noInternet:
+            "Please check your internet connection and try again."
+        default:
+            "Please try again in sometime."
+        }
+    }
 }

@@ -8,11 +8,30 @@
 import SwiftUI
 import AppEndpoints
 import AppModels
+import Networking
+import DesignSystem
+import Combine
+
+protocol OrderListViewModelOutput {
+    var datasource: [OrderListCellType] { get }
+    var state: ScreenViewState { get }
+}
+
+protocol OrderListViewModelInput {
+    func viewDidLoad()
+}
+
+//typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutput
 
 public final class OrderListViewModel: ObservableObject {
     public let repository: OrderModuleRepositoryProtocol
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
+    
+    private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
+    var alertPublisher: AnyPublisher<AlertData?, Never> {
+        self.alertSubject.eraseToAnyPublisher()
+    }
     
     public init(repository: OrderModuleRepositoryProtocol) {
         self.repository = repository
@@ -20,6 +39,7 @@ public final class OrderListViewModel: ObservableObject {
 }
 
 extension OrderListViewModel {
+    
     @MainActor
     func makeInitialAPICalls() async {
         self.resetDatasource()
@@ -32,8 +52,10 @@ extension OrderListViewModel {
                 let orders = try await _repository.getOrders(config: getCoffeeOrderConfig)
                 self.prepareDatasource(coffeeList: orders)
                 self.state = .dataFetched
-            }
-            catch {
+            } catch let error as NetworkError {
+                self.state = .error
+                self.showAlert(title: error.title, message: error.message)
+            } catch {
                 self.state = .error
             }
         }
@@ -68,6 +90,17 @@ extension OrderListViewModel {
                 )
             )
         }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = AlertData(
+            title: title,
+            message: message,
+            button: (text: "Okay", action: { [weak self] in
+                self?.alertSubject.send(nil)
+            })
+        )
+        self.alertSubject.send(alert)
     }
 }
 

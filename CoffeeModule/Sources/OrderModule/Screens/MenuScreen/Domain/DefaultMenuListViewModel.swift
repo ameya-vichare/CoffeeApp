@@ -10,6 +10,7 @@ import Combine
 import DesignSystem
 import Foundation
 import NetworkMonitoring
+import Networking
 
 protocol MenuListViewModelOutput {
     var state: ScreenViewState { get }
@@ -109,8 +110,11 @@ extension DefaultMenuListViewModel {
             let response = try await self.getMenuUseCase.execute()
             self.prepareDatasource(using: response)
             self.state = .dataFetched
+        } catch let error as NetworkError {
+            self.state = .error
+            self.showAlert(title: error.title, message: error.message)
         } catch {
-            
+            self.state = .error
         }
     }
     
@@ -139,7 +143,7 @@ extension DefaultMenuListViewModel {
         let alert = AlertData(
             title: title,
             message: message,
-            button: (text: "Vooho", action: { [weak self] in
+            button: (text: "Okay", action: { [weak self] in
                 self?.alertSubject.send(nil)
             })
         )

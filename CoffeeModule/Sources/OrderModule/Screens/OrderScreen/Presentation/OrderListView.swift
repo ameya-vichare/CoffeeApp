@@ -10,9 +10,12 @@ import AppConstants
 import DesignSystem
 import Persistence
 import NetworkMonitoring
+import Combine
 
 public struct OrderListView: View {
     @ObservedObject var viewModel: OrderListViewModel
+    @State var activeAlert: AlertData?
+    @State private var cancellables = Set<AnyCancellable>()
     
     public init(viewModel: OrderListViewModel) {
         self.viewModel = viewModel
@@ -38,6 +41,24 @@ public struct OrderListView: View {
             .refreshable {
                 await self.viewModel.makeInitialAPICalls()
             }
+            .onAppear(perform: {
+                viewModel.alertSubject
+                    .receive(on: DispatchQueue.main)
+                    .sink { alertData in
+                        activeAlert = alertData
+                    }
+                    .store(in: &cancellables)
+            })
+            .alert(item: $activeAlert, content: { alertData in
+                Alert(
+                    title: Text(alertData.title),
+                    message: Text(alertData.message),
+                    dismissButton: .default(
+                        Text(alertData.button.text),
+                        action: alertData.button.action
+                    )
+                )
+            })
             
             handleState(state: viewModel.state)
         }
@@ -55,14 +76,12 @@ public struct OrderListView: View {
     @ViewBuilder
     private func handleState(state: ScreenViewState) -> some View {
         switch state {
-        case .preparing, .dataFetched:
+        case .preparing, .dataFetched, .error:
             EmptyView()
         case .fetchingData:
             ProgressView("Loading orders ...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.thinMaterial)
-        case .error:
-            EmptyView()
         }
     }
 }
