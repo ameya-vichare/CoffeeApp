@@ -55,8 +55,13 @@ extension DefaultMenuModifierBottomSheetFooterViewModel {
     func setTotalPrice(price: Double) {
         self.totalPrice = price
     }
-    
+}
+
+// MARK: - Output
+extension DefaultMenuModifierBottomSheetFooterViewModel {
     func addItemPressed() {
         self.addItemSubject.send()
     }
 }
+
+

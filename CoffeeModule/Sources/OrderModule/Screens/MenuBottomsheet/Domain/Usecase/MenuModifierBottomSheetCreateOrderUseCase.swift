@@ -9,7 +9,7 @@ import AppModels
 
 protocol MenuModifierBottomSheetCreateOrderUseCaseProtocol {
     func buildCreateOrderItem(
-        selectedItemViewModels: [MenuModifierSelectionCellViewModel],
+        selectedItemViewModels: [DefaultMenuModifierSelectionCellViewModel],
         id: Int,
         quantitySelection: Int
     ) -> CreateOrderItem
@@ -19,7 +19,7 @@ class MenuModifierBottomSheetCreateOrderUseCase: MenuModifierBottomSheetCreateOr
     init() {}
     
     public func buildCreateOrderItem(
-        selectedItemViewModels: [MenuModifierSelectionCellViewModel],
+        selectedItemViewModels: [DefaultMenuModifierSelectionCellViewModel],
         id: Int,
         quantitySelection: Int
     ) -> CreateOrderItem {

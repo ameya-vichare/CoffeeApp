@@ -88,9 +88,9 @@ struct MenuModifierCellView: View {
 }
 
 struct MenuModifierSelectionView: View {
-    @ObservedObject private var viewModel: MenuModifierSelectionCellViewModel
+    @ObservedObject private var viewModel: DefaultMenuModifierSelectionCellViewModel
     
-    init(viewModel: MenuModifierSelectionCellViewModel) {
+    init(viewModel: DefaultMenuModifierSelectionCellViewModel) {
         self.viewModel = viewModel
     }
     

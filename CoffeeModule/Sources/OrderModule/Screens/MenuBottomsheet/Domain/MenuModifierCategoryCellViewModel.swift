@@ -9,21 +9,32 @@ import Foundation
 import AppModels
 import Combine
 
+protocol MenuModifierCategoryCellViewModelOutput {
+    var priceComputePublisher: AnyPublisher<Void, Never> { get }
+}
+
 @MainActor
-final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
+final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject, MenuModifierCategoryCellViewModelOutput {
     let id: Int
     let name: String
     var displayDescription: String
-    let options: [MenuModifierSelectionCellViewModel]
+    let options: [DefaultMenuModifierSelectionCellViewModel]
     let selectionType: MenuSelectionType
-    
-    private(set) var priceComputePublisher = PassthroughSubject<Void, Never>()
+    let deselectionUseCase: MenuModifierDeselectionUseCaseProtocol
     
     private var cancellables: Set<AnyCancellable> = []
     
+    // MARK: - Output
+    private var priceComputeSubject = PassthroughSubject<Void, Never>()
+    var priceComputePublisher: AnyPublisher<Void, Never> {
+        priceComputeSubject.eraseToAnyPublisher()
+    }
+    
+    // MARK: - Init
     init(
         menuModifier: MenuModifier,
-        options: [MenuModifierSelectionCellViewModel]
+        options: [DefaultMenuModifierSelectionCellViewModel],
+        deselectionUseCase: MenuModifierDeselectionUseCaseProtocol
     ) {
         self.id = menuModifier.id ?? 0
         self.name = menuModifier.name?.capitalized ?? ""
@@ -39,37 +50,39 @@ final class MenuModifierCategoryCellViewModel: Identifiable, ObservableObject {
         self.selectionType = menuModifier.selectionType ?? .single
         self.options = options
         
+        self.deselectionUseCase = deselectionUseCase
+        
         self.bindChildren()
     }
-    
+}
+
+// MARK: - Bindings
+extension MenuModifierCategoryCellViewModel {
     private func bindChildren() {
-        let merged = Publishers.MergeMany(options.map { $0.selectionPassthroughSubject})
+        let merged = Publishers.MergeMany(options.map { $0.itemSelectionPublisher})
         
         merged
             .receive(on: DispatchQueue.main)
             .sink { [weak self] id in
-                guard let self = self,
-                      selectionType == .single
-                else {
-                    self?.computeTotalPrice()
+                guard let self else {
                     return
                 }
                 
-                /// Deselect all other items
-                for option in self.options where option.id != id {
-                    option.isSelected = false
-                }
+                self.deselectionUseCase.deselectOtherItems(
+                    selectionType: selectionType,
+                    options: options,
+                    currentSelectedId: id
+                )
+                
                 self.computeTotalPrice()
             }
             .store(in: &cancellables)
     }
-    
+}
+
+// MARK: - Output
+extension MenuModifierCategoryCellViewModel {
     private func computeTotalPrice() {
-        self.priceComputePublisher.send()
-            
-    }
-    
-    deinit {
-        print("PRINT: deinit MenuModifierViewModel")
+        self.priceComputeSubject.send()
     }
 }

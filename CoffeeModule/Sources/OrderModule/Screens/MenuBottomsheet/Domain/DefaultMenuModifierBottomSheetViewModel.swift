@@ -9,15 +9,11 @@ import Foundation
 import AppModels
 import Combine
 
-protocol MenuModifierBottomSheetViewModelInput {
-    
-}
-
 protocol MenuModifierBottomSheetViewModelOutput {
     var shouldDismissBottomSheet: Bool { get }
 }
 
-typealias MenuModifierBottomSheetViewModel = MenuModifierBottomSheetViewModelInput & MenuModifierBottomSheetViewModelOutput
+typealias MenuModifierBottomSheetViewModel = MenuModifierBottomSheetViewModelOutput
 
 @MainActor
 final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModifierBottomSheetViewModel {
@@ -64,13 +60,18 @@ final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModif
         let menuModifierViewModels: [MenuModifierCategoryCellViewModel] = modifiers.compactMap { (menuModifier) -> MenuModifierCategoryCellViewModel? in
             guard let options = menuModifier.options else { return nil }
 
-            let menuModifierCellViewModels: [MenuModifierSelectionCellViewModel] = options.map {
-                MenuModifierSelectionCellViewModel(option: $0, minimumSelection: menuModifier.minSelect ?? 0)
+            let menuModifierCellViewModels: [DefaultMenuModifierSelectionCellViewModel] = options.map {
+                DefaultMenuModifierSelectionCellViewModel(
+                    option: $0,
+                    minimumSelection: menuModifier.minSelect ?? 0,
+                    selectionPolicyUseCase: MenuModifierSelectionPolicyUseCase()
+                )
             }
 
             return MenuModifierCategoryCellViewModel(
                 menuModifier: menuModifier,
-                options: menuModifierCellViewModels
+                options: menuModifierCellViewModels,
+                deselectionUseCase: MenuModifierDeselectionUseCase()
             )
         }
         
@@ -136,7 +137,7 @@ extension DefaultMenuModifierBottomSheetViewModel {
         self.shouldDismissBottomSheet = true
     }
     
-    private func getSelectedItemViewModels() -> [MenuModifierSelectionCellViewModel] {
+    private func getSelectedItemViewModels() -> [DefaultMenuModifierSelectionCellViewModel] {
         self.modifierViewModels.flatMap { $0.options }
             .filter { $0.isSelected }
     }
