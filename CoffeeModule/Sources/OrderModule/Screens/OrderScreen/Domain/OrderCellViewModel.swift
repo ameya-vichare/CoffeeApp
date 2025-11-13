@@ -23,7 +23,13 @@ struct OrderCellViewModel {
     ) {
         self.id = order.id ?? ""
         self.userName = order.userName ?? ""
-        self.displayTotalPriceLabel = "\(order.currency ?? "") \(order.totalPrice ?? "")"
+        
+        if let totalPrice = order.totalPrice, let currency = order.currency {
+            self.displayTotalPriceLabel = "\(currency) \(totalPrice)"
+        } else {
+            self.displayTotalPriceLabel = ""
+        }
+        
         self.statusDisplayLabel = order.status?.rawValue ?? ""
         self.itemsViewModel = itemsViewModel
         
