@@ -24,7 +24,17 @@ struct OrderItemCellViewModel: Identifiable {
         self.customisation = item.modifier
             .compactMap { $0.name }.joined(separator: ", ")
         self.imageURL = URL(string: item.imageURL ?? "")
-        self.displayPriceLabel = "\(item.currency ?? "") \(item.totalPrice ?? "")"
-        self.displayQuantityLabel = "x\(item.quantity ?? "")"
+        
+        if let totalPrice = item.totalPrice, let currency = item.currency {
+            self.displayPriceLabel = "\(currency) \(totalPrice)"
+        } else {
+            self.displayPriceLabel = ""
+        }
+        
+        if let quantity = item.quantity {
+            self.displayQuantityLabel = "x\(quantity)"
+        } else {
+            self.displayQuantityLabel = ""
+        }
     }
 }

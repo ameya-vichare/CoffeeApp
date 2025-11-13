@@ -34,7 +34,7 @@ public struct OrderItem: Decodable {
     
     public static func createFake() -> OrderItem {
         OrderItem(
-            name: "Hot Orange Zest Mocha Orange Zest Mocha",
+            name: "Hot Orange Zest Mocha",
             imageURL: "https://via.placeholder.com/150",
             size: "Medium",
             quantity: "1",
@@ -42,20 +42,12 @@ public struct OrderItem: Decodable {
             currency: "USD",
             modifier: [
                 OrderModifier(
-                    group: "Toppings",
-                    name: "Whipped cream"
+                    group: "Size",
+                    name: "Small"
                 ),
                 OrderModifier(
-                    group: "Toppings",
-                    name: "Whipped cream"
-                ),
-                OrderModifier(
-                    group: "Toppings",
-                    name: "Whipped cream"
-                ),
-                OrderModifier(
-                    group: "Toppings",
-                    name: "Whipped cream"
+                    group: "Syrup",
+                    name: "Caramel"
                 )
             ]
         )
