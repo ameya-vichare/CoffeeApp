@@ -13,4 +13,8 @@ public struct MenuResponse: Decodable {
     public init(menu: [MenuItem]?) {
         self.menu = menu
     }
+    
+    public static func createFake(menu: [MenuItem]? = [MenuItem.createFake()]) -> Self {
+        MenuResponse(menu: menu)
+    }
 }

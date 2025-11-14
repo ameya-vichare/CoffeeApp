@@ -131,7 +131,7 @@ extension DefaultMenuListViewModel {
         do {
             try await self.retryPendingOrdersUsecase.execute()
             self.showAlert(title: "Order Retry Success", message: "We have sent your previously failed order!")
-        } catch let error as OrderModuleUsecaseError {
+        } catch let error as NetworkError {
             self.showAlert(title: error.title, message: error.message)
         } catch {}
     }
@@ -150,8 +150,8 @@ extension DefaultMenuListViewModel {
         self.alertSubject.send(alert)
     }
     
-    private func prepareDatasource(using response: MenuResponse?) {
-        guard let menuItems = response?.menu else { return }
+    private func prepareDatasource(using response: MenuResponse) {
+        guard let menuItems = response.menu else { return }
         
         self.datasource = menuItems.compactMap { menuItem in
             return .mainMenu(
