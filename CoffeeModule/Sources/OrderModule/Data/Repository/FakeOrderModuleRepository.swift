@@ -18,9 +18,11 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         case createOrderFailure(NetworkError)
     }
     
-    let result: Result
+    let result: Result?
+    var storeOrderCount = 0
+    var retryPendingOrderCount = 0
     
-    init(result: Result) {
+    init(result: Result? = nil) {
         self.result = result
     }
     
@@ -64,10 +66,10 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
     }
 
     func storeCreateOrder(order: CreateOrder) async throws {
-        
+        storeOrderCount += 1
     }
 
     func retryPendingOrders() async throws {
-        
+        retryPendingOrderCount += 1
     }
 }

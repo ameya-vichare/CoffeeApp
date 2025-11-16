@@ -96,12 +96,14 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         }
         
         let result: Result
+        var retryPendingOrderCount = 0
         
         init(result: Result) {
             self.result = result
         }
         
         func execute() async throws {
+            retryPendingOrderCount += 1
             switch result {
             case .success:
                 break
@@ -280,7 +282,7 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         )
     }
     
-    func testDefaultMenuListViewModel_WhenCreateOrderUseCaseSucceeds_SuccessAlertIsShown() async throws {
+    func testDefaultMenuListViewModel_WhenUserAddsNewItemAndCreateOrderUseCaseSucceeds_SuccessAlertIsShown() async throws {
         // Given
         sut = DefaultMenuListViewModel(
             networkMonitor: NetworkMonitoringMock(status: .available),
@@ -327,7 +329,7 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         )
     }
     
-    func testDefaultMenuListViewModel_WhenCreateOrderUseCaseFails_ErrorAlertIsShown() async throws {
+    func testDefaultMenuListViewModel_WhenUserAddsNewItemAndCreateOrderUseCaseFails_ErrorAlertIsShown() async throws {
         // Given
         sut = DefaultMenuListViewModel(
             networkMonitor: NetworkMonitoringMock(status: .available),
@@ -403,6 +405,9 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             status: .available,
             monitoringSubject: monitoringSubject
         )
+        let retryPendingOrderUsecase = MockRetryPendingOrdersUsecase(
+            result: .success
+        )
         sut = DefaultMenuListViewModel(
             networkMonitor: networkMonitor,
             getMenuUseCase: MockGetMenuUseCase(
@@ -411,11 +416,9 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             createOrderUseCase: MockCreateOrderUsecase(
                 result: .failure(OrderModuleUsecaseError.creatingOrderFailed)
             ),
-            retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
-                result: .success
-            )
+            retryPendingOrdersUsecase: retryPendingOrderUsecase
         )
-        let expectation = XCTestExpectation(description: "Order retry success alert is displayed.")
+        let expectation = XCTestExpectation(description: "Pending orders are retried")
         var alertData: AlertData?
         
         // When
@@ -429,6 +432,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         
         // Then
         await fulfillment(of: [expectation], timeout: 2.0)
+        
+        XCTAssertEqual(retryPendingOrderUsecase.retryPendingOrderCount, 1, "Pending orders should be retried")
         
         XCTAssertNotNil(
             alertData,
@@ -453,6 +458,9 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             status: .available,
             monitoringSubject: monitoringSubject
         )
+        let retryPendingOrderUsecase = MockRetryPendingOrdersUsecase(
+            result: .success
+        )
         sut = DefaultMenuListViewModel(
             networkMonitor: networkMonitor,
             getMenuUseCase: MockGetMenuUseCase(
@@ -461,31 +469,18 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             createOrderUseCase: MockCreateOrderUsecase(
                 result: .failure(OrderModuleUsecaseError.creatingOrderFailed)
             ),
-            retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
-                result: .success
-            )
+            retryPendingOrdersUsecase: retryPendingOrderUsecase
         )
-        let expectation = XCTestExpectation(description: "Order retry success alert is not displayed.")
-        var alertData: AlertData?
-        
-        // When
-        sut.alertPublisher.sink { _alertData in
-            alertData = _alertData
-            expectation.fulfill()
-        }
-        .store(in: &cancellables)
-        
+        let expectation = XCTestExpectation(description: "Pending orders should not be retried")
+    
+        // Then
         monitoringSubject.send(.unavailable)
         
-        // Then
         let expectationResult = await XCTWaiter.fulfillment(of: [expectation], timeout: 2.0)
         
         switch expectationResult {
         case .timedOut:
-            XCTAssertNil(
-                alertData,
-                "Alert data should be nil"
-            )
+            XCTAssertEqual(retryPendingOrderUsecase.retryPendingOrderCount, 0, "The pending orders should not be retried")
         case .completed:
             XCTFail("The expectation should not have fullfilled")
         default:

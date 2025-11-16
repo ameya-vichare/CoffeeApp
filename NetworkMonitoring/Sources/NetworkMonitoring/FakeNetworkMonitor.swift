@@ -9,14 +9,14 @@ import Network
 import Combine
 
 public class FakeNetworkMonitor: NetworkMonitoring {
-    public var status: NetworkStatus = .available
+    public var status: NetworkStatus
     public var monitoringPublisher: AnyPublisher<NetworkStatus, Never> {
         PassthroughSubject<NetworkStatus, Never>()
             .eraseToAnyPublisher()
     }
     
-    public init() {
-        
+    public init(status: NetworkStatus = .available) {
+        self.status = status
     }
 
     public func start() {
