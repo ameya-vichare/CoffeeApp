@@ -13,9 +13,9 @@ public protocol GetOrdersUseCaseProtocol {
 }
 
 public final class GetOrdersUseCase: GetOrdersUseCaseProtocol {
-    private let repository: OrderModuleClientRepository
+    private let repository: OrderModuleRepositoryProtocol
     
-    public init(repository: OrderModuleClientRepository) {
+    public init(repository: OrderModuleRepositoryProtocol) {
         self.repository = repository
     }
     

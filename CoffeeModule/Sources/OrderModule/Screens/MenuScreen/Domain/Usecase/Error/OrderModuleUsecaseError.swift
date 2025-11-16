@@ -13,14 +13,11 @@ import NetworkMonitoring
 
 public enum OrderModuleUsecaseError: Error {
     case creatingOrderFailed
-    case orderRetryFailed
     
     var title: String {
         switch self {
         case .creatingOrderFailed:
             return "Order Failed"
-        case .orderRetryFailed:
-            return "Order Retry Failed"
         }
     }
     
@@ -28,8 +25,6 @@ public enum OrderModuleUsecaseError: Error {
         switch self {
         case .creatingOrderFailed:
             return "We couldn't send your order, but we will retry!"
-        case .orderRetryFailed:
-            return "We couldn't send your previously failed order."
         }
     }
 }

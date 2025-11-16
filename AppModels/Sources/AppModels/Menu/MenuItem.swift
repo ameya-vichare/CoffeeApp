@@ -45,22 +45,7 @@ public struct MenuItem: Decodable {
             basePrice: 14.00,
             currency: "USD",
             modifiers: [
-                MenuModifier(
-                    id: 1,
-                    name: "Milk Type",
-                    selectionType: .single,
-                    minSelect: 1,
-                    maxSelect: 1,
-                    options: [
-                        MenuModifierOption(
-                            id: 3,
-                            name: "Oat Milk",
-                            price: 0.50,
-                            currency: "USD",
-                            isDefault: true
-                        )
-                    ]
-                )
+                MenuModifier.createFake()
             ]
         )
     }
