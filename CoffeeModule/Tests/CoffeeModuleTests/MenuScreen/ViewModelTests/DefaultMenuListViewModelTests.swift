@@ -92,7 +92,7 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         enum Result {
             case success
             case failure(NetworkError)
-            case genericError(OrderRepositoryError)
+            case genericError(Error)
         }
         
         let result: Result

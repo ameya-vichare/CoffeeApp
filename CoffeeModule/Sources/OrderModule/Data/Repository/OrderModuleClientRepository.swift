@@ -12,10 +12,6 @@ import Persistence
 import Combine
 import AppEndpoints
 
-enum OrderRepositoryError: Error {
-    case noPendingOrders
-}
-
 public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @unchecked Sendable {
     let remoteAPI: OrderModuleAPIProtocol
     let dataStore: OrderModuleDataStoreProtocol
@@ -31,7 +27,7 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @
     public func retryPendingOrders() async throws {
         let orders = try await self.dataStore.fetchCreateOrder()
         guard !orders.isEmpty else {
-            throw OrderRepositoryError.noPendingOrders
+            return
         }
         
         let createOrder = CreateOrder(

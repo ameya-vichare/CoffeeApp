@@ -19,8 +19,6 @@ public final class RetryPendingOrdersUsecase: RetryPendingOrdersUsecaseProtocol 
     public func execute() async throws {
         do {
             try await self.repository.retryPendingOrders()
-        } catch let error as OrderRepositoryError where error != .noPendingOrders {
-            throw error
         } catch {
             throw error
         }

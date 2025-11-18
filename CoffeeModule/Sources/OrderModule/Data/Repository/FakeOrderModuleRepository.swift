@@ -16,6 +16,8 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         case getMenuFailure(NetworkError)
         case createOrderSuccess(CreateOrderResponse)
         case createOrderFailure(NetworkError)
+        case retryPendingOrdersSuccess
+        case retryPendingOrdersFailure(Error)
     }
     
     let result: Result?
@@ -33,10 +35,8 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         case .getOrdersFailure(let error):
             throw error
         default:
-            break
+            throw NetworkError.cancelled
         }
-        
-        throw NetworkError.cancelled
     }
 
     func getMenu(config: APIConfig) async throws -> MenuResponse {
@@ -46,10 +46,8 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         case .getMenuFailure(let error):
             throw error
         default:
-            break
+            throw NetworkError.cancelled
         }
-        
-        throw NetworkError.cancelled
     }
 
     func createOrder(config: APIConfig) async throws -> CreateOrderResponse {
@@ -59,10 +57,8 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         case .createOrderFailure(let error):
             throw error
         default:
-            break
+            throw NetworkError.cancelled
         }
-        
-        throw NetworkError.cancelled
     }
 
     func storeCreateOrder(order: CreateOrder) async throws {
@@ -70,6 +66,13 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
     }
 
     func retryPendingOrders() async throws {
-        retryPendingOrderCount += 1
+        switch result {
+        case .retryPendingOrdersFailure(let error):
+            throw error
+        case .retryPendingOrdersSuccess:
+            break
+        default:
+            throw NetworkError.cancelled
+        }
     }
 }
