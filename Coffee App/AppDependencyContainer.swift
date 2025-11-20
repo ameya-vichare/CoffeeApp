@@ -21,14 +21,15 @@ final class AppDependencyContainer {
     private let networkMonitoringService: NetworkMonitoring
     
     init() {
-        guard let url = URL(string: AppConstants.baseURL) else {
-            fatalError("Invalid URL: \(AppConstants.baseURL)")
+        let appConfiguration = AppConfiguration()
+        guard let url = URL(string: appConfiguration.apiBaseURL) else {
+            fatalError("Invalid URL: \(appConfiguration.apiBaseURL)")
         }
         
         self.networkService = NetworkClient(
             baseURL: url,
             defaultHeaders: [
-                "Authorization": "Bearer \(AppConstants.apiKey)"
+                "Authorization": "Bearer \(appConfiguration.apiKey)"
             ]
         )
         
