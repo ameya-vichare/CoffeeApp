@@ -9,7 +9,7 @@ import SwiftUI
 import CoffeeModule
 
 protocol MenuListCoordinatorDependencyDelegate {
-    func makeMenuListView() -> MenuListView
+    func makeMenuListView() -> AnyView
 }
 
 final class MenuListCoordinator: Coordinator {

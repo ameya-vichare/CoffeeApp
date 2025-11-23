@@ -8,12 +8,14 @@
 import CoffeeModule
 import Persistence
 import Networking
-import UIKit
+import SwiftUI
+import ImageLoading
 
 final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
     struct Dependencies {
         let networkService: NetworkService
         let persistentProvider: PersistentContainerProvider
+        let imageService: ImageService
     }
     
     private let dependencies: Dependencies
@@ -30,7 +32,7 @@ final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
     }
     
     @MainActor
-    func makeOrderListView() -> OrderListView {
+    func makeOrderListView() -> AnyView {
         let orderModuleClientRepository = getOrderModuleClientRepository()
         func makeCoffeeListViewModel() -> DefaultOrderListViewModel {
             DefaultOrderListViewModel(
@@ -40,7 +42,10 @@ final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
             )
         }
         
-        return OrderListView(viewModel: makeCoffeeListViewModel())
+        let orderListView = OrderListView(viewModel: makeCoffeeListViewModel())
+            .environment(\.imageService, self.dependencies.imageService)
+        
+        return AnyView(orderListView)
     }
     
     private func getOrderModuleClientRepository() -> OrderModuleClientRepository {

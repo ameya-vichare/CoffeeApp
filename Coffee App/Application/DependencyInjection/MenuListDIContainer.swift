@@ -9,13 +9,15 @@ import CoffeeModule
 import Persistence
 import Networking
 import NetworkMonitoring
-import UIKit
+import SwiftUI
+import ImageLoading
 
 final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     struct Dependencies {
         let networkService: NetworkService
         let networkMonitoringService: NetworkMonitoring
         let persistentProvider: PersistentContainerProvider
+        let imageService: ImageService
     }
     
     let dependencies: Dependencies
@@ -25,7 +27,7 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     }
     
     @MainActor
-    func makeMenuListView() -> MenuListView {
+    func makeMenuListView() -> AnyView {
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
             let orderModuleClientRepository = getOrderModuleClientRepository()
             return DefaultMenuListViewModel(
@@ -43,7 +45,10 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
             )
         }
         
-        return MenuListView(viewModel: makeMenuListViewModel())
+        let menuListView = MenuListView(viewModel: makeMenuListViewModel())
+            .environment(\.imageService, self.dependencies.imageService)
+        
+        return AnyView(menuListView)
     }
     
     private func getOrderModuleClientRepository() -> OrderModuleClientRepository {

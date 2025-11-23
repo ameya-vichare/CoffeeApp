@@ -9,7 +9,7 @@ import SwiftUI
 import CoffeeModule
 
 protocol OrderListCoordinatorDependencyDelegate {
-    func makeOrderListView() -> OrderListView
+    func makeOrderListView() -> AnyView
 }
 
 final class OrderListCoordinator: Coordinator {

@@ -52,7 +52,8 @@ extension AppDIContainer {
         OrderListDIContainer(
             dependencies: OrderListDIContainer.Dependencies(
                 networkService: networkService,
-                persistentProvider: persistentProvider
+                persistentProvider: persistentProvider,
+                imageService: imageService
             )
         )
     }
@@ -62,7 +63,8 @@ extension AppDIContainer {
             dependencies: MenuListDIContainer.Dependencies(
                 networkService: networkService,
                 networkMonitoringService: networkMonitoringService,
-                persistentProvider: persistentProvider
+                persistentProvider: persistentProvider,
+                imageService: imageService
             )
         )
     }
