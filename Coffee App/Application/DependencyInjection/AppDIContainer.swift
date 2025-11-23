@@ -47,7 +47,14 @@ final class AppDIContainer {
 }
 
 // MARK: - Container creation
-extension AppDIContainer {
+extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
+    func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator {
+        TabBarCoordinator(
+            navigationController: navigationController,
+            dependencyDelegate: self
+        )
+    }
+    
     func makeOrderListDIContainer() -> OrderListDIContainer {
         OrderListDIContainer(
             dependencies: OrderListDIContainer.Dependencies(
