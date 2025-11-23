@@ -2,27 +2,27 @@
 //  OrderListCoordinator.swift
 //  Coffee App
 //
-//  Created by Ameya on 22/11/25.
+//  Created by Ameya on 23/11/25.
 //
 
 import SwiftUI
 import CoffeeModule
 
-protocol OrderListCoordinatorDependencies {
+protocol OrderListCoordinatorDependencyDelegate {
     func makeOrderListView() -> OrderListView
 }
 
 final class OrderListCoordinator: Coordinator {
     let navigationController: UINavigationController
-    let dependencies: OrderListCoordinatorDependencies
-
-    init(navigationController: UINavigationController, dependencies: OrderListCoordinatorDependencies) {
-        self.navigationController = navigationController
-        self.dependencies = dependencies
-    }
+    let dependencyDelegate: OrderListCoordinatorDependencyDelegate
     
+    init(navigationController: UINavigationController, dependencyDelegate: OrderListCoordinatorDependencyDelegate) {
+        self.navigationController = navigationController
+        self.dependencyDelegate = dependencyDelegate
+    }
+
     func start() {
-        let orderListView = UIHostingController(rootView: self.dependencies.makeOrderListView())
+        let orderListView = UIHostingController(rootView: self.dependencyDelegate.makeOrderListView())
         self.navigationController.pushViewController(orderListView, animated: true)
     }
 }

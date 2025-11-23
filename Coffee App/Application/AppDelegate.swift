@@ -9,7 +9,7 @@ import SwiftUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private let appDependencyContainer: AppDIContainer = AppDIContainer()
+    private let appDIContainer = AppDIContainer()
     var window: UIWindow?
     
     func application(
@@ -17,15 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        let navigationController = UINavigationController()
-        navigationController.setNavigationBarHidden(true, animated: false)
-        window?.rootViewController = navigationController
+        let navigationVC = UINavigationController()
+        navigationVC.setNavigationBarHidden(true, animated: false)
+        window?.rootViewController = navigationVC
         
-        let flowCoordinator = AppFlowCoordinator(
-            container: appDependencyContainer,
-            navigationController: navigationController
+        let coordinator = AppFlowCoordinator(
+            navigationController: navigationVC,
+            dependencyContainer: appDIContainer
         )
-        flowCoordinator.start()
+        coordinator.start()
         
         window?.makeKeyAndVisible()
         return true

@@ -44,48 +44,26 @@ final class AppDIContainer {
     func getImageService() -> ImageService {
         imageService
     }
-    
+}
+
+// MARK: - Container creation
+extension AppDIContainer {
     func makeOrderListDIContainer() -> OrderListDIContainer {
         OrderListDIContainer(
-            networkService: networkService,
-            persistentProvider: persistentProvider
-        )
-    }
-}
-
-// MARK: - Order Module Views
-extension AppDIContainer {
-    @MainActor
-    func makeMenuListView() -> MenuListView {
-        func makeMenuListViewModel() -> DefaultMenuListViewModel {
-            let orderModuleClientRepository = getOrderModuleClientRepository()
-            return DefaultMenuListViewModel(
-                networkMonitor: networkMonitoringService,
-                getMenuUseCase: GetMenuUsecase(
-                    repository: orderModuleClientRepository
-                ),
-                createOrderUseCase: CreateOrderUsecase(
-                    repository: orderModuleClientRepository,
-                    networkMonitor: networkMonitoringService
-                ),
-                retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
-                    repository: orderModuleClientRepository
-                ),
+            dependencies: OrderListDIContainer.Dependencies(
+                networkService: networkService,
+                persistentProvider: persistentProvider
             )
-        }
-        
-        return MenuListView(viewModel: makeMenuListViewModel())
+        )
     }
     
-    private func getOrderModuleClientRepository() -> OrderModuleClientRepository {
-        OrderModuleClientRepository(
-            remoteAPI: OrderModuleRemoteAPI(
-                networkService: networkService
-            ),
-            dataStore: OrderModuleCoreDataStore(
-                container: persistentProvider.container
+    func makeMenuListDIContainer() -> MenuListDIContainer {
+        MenuListDIContainer(
+            dependencies: MenuListDIContainer.Dependencies(
+                networkService: networkService,
+                networkMonitoringService: networkMonitoringService,
+                persistentProvider: persistentProvider
             )
         )
     }
 }
-

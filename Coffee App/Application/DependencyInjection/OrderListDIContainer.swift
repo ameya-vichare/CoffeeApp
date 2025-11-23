@@ -2,7 +2,7 @@
 //  OrderListDIContainer.swift
 //  Coffee App
 //
-//  Created by Ameya on 22/11/25.
+//  Created by Ameya on 23/11/25.
 //
 
 import CoffeeModule
@@ -10,15 +10,25 @@ import Persistence
 import Networking
 import UIKit
 
-final class OrderListDIContainer: OrderListCoordinatorDependencies {
-    private let networkService: NetworkService
-    private let persistentProvider: PersistentContainerProvider
-    
-    init(networkService: NetworkService, persistentProvider: PersistentContainerProvider) {
-        self.networkService = networkService
-        self.persistentProvider = persistentProvider
+final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
+    struct Dependencies {
+        let networkService: NetworkService
+        let persistentProvider: PersistentContainerProvider
     }
-
+    
+    private let dependencies: Dependencies
+    
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
+    
+    func makeOrderListCoordinator(navigationController: UINavigationController) -> OrderListCoordinator {
+        OrderListCoordinator(
+            navigationController: navigationController,
+            dependencyDelegate: self
+        )
+    }
+    
     @MainActor
     func makeOrderListView() -> OrderListView {
         let orderModuleClientRepository = getOrderModuleClientRepository()
@@ -36,18 +46,11 @@ final class OrderListDIContainer: OrderListCoordinatorDependencies {
     private func getOrderModuleClientRepository() -> OrderModuleClientRepository {
         OrderModuleClientRepository(
             remoteAPI: OrderModuleRemoteAPI(
-                networkService: networkService
+                networkService: self.dependencies.networkService
             ),
             dataStore: OrderModuleCoreDataStore(
-                container: persistentProvider.container
+                container: self.dependencies.persistentProvider.container
             )
-        )
-    }
-    
-    func makeOrderListCoordinator(navigationController: UINavigationController) -> OrderListCoordinator {
-        OrderListCoordinator(
-            navigationController: navigationController,
-            dependencies: self
         )
     }
 }
