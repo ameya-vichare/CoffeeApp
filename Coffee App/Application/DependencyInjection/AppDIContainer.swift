@@ -14,7 +14,7 @@ import ImageLoading
 import SwiftUI
 import Persistence
 
-final class AppDependencyContainer {
+final class AppDIContainer {
     private let networkService: NetworkService
     private let imageService: ImageService
     private let persistentProvider: PersistentContainerProvider
@@ -44,24 +44,17 @@ final class AppDependencyContainer {
     func getImageService() -> ImageService {
         imageService
     }
+    
+    func makeOrderListDIContainer() -> OrderListDIContainer {
+        OrderListDIContainer(
+            networkService: networkService,
+            persistentProvider: persistentProvider
+        )
+    }
 }
 
 // MARK: - Order Module Views
-extension AppDependencyContainer {
-    @MainActor
-    func makeOrderListView() -> OrderListView {
-        let orderModuleClientRepository = getOrderModuleClientRepository()
-        func makeCoffeeListViewModel() -> DefaultOrderListViewModel {
-            DefaultOrderListViewModel(
-                getOrdersUseCase: GetOrdersUseCase(
-                    repository: orderModuleClientRepository
-                )
-            )
-        }
-        
-        return OrderListView(viewModel: makeCoffeeListViewModel())
-    }
-    
+extension AppDIContainer {
     @MainActor
     func makeMenuListView() -> MenuListView {
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
