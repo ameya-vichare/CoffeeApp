@@ -19,35 +19,57 @@ final class AppFlowCoordinator: Coordinator {
     }
 
     func start() {
-        let orderListNavController = UINavigationController()
-        let orderListDIContainer = dependencyContainer.makeOrderListDIContainer()
-        let orderListCoordinator = orderListDIContainer.makeOrderListCoordinator(
-            navigationController: orderListNavController
-        )
-        orderListNavController.tabBarItem = UITabBarItem(
-            title: "Orders",
-            image: UIImage(systemName: "list.bullet"),
-            selectedImage: nil
-        )
-        orderListCoordinator.start()
-        
-        let menuListNavController = UINavigationController()
-        let menuListDIContainer = dependencyContainer.makeMenuListDIContainer()
-        let menuListCoordinator = menuListDIContainer.makeMenuListCoordinator(
-            navigationController: menuListNavController
-        )
-        menuListNavController.tabBarItem = UITabBarItem(
-            title: "Menu",
-            image: UIImage(systemName: "cup.and.saucer"),
-            selectedImage: nil
-        )
-        menuListCoordinator.start()
-        
         tabBarController.viewControllers = [
-            orderListNavController,
-            menuListNavController
+            setupOrderListTab(),
+            setupMenuListTab()
         ]
         
         navigationController.setViewControllers([tabBarController], animated: false)
+    }
+    
+    private func setupOrderListTab() -> UINavigationController {
+        let navigationController = UINavigationController()
+        configure(
+            navigationController: navigationController,
+            withTitle: "Orders",
+            andImageName: "list.bullet"
+        )
+        
+        let orderListDIContainer = dependencyContainer.makeOrderListDIContainer()
+        let orderListCoordinator = orderListDIContainer.makeOrderListCoordinator(
+            navigationController: navigationController
+        )
+        orderListCoordinator.start()
+        
+        return navigationController
+    }
+    
+    private func setupMenuListTab() -> UINavigationController {
+        let navigationController = UINavigationController()
+        configure(
+            navigationController: navigationController,
+            withTitle: "Menu",
+            andImageName: "cup.and.saucer"
+        )
+        
+        let menuListDIContainer = dependencyContainer.makeMenuListDIContainer()
+        let menuListCoordinator = menuListDIContainer.makeMenuListCoordinator(
+            navigationController: navigationController
+        )
+        menuListCoordinator.start()
+        
+        return navigationController
+    }
+    
+    private func configure(
+        navigationController: UINavigationController,
+        withTitle title: String,
+        andImageName imageName: String
+    ) {
+        navigationController.tabBarItem = UITabBarItem(
+            title: title,
+            image: UIImage(systemName: imageName),
+            selectedImage: nil
+        )
     }
 }
