@@ -5,12 +5,12 @@
 //  Created by Ameya on 11/11/25.
 //
 
-protocol MenuModifierBottomSheetPriceComputeUsecaseProtocol {
+public protocol MenuModifierBottomSheetPriceComputeUsecaseProtocol {
     func getTotalPrice(selectedItemViewModels: [DefaultMenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double
 }
 
-class MenuModifierBottomSheetPriceComputeUsecase: MenuModifierBottomSheetPriceComputeUsecaseProtocol {
-    init() {}
+public final class MenuModifierBottomSheetPriceComputeUsecase: MenuModifierBottomSheetPriceComputeUsecaseProtocol {
+    public init() {}
     
     public func getTotalPrice(selectedItemViewModels: [DefaultMenuModifierSelectionCellViewModel], quantitySelection: Int) -> Double {
         let itemPrice = selectedItemViewModels

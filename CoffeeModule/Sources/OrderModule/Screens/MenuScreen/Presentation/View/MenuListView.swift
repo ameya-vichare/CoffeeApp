@@ -104,7 +104,8 @@ public struct MenuListView: View {
                 ),
                 retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
                     repository: orderRepository
-                )
+                ),
+                navigationDelegate: nil
             )
         )
     }

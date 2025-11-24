@@ -7,12 +7,16 @@
 
 import SwiftUI
 import CoffeeModule
+import Combine
+import AppModels
 
-protocol MenuListCoordinatorDependencyDelegate {
-    func makeMenuListView() -> AnyView
+protocol MenuListCoordinatorDependencyDelegate: AnyObject {
+    func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView
+    func makeMenuModifierBottomSheetView(for item: MenuItem,
+                                        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>) -> AnyView
 }
 
-final class MenuListCoordinator: Coordinator {
+final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
     let navigationController: UINavigationController
     let dependencyDelegate: MenuListCoordinatorDependencyDelegate
     
@@ -25,7 +29,27 @@ final class MenuListCoordinator: Coordinator {
     }
 
     func start() {
-        let menuListView = UIHostingController(rootView: self.dependencyDelegate.makeMenuListView())
+        let menuListView = UIHostingController(
+            rootView: self.dependencyDelegate.makeMenuListView(navigationDelegate: self)
+        )
         self.navigationController.pushViewController(menuListView, animated: true)
+    }
+    
+    @MainActor
+    func showMenuModifierBottomsheet(
+        for item: MenuItem,
+        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+    ) {
+        let sheetView = self.dependencyDelegate
+            .makeMenuModifierBottomSheetView(for: item, orderItemUpdates: orderItemUpdates)
+        
+        let host = UIHostingController(rootView: sheetView)
+        host.modalPresentationStyle = .pageSheet
+        if let sheet = host.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+
+        navigationController.present(host, animated: true)
     }
 }

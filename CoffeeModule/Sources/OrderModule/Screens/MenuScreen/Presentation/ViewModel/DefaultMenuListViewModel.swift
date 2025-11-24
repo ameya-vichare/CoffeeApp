@@ -12,6 +12,10 @@ import Foundation
 import NetworkMonitoring
 import Networking
 
+public protocol MenuListViewNavigationDelegate {
+    func showMenuModifierBottomsheet(for item: MenuItem, orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>)
+}
+
 protocol MenuListViewModelOutput {
     var state: ScreenViewState { get }
     var datasource: [MenuListCellType] { get }
@@ -32,6 +36,8 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     public let getMenuUseCase: GetMenuUsecaseProtocol
     public let createOrderUseCase: CreateOrderUsecaseProtocol
     public let retryPendingOrdersUsecase: RetryPendingOrdersUsecaseProtocol
+    
+    public let navigationDelegate: MenuListViewNavigationDelegate?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -54,12 +60,14 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
         networkMonitor: NetworkMonitoring,
         getMenuUseCase: GetMenuUsecaseProtocol,
         createOrderUseCase: CreateOrderUsecaseProtocol,
-        retryPendingOrdersUsecase: RetryPendingOrdersUsecaseProtocol
+        retryPendingOrdersUsecase: RetryPendingOrdersUsecaseProtocol,
+        navigationDelegate: MenuListViewNavigationDelegate?
     ) {
         self.networkMonitor = networkMonitor
         self.getMenuUseCase = getMenuUseCase
         self.createOrderUseCase = createOrderUseCase
         self.retryPendingOrdersUsecase = retryPendingOrdersUsecase
+        self.navigationDelegate = navigationDelegate
         self.bindChildren()
     }
 }
@@ -154,11 +162,25 @@ extension DefaultMenuListViewModel {
         guard let menuItems = response.menu else { return }
         
         self.datasource = menuItems.compactMap { menuItem in
+            let vm = MenuListCellViewModel(
+                menuItem: menuItem,
+                orderItemUpdates: orderItemUpdatesSubject
+            )
+            
+            vm.bottomSheetPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    guard let self = self else { return }
+                    self.navigationDelegate?
+                        .showMenuModifierBottomsheet(
+                            for: menuItem,
+                            orderItemUpdates: orderItemUpdatesSubject
+                        )
+                }
+                .store(in: &cancellables)
+            
             return .mainMenu(
-                vm: MenuListCellViewModel(
-                    menuItem: menuItem,
-                    orderItemUpdates: orderItemUpdatesSubject
-                )
+                vm: vm
             )
         }
     }

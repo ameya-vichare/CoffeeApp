@@ -22,8 +22,8 @@ protocol MenuModifierSelectionCellViewModelOutput {
 typealias MenuModifierSelectionCellViewModel = MenuModifierSelectionCellViewModelInput & MenuModifierSelectionCellViewModelOutput
 
 @MainActor
-final class DefaultMenuModifierSelectionCellViewModel: Identifiable, ObservableObject, MenuModifierSelectionCellViewModel {
-    let id: Int
+public final class DefaultMenuModifierSelectionCellViewModel: Identifiable, ObservableObject, MenuModifierSelectionCellViewModel {
+    public let id: Int
     let name: String
     let price: Double
     let displayPrice: String

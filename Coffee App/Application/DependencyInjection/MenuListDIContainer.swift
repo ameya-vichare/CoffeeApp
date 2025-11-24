@@ -11,6 +11,8 @@ import Networking
 import NetworkMonitoring
 import SwiftUI
 import ImageLoading
+import Combine
+import AppModels
 
 final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     struct Dependencies {
@@ -27,7 +29,7 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     }
     
     @MainActor
-    func makeMenuListView() -> AnyView {
+    func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView {
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
             let orderModuleClientRepository = getOrderModuleClientRepository()
             return DefaultMenuListViewModel(
@@ -42,6 +44,7 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
                 retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
                     repository: orderModuleClientRepository
                 ),
+                navigationDelegate: navigationDelegate
             )
         }
         
@@ -68,4 +71,22 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
             dependencyDelegate: self
         )
     }
+    
+    @MainActor
+    func makeMenuModifierBottomSheetView(
+        for item: MenuItem,
+        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+    ) -> AnyView {
+        let sheetView = MenuModifierBottomSheet(
+            viewModel: DefaultMenuModifierBottomSheetViewModel(
+                menuItem: item,
+                orderItemUpdates: orderItemUpdates,
+                priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
+                createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
+            )
+        )
+        
+        return AnyView(sheetView)
+    }
 }
+

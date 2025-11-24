@@ -11,15 +11,15 @@ import ImageLoading
 import AppModels
 import Combine
 
-struct MenuModifierBottomSheet: View {
+public struct MenuModifierBottomSheet: View {
     @ObservedObject private var viewModel: DefaultMenuModifierBottomSheetViewModel
     @Environment(\.dismiss) private var dismiss
     
-    init(viewModel: DefaultMenuModifierBottomSheetViewModel) {
+    public init(viewModel: DefaultMenuModifierBottomSheetViewModel) {
         self.viewModel = viewModel
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 0) {
             MenuModifierHeaderView(
                 viewModel: viewModel.headerViewModel

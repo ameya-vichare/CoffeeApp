@@ -16,7 +16,7 @@ protocol MenuModifierBottomSheetViewModelOutput {
 typealias MenuModifierBottomSheetViewModel = MenuModifierBottomSheetViewModelOutput
 
 @MainActor
-final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModifierBottomSheetViewModel {
+public final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModifierBottomSheetViewModel {
     let id: Int
     let currency: String
     let name: String
@@ -40,7 +40,7 @@ final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModif
     @Published var shouldDismissBottomSheet: Bool = false
     
     // MARK: - Init
-    init(
+    public init(
         menuItem: MenuItem,
         orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>,
         priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol,

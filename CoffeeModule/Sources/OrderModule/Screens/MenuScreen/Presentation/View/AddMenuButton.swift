@@ -21,8 +21,7 @@ struct AddMenuButton: View {
     
     var body: some View {
         Button {
-            
-            showSheet = true
+            viewModel.showMenuModifierBottomsheet()
         } label: {
             ZStack(alignment: .center) {
                 RoundedRectangle(cornerRadius: AppPointSystem.point_12)
@@ -44,21 +43,6 @@ struct AddMenuButton: View {
         }
         .buttonStyle(.plain)
         .tint(AppColors.black)
-        .sheet(isPresented: $showSheet) {
-            VStack {
-                MenuModifierBottomSheet(
-                    viewModel: DefaultMenuModifierBottomSheetViewModel(
-                        menuItem: viewModel.menuItem,
-                        orderItemUpdates: viewModel.orderItemUpdates,
-                        priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
-                        createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
-                    )
-                )
-            }
-            .presentationCornerRadius(AppPointSystem.point_20)
-            .presentationDragIndicator(.visible)
-            .presentationDetents([.large])
-        }
     }
 }
 
