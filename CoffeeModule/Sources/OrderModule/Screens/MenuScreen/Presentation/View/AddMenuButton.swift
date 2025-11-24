@@ -21,6 +21,7 @@ struct AddMenuButton: View {
     
     var body: some View {
         Button {
+            
             showSheet = true
         } label: {
             ZStack(alignment: .center) {
@@ -47,11 +48,7 @@ struct AddMenuButton: View {
             VStack {
                 MenuModifierBottomSheet(
                     viewModel: DefaultMenuModifierBottomSheetViewModel(
-                        modifiers: viewModel.modifiers,
-                        id: viewModel.id,
-                        currency: viewModel.currency,
-                        name: viewModel.name,
-                        imageURL: viewModel.imageURL,
+                        menuItem: viewModel.menuItem,
                         orderItemUpdates: viewModel.orderItemUpdates,
                         priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
                         createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()

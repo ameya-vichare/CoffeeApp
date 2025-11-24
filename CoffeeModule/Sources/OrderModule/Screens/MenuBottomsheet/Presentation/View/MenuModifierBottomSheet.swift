@@ -213,13 +213,7 @@ struct MenuAddToCartButton: View {
 #Preview {
     MenuModifierBottomSheet(
         viewModel: DefaultMenuModifierBottomSheetViewModel(
-            modifiers: [
-                MenuModifier.createFake()
-            ],
-            id: 0,
-            currency: "USD",
-            name: "Hot Capuccino",
-            imageURL: URL(string: ""),
+            menuItem: MenuItem.createFake(),
             orderItemUpdates: PassthroughSubject<CreateOrderItem,
             Never>(),
             priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),

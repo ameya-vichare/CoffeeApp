@@ -21,6 +21,7 @@ final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModif
     let currency: String
     let name: String
     let imageURL: URL?
+    let modifiers: [MenuModifier]
     let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
     
     let priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol
@@ -40,19 +41,16 @@ final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, MenuModif
     
     // MARK: - Init
     init(
-        modifiers: [MenuModifier],
-        id: Int,
-        currency: String,
-        name: String,
-        imageURL: URL?,
+        menuItem: MenuItem,
         orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>,
         priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol,
         createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCaseProtocol
     ) {
-        self.currency = currency
-        self.id = id
-        self.name = name
-        self.imageURL = imageURL
+        self.currency = menuItem.currency ?? ""
+        self.id = menuItem.id ?? 0
+        self.name = menuItem.name ?? ""
+        self.imageURL = URL(string: menuItem.imageURL ?? "")
+        self.modifiers = menuItem.modifiers ?? []
         self.orderItemUpdates = orderItemUpdates
         self.priceComputeUseCase = priceComputeUseCase
         self.createOrderUseCase = createOrderUseCase
