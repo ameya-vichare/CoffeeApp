@@ -7,16 +7,15 @@
 
 import SwiftUI
 import CoffeeModule
-import Combine
 import AppModels
 
 protocol MenuListCoordinatorDependencyDelegate: AnyObject {
     func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView
-    func makeMenuModifierBottomSheetView(for item: MenuItem,
-                                        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>) -> AnyView
+    func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: ((CreateOrderItem) -> Void)) -> AnyView
 }
 
 final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
+
     let navigationController: UINavigationController
     let dependencyDelegate: MenuListCoordinatorDependencyDelegate
     
@@ -38,10 +37,10 @@ final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
     @MainActor
     func showMenuModifierBottomsheet(
         for item: MenuItem,
-        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+        onOrderItemCreated: ((CreateOrderItem) -> Void)
     ) {
         let sheetView = self.dependencyDelegate
-            .makeMenuModifierBottomSheetView(for: item, orderItemUpdates: orderItemUpdates)
+            .makeMenuModifierBottomSheetView(for: item, onOrderItemCreated: onOrderItemCreated)
         
         let host = UIHostingController(rootView: sheetView)
         host.modalPresentationStyle = .pageSheet

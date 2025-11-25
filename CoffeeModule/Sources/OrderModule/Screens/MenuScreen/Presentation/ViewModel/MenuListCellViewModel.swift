@@ -19,16 +19,11 @@ struct MenuListCellViewModel {
     let imageURL: URL?
     let modifiers: [MenuModifier]
 
-    let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
-    
-    let bottomSheetSubject = PassthroughSubject<Void, Never>()
-    var bottomSheetPublisher: AnyPublisher<Void, Never> {
-        bottomSheetSubject.eraseToAnyPublisher()
-    }
+    let onShowMenuModifierBottomSheet: (() -> Void)
 
     init(
         menuItem: MenuItem,
-        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+        onShowMenuModifierBottomSheet: @escaping (() -> Void)
     ) {
         self.id = menuItem.id ?? 0
         self.name = menuItem.name ?? ""
@@ -38,11 +33,12 @@ struct MenuListCellViewModel {
         self.description = menuItem.description ?? ""
         self.imageURL = URL(string: menuItem.imageURL ?? "")
         self.modifiers = menuItem.modifiers ?? []
-        self.orderItemUpdates = orderItemUpdates
+        
+        self.onShowMenuModifierBottomSheet = onShowMenuModifierBottomSheet
     }
     
     func showMenuModifierBottomsheet() {
-        bottomSheetSubject.send()
+        onShowMenuModifierBottomSheet()
     }
 }
 

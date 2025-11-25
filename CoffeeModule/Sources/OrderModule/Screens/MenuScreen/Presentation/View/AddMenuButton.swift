@@ -50,7 +50,7 @@ struct AddMenuButton: View {
     AddMenuButton(
         viewModel: MenuListCellViewModel(
             menuItem: MenuItem.createFake(),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
+            onShowMenuModifierBottomSheet: {}
         )
     )
 }

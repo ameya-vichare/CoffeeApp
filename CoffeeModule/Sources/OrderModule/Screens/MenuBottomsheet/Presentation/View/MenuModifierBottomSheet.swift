@@ -214,8 +214,7 @@ struct MenuAddToCartButton: View {
     MenuModifierBottomSheet(
         viewModel: DefaultMenuModifierBottomSheetViewModel(
             menuItem: MenuItem.createFake(),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem,
-            Never>(),
+            onOrderItemCreated: { _ in },
             priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
             createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
         )

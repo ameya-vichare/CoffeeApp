@@ -94,7 +94,7 @@ struct CoffeeMenuActionView: View {
     MenuCellView(
         viewModel: MenuListCellViewModel(
             menuItem: MenuItem.createFake(),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
+            onShowMenuModifierBottomSheet: {}
         )
     )
 }

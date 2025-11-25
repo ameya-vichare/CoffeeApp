@@ -13,13 +13,12 @@ import NetworkMonitoring
 import Networking
 
 public protocol MenuListViewNavigationDelegate {
-    func showMenuModifierBottomsheet(for item: MenuItem, orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>)
+    func showMenuModifierBottomsheet(for item: MenuItem, onOrderItemCreated: ((CreateOrderItem) -> Void))
 }
 
 protocol MenuListViewModelOutput {
     var state: ScreenViewState { get }
     var datasource: [MenuListCellType] { get }
-    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> { get }
     var alertPublisher: AnyPublisher<AlertData?, Never> { get }
 }
 
@@ -45,10 +44,10 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     @Published private(set) var state: ScreenViewState = .preparing
     @Published private(set) var datasource: [MenuListCellType] = []
     
-    private(set) var orderItemUpdatesSubject = PassthroughSubject<CreateOrderItem, Never>()
-    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> {
-        self.orderItemUpdatesSubject.eraseToAnyPublisher()
-    }
+//    private(set) var orderItemUpdatesSubject = PassthroughSubject<CreateOrderItem, Never>()
+//    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> {
+//        self.orderItemUpdatesSubject.eraseToAnyPublisher()
+//    }
     
     private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
     var alertPublisher: AnyPublisher<AlertData?, Never> {
@@ -82,16 +81,6 @@ extension DefaultMenuListViewModel {
 // MARK: - Binding
 extension DefaultMenuListViewModel {
     private func bindChildren() {
-        self.orderItemUpdatesSubject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] orderItem in
-                guard let self else { return }
-                Task {
-                    await self.createOrder(orderItem: orderItem)
-                }
-            }
-            .store(in: &cancellables)
-        
         self.networkMonitor.monitoringPublisher
             .removeDuplicates()
             .debounce(
@@ -162,22 +151,26 @@ extension DefaultMenuListViewModel {
         guard let menuItems = response.menu else { return }
         
         self.datasource = menuItems.compactMap { menuItem in
+            let onOrderItemCreated: (CreateOrderItem) -> Void = { [weak self] orderItem in
+                guard let self else { return }
+                Task {
+                    await self.createOrder(orderItem: orderItem)
+                }
+            }
+            
+            let onShowMenuModifierBottomSheet: () -> Void = { [weak self] in
+                guard let self = self else { return }
+                self.navigationDelegate?
+                    .showMenuModifierBottomsheet(
+                        for: menuItem,
+                        onOrderItemCreated: onOrderItemCreated
+                    )
+            }
+
             let vm = MenuListCellViewModel(
                 menuItem: menuItem,
-                orderItemUpdates: orderItemUpdatesSubject
+                onShowMenuModifierBottomSheet: onShowMenuModifierBottomSheet
             )
-            
-            vm.bottomSheetPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self = self else { return }
-                    self.navigationDelegate?
-                        .showMenuModifierBottomsheet(
-                            for: menuItem,
-                            orderItemUpdates: orderItemUpdatesSubject
-                        )
-                }
-                .store(in: &cancellables)
             
             return .mainMenu(
                 vm: vm

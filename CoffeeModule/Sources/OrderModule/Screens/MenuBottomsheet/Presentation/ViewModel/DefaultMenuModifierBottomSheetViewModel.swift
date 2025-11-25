@@ -22,7 +22,8 @@ public final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, Me
     let name: String
     let imageURL: URL?
     let modifiers: [MenuModifier]
-    let orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>
+    
+    let onOrderItemCreated: ((CreateOrderItem) -> Void)
     
     let priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol
     let createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCaseProtocol
@@ -42,7 +43,7 @@ public final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, Me
     // MARK: - Init
     public init(
         menuItem: MenuItem,
-        orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>,
+        onOrderItemCreated: @escaping ((CreateOrderItem) -> Void),
         priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecaseProtocol,
         createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCaseProtocol
     ) {
@@ -51,7 +52,7 @@ public final class DefaultMenuModifierBottomSheetViewModel: ObservableObject, Me
         self.name = menuItem.name ?? ""
         self.imageURL = URL(string: menuItem.imageURL ?? "")
         self.modifiers = menuItem.modifiers ?? []
-        self.orderItemUpdates = orderItemUpdates
+        self.onOrderItemCreated = onOrderItemCreated
         self.priceComputeUseCase = priceComputeUseCase
         self.createOrderUseCase = createOrderUseCase
         
@@ -131,7 +132,7 @@ extension DefaultMenuModifierBottomSheetViewModel {
                 quantitySelection: quantitySelection
             )
         
-        self.orderItemUpdates.send(createOrderItem)
+        onOrderItemCreated(createOrderItem)
         self.shouldDismissBottomSheet = true
     }
     
