@@ -16,6 +16,7 @@ final class AppFlowCoordinator: Coordinator {
         self.dependencyContainer = dependencyContainer
     }
 
+    // MARK: - Initial navigation
     func start() {
         let tabBarCoordinator = dependencyContainer.makeTabBarCoordinator(
             navigationController: navigationController

@@ -21,6 +21,7 @@ final class OrderListCoordinator: Coordinator {
         self.dependencyDelegate = dependencyDelegate
     }
 
+    // MARK: - Initial navigation
     func start() {
         let orderListView = UIHostingController(rootView: self.dependencyDelegate.makeOrderListView())
         self.navigationController.pushViewController(orderListView, animated: true)

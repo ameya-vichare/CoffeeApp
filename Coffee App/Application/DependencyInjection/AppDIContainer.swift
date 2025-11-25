@@ -40,10 +40,6 @@ final class AppDIContainer {
         self.networkMonitoringService = NetworkMonitor()
         self.networkMonitoringService.start()
     }
-    
-    func getImageService() -> ImageService {
-        imageService
-    }
 }
 
 // MARK: - Container creation

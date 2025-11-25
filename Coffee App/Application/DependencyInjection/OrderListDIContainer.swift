@@ -11,7 +11,7 @@ import Networking
 import SwiftUI
 import ImageLoading
 
-final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
+final class OrderListDIContainer {
     struct Dependencies {
         let networkService: NetworkService
         let persistentProvider: PersistentContainerProvider
@@ -30,14 +30,27 @@ final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
             dependencyDelegate: self
         )
     }
-    
+}
+
+// MARK: - Coordinator dependencies implementation
+extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
     @MainActor
     func makeOrderListView() -> AnyView {
-        let orderModuleClientRepository = getOrderModuleClientRepository()
+        func getOrderModuleClientRepository() -> OrderModuleClientRepository {
+            OrderModuleClientRepository(
+                remoteAPI: OrderModuleRemoteAPI(
+                    networkService: self.dependencies.networkService
+                ),
+                dataStore: OrderModuleCoreDataStore(
+                    container: self.dependencies.persistentProvider.container
+                )
+            )
+        }
+        
         func makeCoffeeListViewModel() -> DefaultOrderListViewModel {
             DefaultOrderListViewModel(
                 getOrdersUseCase: GetOrdersUseCase(
-                    repository: orderModuleClientRepository
+                    repository: getOrderModuleClientRepository()
                 )
             )
         }
@@ -46,16 +59,5 @@ final class OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
             .environment(\.imageService, self.dependencies.imageService)
         
         return AnyView(orderListView)
-    }
-    
-    private func getOrderModuleClientRepository() -> OrderModuleClientRepository {
-        OrderModuleClientRepository(
-            remoteAPI: OrderModuleRemoteAPI(
-                networkService: self.dependencies.networkService
-            ),
-            dataStore: OrderModuleCoreDataStore(
-                container: self.dependencies.persistentProvider.container
-            )
-        )
     }
 }

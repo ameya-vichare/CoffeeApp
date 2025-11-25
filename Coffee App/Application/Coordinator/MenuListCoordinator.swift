@@ -14,7 +14,7 @@ protocol MenuListCoordinatorDependencyDelegate: AnyObject {
     func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void)) -> AnyView
 }
 
-final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
+final class MenuListCoordinator: Coordinator {
     let navigationController: UINavigationController
     let dependencyDelegate: MenuListCoordinatorDependencyDelegate
     
@@ -26,13 +26,17 @@ final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
         self.dependencyDelegate = dependencyDelegate
     }
 
+    // MARK: - Initial navigation
     func start() {
         let menuListView = UIHostingController(
             rootView: self.dependencyDelegate.makeMenuListView(navigationDelegate: self)
         )
         self.navigationController.pushViewController(menuListView, animated: true)
     }
-    
+}
+
+// MARK: - Navigation handling
+extension MenuListCoordinator: MenuListViewNavigationDelegate {
     @MainActor
     func showMenuModifierBottomsheet(
         for item: MenuItem,

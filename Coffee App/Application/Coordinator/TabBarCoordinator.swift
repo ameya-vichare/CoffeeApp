@@ -23,6 +23,7 @@ final class TabBarCoordinator: Coordinator {
         self.dependencyDelegate = dependencyDelegate
     }
 
+    // MARK: - Initial navigation
     func start() {
         tabBarController.viewControllers = [
             setupOrderListTab(),

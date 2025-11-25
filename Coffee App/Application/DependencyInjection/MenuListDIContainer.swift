@@ -14,7 +14,7 @@ import ImageLoading
 import Combine
 import AppModels
 
-final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
+final class MenuListDIContainer {
     struct Dependencies {
         let networkService: NetworkService
         let networkMonitoringService: NetworkMonitoring
@@ -28,8 +28,29 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
         self.dependencies = dependencies
     }
     
+    func makeMenuListCoordinator(navigationController: UINavigationController) -> MenuListCoordinator {
+        MenuListCoordinator(
+            navigationController: navigationController,
+            dependencyDelegate: self
+        )
+    }
+}
+
+// MARK: - Coordinator dependencies implementation
+extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     @MainActor
     func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView {
+        func getOrderModuleClientRepository() -> OrderModuleClientRepository {
+            OrderModuleClientRepository(
+                remoteAPI: OrderModuleRemoteAPI(
+                    networkService: self.dependencies.networkService
+                ),
+                dataStore: OrderModuleCoreDataStore(
+                    container: self.dependencies.persistentProvider.container
+                )
+            )
+        }
+        
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
             let orderModuleClientRepository = getOrderModuleClientRepository()
             return DefaultMenuListViewModel(
@@ -54,24 +75,6 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
         return AnyView(menuListView)
     }
     
-    private func getOrderModuleClientRepository() -> OrderModuleClientRepository {
-        OrderModuleClientRepository(
-            remoteAPI: OrderModuleRemoteAPI(
-                networkService: self.dependencies.networkService
-            ),
-            dataStore: OrderModuleCoreDataStore(
-                container: self.dependencies.persistentProvider.container
-            )
-        )
-    }
-    
-    func makeMenuListCoordinator(navigationController: UINavigationController) -> MenuListCoordinator {
-        MenuListCoordinator(
-            navigationController: navigationController,
-            dependencyDelegate: self
-        )
-    }
-    
     @MainActor
     func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void)) -> AnyView {
         let sheetView = MenuModifierBottomSheet(
@@ -81,9 +84,8 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
                 priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
                 createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
             )
-        )
+        ).environment(\.imageService, self.dependencies.imageService)
         
         return AnyView(sheetView)
     }
 }
-
