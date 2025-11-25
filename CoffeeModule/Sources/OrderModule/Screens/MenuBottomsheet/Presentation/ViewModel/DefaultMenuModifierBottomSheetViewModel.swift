@@ -132,6 +132,7 @@ extension DefaultMenuModifierBottomSheetViewModel {
                 quantitySelection: quantitySelection
             )
         
+        /// Communicate to MenuListVM that order item has been created
         onOrderItemCreated(createOrderItem)
         self.shouldDismissBottomSheet = true
     }

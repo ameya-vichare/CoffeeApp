@@ -13,7 +13,7 @@ import NetworkMonitoring
 import Networking
 
 public protocol MenuListViewNavigationDelegate {
-    func showMenuModifierBottomsheet(for item: MenuItem, onOrderItemCreated: ((CreateOrderItem) -> Void))
+    func showMenuModifierBottomsheet(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void))
 }
 
 protocol MenuListViewModelOutput {
@@ -43,11 +43,6 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     // MARK: - Output
     @Published private(set) var state: ScreenViewState = .preparing
     @Published private(set) var datasource: [MenuListCellType] = []
-    
-//    private(set) var orderItemUpdatesSubject = PassthroughSubject<CreateOrderItem, Never>()
-//    var orderItemUpdatesPublisher: AnyPublisher<CreateOrderItem, Never> {
-//        self.orderItemUpdatesSubject.eraseToAnyPublisher()
-//    }
     
     private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
     var alertPublisher: AnyPublisher<AlertData?, Never> {

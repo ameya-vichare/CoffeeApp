@@ -11,11 +11,10 @@ import AppModels
 
 protocol MenuListCoordinatorDependencyDelegate: AnyObject {
     func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView
-    func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: ((CreateOrderItem) -> Void)) -> AnyView
+    func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void)) -> AnyView
 }
 
 final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
-
     let navigationController: UINavigationController
     let dependencyDelegate: MenuListCoordinatorDependencyDelegate
     
@@ -37,7 +36,7 @@ final class MenuListCoordinator: Coordinator, MenuListViewNavigationDelegate {
     @MainActor
     func showMenuModifierBottomsheet(
         for item: MenuItem,
-        onOrderItemCreated: ((CreateOrderItem) -> Void)
+        onOrderItemCreated: @escaping ((CreateOrderItem) -> Void)
     ) {
         let sheetView = self.dependencyDelegate
             .makeMenuModifierBottomSheetView(for: item, onOrderItemCreated: onOrderItemCreated)

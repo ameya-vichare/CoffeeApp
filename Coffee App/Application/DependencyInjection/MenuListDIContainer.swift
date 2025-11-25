@@ -73,7 +73,7 @@ final class MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     }
     
     @MainActor
-    func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: ((CreateOrderItem) -> Void)) -> AnyView {
+    func makeMenuModifierBottomSheetView(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void)) -> AnyView {
         let sheetView = MenuModifierBottomSheet(
             viewModel: DefaultMenuModifierBottomSheetViewModel(
                 menuItem: item,
