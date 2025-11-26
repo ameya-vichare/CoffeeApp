@@ -45,13 +45,14 @@ extension MenuListCoordinator: MenuListViewNavigationDelegate {
         let sheetView = self.dependencyDelegate
             .makeMenuModifierBottomSheetView(for: item, onOrderItemCreated: onOrderItemCreated)
         
-        let host = UIHostingController(rootView: sheetView)
-        host.modalPresentationStyle = .pageSheet
-        if let sheet = host.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+        let menuModifierSheet = UIHostingController(rootView: sheetView)
+        menuModifierSheet.modalPresentationStyle = .pageSheet
+        if let sheet = menuModifierSheet.sheetPresentationController {
+            sheet.detents = [.large()]
             sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 10
         }
 
-        navigationController.present(host, animated: true)
+        navigationController.present(menuModifierSheet, animated: true)
     }
 }
