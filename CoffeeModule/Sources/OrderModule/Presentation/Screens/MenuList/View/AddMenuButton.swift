@@ -48,7 +48,7 @@ struct AddMenuButton: View {
 
 #Preview {
     AddMenuButton(
-        viewModel: MenuListCellViewModel(
+        viewModel: DefaultMenuListCellViewModel(
             menuItem: MenuItem.createFake(),
             onShowMenuModifierBottomSheet: {}
         )

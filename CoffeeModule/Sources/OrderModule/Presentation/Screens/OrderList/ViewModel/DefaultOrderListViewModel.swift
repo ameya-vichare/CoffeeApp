@@ -11,6 +11,10 @@ import Networking
 import DesignSystem
 import Combine
 
+public protocol OrderListNavigationDelegate {
+    func navigateToOrderDetail(orderID: String)
+}
+
 protocol OrderListViewModelOutput {
     var datasource: [OrderListCellType] { get }
     var state: ScreenViewState { get }
@@ -28,6 +32,8 @@ typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutpu
 public final class DefaultOrderListViewModel: ObservableObject, OrderListViewModel {
     public let getOrdersUseCase: GetOrdersUseCaseProtocol
     
+    let navigationDelegate: OrderListNavigationDelegate?
+    
     // MARK: - Output
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
@@ -38,8 +44,12 @@ public final class DefaultOrderListViewModel: ObservableObject, OrderListViewMod
     }
     
     // MARK: - Init
-    public init(getOrdersUseCase: GetOrdersUseCaseProtocol) {
+    public init(
+        getOrdersUseCase: GetOrdersUseCaseProtocol,
+        navigationDelegate: OrderListNavigationDelegate?
+    ) {
         self.getOrdersUseCase = getOrdersUseCase
+        self.navigationDelegate = navigationDelegate
     }
 }
 
@@ -84,9 +94,15 @@ extension DefaultOrderListViewModel {
             }
             
             func getOrderVM(order: Order, itemsVM: [OrderItemCellViewModel]) -> OrderCellViewModel {
-                OrderCellViewModel(
+                let onNavigateToOrderDetail: (String) -> Void = { [weak self] orderId in
+                    guard let self else { return }
+                    self.navigationDelegate?.navigateToOrderDetail(orderID: orderId)
+                }
+                
+                return DefaultOrderCellViewModel(
                     order: order,
-                    itemsViewModel: itemsVM
+                    itemsViewModel: itemsVM,
+                    onNavigateToOrderDetail: onNavigateToOrderDetail
                 )
             }
 

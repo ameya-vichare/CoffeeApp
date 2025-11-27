@@ -29,7 +29,7 @@ struct OrderCellView: View {
 
                 LazyVStack {
                     ForEach(self.viewModel.itemsViewModel, id: \.id) { item in
-                        OrderDetailView(viewModel: item)
+                        OrderCellDetailView(viewModel: item)
                     }
                 }
 
@@ -80,20 +80,26 @@ struct OrderHeaderView: View {
                         .frame(width: AppPointSystem.point_20, height: AppPointSystem.point_20)
                 }
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: AppPointSystem.point_12)
-                        .foregroundStyle(AppColors.secondaryGray)
-                        .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
-                    
-                    Image(systemName: "chevron.right")
+                Button {
+                    viewModel.navigateToOrderDetail()
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: AppPointSystem.point_12)
+                            .foregroundStyle(AppColors.secondaryGray)
+                            .frame(width: AppPointSystem.point_40, height: AppPointSystem.point_40)
+                        
+                        Image(systemName: "chevron.right")
+                    }
                 }
+                .buttonStyle(.plain)
+
             }
         }
         .padding([.bottom], AppPointSystem.point_12)
     }
 }
 
-struct OrderDetailView: View {
+struct OrderCellDetailView: View {
     private let viewModel: OrderItemCellViewModel
     @Environment(\.imageService) var imageService: ImageService
     
@@ -208,13 +214,14 @@ struct OrderStatusView: View {
 
 #Preview {
     OrderCellView(viewModel:
-        OrderCellViewModel(
+        DefaultOrderCellViewModel(
             order: Order.createFake(),
             itemsViewModel: [
                 OrderItemCellViewModel(
                     item: OrderItem.createFake()
                 )
-            ]
+            ],
+            onNavigateToOrderDetail: { _ in }
         )
     )
 }

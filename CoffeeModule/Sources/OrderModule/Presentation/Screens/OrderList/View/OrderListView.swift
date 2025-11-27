@@ -95,7 +95,8 @@ public struct OrderListView: View {
                         remoteAPI: FakeOrderModuleRemoteAPI(),
                         dataStore: FakeOrderModuleDataStore()
                     )
-                )
+                ),
+                navigationDelegate: nil
             )
         )
     }

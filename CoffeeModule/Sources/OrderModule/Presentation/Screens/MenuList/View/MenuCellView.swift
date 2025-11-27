@@ -92,7 +92,7 @@ struct CoffeeMenuActionView: View {
 
 #Preview {
     MenuCellView(
-        viewModel: MenuListCellViewModel(
+        viewModel: DefaultMenuListCellViewModel(
             menuItem: MenuItem.createFake(),
             onShowMenuModifierBottomSheet: {}
         )

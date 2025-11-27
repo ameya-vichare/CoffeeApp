@@ -162,7 +162,7 @@ extension DefaultMenuListViewModel {
                     )
             }
 
-            let vm = MenuListCellViewModel(
+            let vm = DefaultMenuListCellViewModel(
                 menuItem: menuItem,
                 onShowMenuModifierBottomSheet: onShowMenuModifierBottomSheet
             )

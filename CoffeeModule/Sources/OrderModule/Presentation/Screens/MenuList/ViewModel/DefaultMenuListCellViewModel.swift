@@ -9,7 +9,22 @@ import Foundation
 import AppModels
 import Combine
 
-struct MenuListCellViewModel {
+protocol MenuListCellViewModelOutput {
+    var id: Int { get }
+    var name: String { get }
+    var currency: String { get }
+    var displayPrice: String { get }
+    var description: String { get }
+    var imageURL: URL? { get }
+}
+
+protocol MenuListCellViewModelActions {
+    func showMenuModifierBottomsheet()
+}
+
+typealias MenuListCellViewModel = MenuListCellViewModelActions & MenuListCellViewModelOutput 
+
+struct DefaultMenuListCellViewModel: MenuListCellViewModel {
     let id: Int
     let name: String
     let currency: String
@@ -36,7 +51,10 @@ struct MenuListCellViewModel {
         
         self.onShowMenuModifierBottomSheet = onShowMenuModifierBottomSheet
     }
-    
+}
+
+// MARK: - Actions
+extension DefaultMenuListCellViewModel {
     func showMenuModifierBottomsheet() {
         onShowMenuModifierBottomSheet()
     }

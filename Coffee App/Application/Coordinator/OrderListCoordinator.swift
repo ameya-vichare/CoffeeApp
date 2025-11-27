@@ -7,9 +7,11 @@
 
 import SwiftUI
 import CoffeeModule
+import AppModels
 
 protocol OrderListCoordinatorDependencyDelegate {
-    func makeOrderListView() -> AnyView
+    func makeOrderListView(navigationDelegate: OrderListNavigationDelegate) -> AnyView
+    func makeOrderDetailView() -> AnyView
 }
 
 final class OrderListCoordinator: Coordinator {
@@ -23,7 +25,21 @@ final class OrderListCoordinator: Coordinator {
 
     // MARK: - Initial navigation
     func start() {
-        let orderListView = UIHostingController(rootView: self.dependencyDelegate.makeOrderListView())
+        let orderListView = UIHostingController(
+            rootView: self.dependencyDelegate
+                .makeOrderListView(navigationDelegate: self)
+        )
         self.navigationController.pushViewController(orderListView, animated: true)
     }
 }
+
+// MARK: - Container navigation implementation
+extension OrderListCoordinator: OrderListNavigationDelegate {
+    func navigateToOrderDetail(orderID: String) {
+        let orderDetailView = UIHostingController(
+            rootView: self.dependencyDelegate.makeOrderDetailView()
+        )
+        self.navigationController.pushViewController(orderDetailView, animated: true)
+    }
+}
+

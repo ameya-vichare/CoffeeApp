@@ -35,7 +35,7 @@ final class OrderListDIContainer {
 // MARK: - Coordinator dependencies implementation
 extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
     @MainActor
-    func makeOrderListView() -> AnyView {
+    func makeOrderListView(navigationDelegate: OrderListNavigationDelegate) -> AnyView {
         func getOrderModuleClientRepository() -> OrderModuleClientRepository {
             OrderModuleClientRepository(
                 remoteAPI: OrderModuleRemoteAPI(
@@ -51,7 +51,8 @@ extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
             DefaultOrderListViewModel(
                 getOrdersUseCase: GetOrdersUseCase(
                     repository: getOrderModuleClientRepository()
-                )
+                ),
+                navigationDelegate: navigationDelegate
             )
         }
         
@@ -59,5 +60,10 @@ extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
             .environment(\.imageService, self.dependencies.imageService)
         
         return AnyView(orderListView)
+    }
+    
+    func makeOrderDetailView() -> AnyView {
+        let orderDetailView = OrderDetailView()
+        return AnyView(orderDetailView)
     }
 }

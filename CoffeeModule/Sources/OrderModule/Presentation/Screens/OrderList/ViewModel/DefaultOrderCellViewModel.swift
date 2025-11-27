@@ -8,8 +8,22 @@
 import AppUtils
 import AppModels
 
-// View model for the single order
-struct OrderCellViewModel {
+protocol OrderCellViewModelOutput {
+    var id: String { get }
+    var userName: String { get }
+    var createdAt: String { get }
+    var displayTotalPriceLabel: String { get }
+    var statusDisplayLabel: String { get }
+    var itemsViewModel: [OrderItemCellViewModel] { get }
+}
+
+protocol OrderCellViewModelActions {
+    func navigateToOrderDetail()
+}
+
+typealias OrderCellViewModel = OrderCellViewModelOutput & OrderCellViewModelActions
+
+struct DefaultOrderCellViewModel: OrderCellViewModel {
     let id: String
     let userName: String
     let createdAt: String
@@ -17,9 +31,12 @@ struct OrderCellViewModel {
     let statusDisplayLabel: String
     let itemsViewModel: [OrderItemCellViewModel]
     
+    let onNavigateToOrderDetail: (String) -> Void
+    
     init(
         order: Order,
-        itemsViewModel: [OrderItemCellViewModel]
+        itemsViewModel: [OrderItemCellViewModel],
+        onNavigateToOrderDetail: @escaping (String) -> Void
     ) {
         self.id = order.id ?? ""
         self.userName = order.userName ?? ""
@@ -38,6 +55,14 @@ struct OrderCellViewModel {
         } else {
             self.createdAt = ""
         }
+        
+        self.onNavigateToOrderDetail = onNavigateToOrderDetail
     }
 }
 
+// MARK: - Actions
+extension DefaultOrderCellViewModel {
+    func navigateToOrderDetail() {
+        onNavigateToOrderDetail(id)
+    }
+}
