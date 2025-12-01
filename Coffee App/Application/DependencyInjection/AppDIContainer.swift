@@ -13,12 +13,16 @@ import CoffeeModule
 import ImageLoading
 import SwiftUI
 import Persistence
+import AuthModule
+import AppModels
 
 final class AppDIContainer {
     private let networkService: NetworkService
     private let imageService: ImageService
     private let persistentProvider: PersistentContainerProvider
     private let networkMonitoringService: NetworkMonitoring
+    
+    private let sharedUserSessionRepository: UserSessionRepositoryProtocol
     
     init() {
         let appConfiguration = AppConfiguration()
@@ -39,6 +43,11 @@ final class AppDIContainer {
         
         self.networkMonitoringService = NetworkMonitor()
         self.networkMonitoringService.start()
+        
+        // Shared
+        self.sharedUserSessionRepository = UserSessionRepository(
+            dataStore: AuthModuleCoreDataStore()
+        )
     }
 }
 
@@ -70,5 +79,12 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
                 imageService: imageService
             )
         )
+    }
+}
+
+// MARK: - User Session
+extension AppDIContainer {
+    func checkUserAuthentication() async throws -> UserSession {
+        try await self.sharedUserSessionRepository.getUserSession()
     }
 }

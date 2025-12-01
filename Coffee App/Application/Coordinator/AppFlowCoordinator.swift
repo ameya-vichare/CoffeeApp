@@ -18,9 +18,29 @@ final class AppFlowCoordinator: Coordinator {
 
     // MARK: - Initial navigation
     func start() {
+        Task {
+            await checkAuthenticationAndRoute()
+        }
+    }
+    
+    @MainActor
+    private func checkAuthenticationAndRoute() async {
+        do {
+            let userSession = try await self.dependencyContainer.checkUserAuthentication()
+            showHome()
+        } catch {
+            showLogin()
+        }
+    }
+    
+    private func showHome() {
         let tabBarCoordinator = dependencyContainer.makeTabBarCoordinator(
             navigationController: navigationController
         )
         tabBarCoordinator.start()
+    }
+    
+    private func showLogin() {
+        print("Login")
     }
 }

@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "AuthModule",
+    platforms: [
+        .iOS(.v17)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
@@ -12,11 +15,29 @@ let package = Package(
             targets: ["AuthModule"]
         ),
     ],
+    dependencies: [
+        .package(path: "../AppModels"),
+        .package(path: "../Networking"),
+        .package(path: "../AppEndpoints"),
+        .package(path: "../AppConstants"),
+        .package(path: "../AppUtils"),
+        .package(path: "../DesignSystem"),
+        .package(path: "../Persistence")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AuthModule"
+            name: "AuthModule",
+            dependencies: [
+                "AppModels",
+                "Networking",
+                "AppEndpoints",
+                "AppConstants",
+                "AppUtils",
+                "DesignSystem",
+                "Persistence"
+            ]
         ),
         .testTarget(
             name: "AuthModuleTests",
