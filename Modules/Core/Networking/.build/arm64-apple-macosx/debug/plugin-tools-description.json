@@ -1,0 +1,701 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.xctest/Contents/MacOS/NetworkingPackageTests",
+      "packagePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking",
+      "productName" : "NetworkingPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.Networking-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/sources",
+      "importPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/APIConfig.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkRequest.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "Networking",
+      "moduleOutputPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/Networking.swiftmodule",
+      "objects" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.swift.o",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.swift.o",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.swift.o",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx12.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/include/Networking-Swift.h",
+        "-color-diagnostics",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "networking"
+      ],
+      "outputFileMapPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/Networking.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/APIConfig.swift",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkClient.swift",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkError.swift",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkRequest.swift"
+      ],
+      "tempsPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.NetworkingPackageTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/sources",
+      "importPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/NetworkingTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "NetworkingPackageTests",
+      "moduleOutputPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/NetworkingPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx12.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/include/NetworkingPackageTests-Swift.h",
+        "-color-diagnostics",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "networking"
+      ],
+      "outputFileMapPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/NetworkingPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.NetworkingTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/sources",
+      "importPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Tests/NetworkingTests/NetworkClientTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/Networking.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "NetworkingTests",
+      "moduleOutputPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/NetworkingTests.swiftmodule",
+      "objects" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/NetworkClientTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-color-diagnostics",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "networking"
+      ],
+      "outputFileMapPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/NetworkClientTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules/NetworkingTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Tests/NetworkingTests/NetworkClientTests.swift"
+      ],
+      "tempsPath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "Networking" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "Networking",
+      "-package-name",
+      "networking",
+      "-c",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/APIConfig.swift",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkClient.swift",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkError.swift",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkRequest.swift",
+      "-I",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx12.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/include/Networking-Swift.h",
+      "-color-diagnostics",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "networking",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "NetworkingPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "NetworkingPackageTests",
+      "-package-name",
+      "networking",
+      "-c",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx12.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/include/NetworkingPackageTests-Swift.h",
+      "-color-diagnostics",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "networking",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "NetworkingTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "NetworkingTests",
+      "-package-name",
+      "networking",
+      "-c",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Tests/NetworkingTests/NetworkClientTests.swift",
+      "-I",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-color-diagnostics",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "networking",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "Networking" : [
+
+    ],
+    "NetworkingPackageTests" : [
+      "NetworkingTests",
+      "Networking"
+    ],
+    "NetworkingTests" : [
+      "Networking"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/APIConfig.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkRequest.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/sources"
+    },
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/sources"
+    },
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/NetworkClientTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Tests/NetworkingTests/NetworkClientTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/NetworkingTests.build/sources"
+    },
+    "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

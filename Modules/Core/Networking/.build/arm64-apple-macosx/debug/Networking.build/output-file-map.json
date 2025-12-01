@@ -1,0 +1,33 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/master.swiftdeps"
+  },
+  "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/APIConfig.swift": {
+    "dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.d",
+    "object": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.swift.o",
+    "swiftmodule": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig~partial.swiftmodule",
+    "swift-dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.swiftdeps",
+    "diagnostics": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/APIConfig.dia"
+  },
+  "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkClient.swift": {
+    "dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.d",
+    "object": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.swift.o",
+    "swiftmodule": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.swiftdeps",
+    "diagnostics": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkClient.dia"
+  },
+  "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkError.swift": {
+    "dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.d",
+    "object": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.swift.o",
+    "swiftmodule": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError~partial.swiftmodule",
+    "swift-dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.swiftdeps",
+    "diagnostics": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkError.dia"
+  },
+  "/Users/ameya/Desktop/Workspace/Coffee App/Networking/Sources/Networking/NetworkRequest.swift": {
+    "dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.d",
+    "object": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.swift.o",
+    "swiftmodule": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest~partial.swiftmodule",
+    "swift-dependencies": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.swiftdeps",
+    "diagnostics": "/Users/ameya/Desktop/Workspace/Coffee App/Networking/.build/arm64-apple-macosx/debug/Networking.build/NetworkRequest.dia"
+  }
+}
