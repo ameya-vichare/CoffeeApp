@@ -8,10 +8,6 @@
 import AppModels
 import Persistence
 
-public protocol UserSessionRepositoryProtocol {
-    func getUserSession() async throws -> UserSession
-}
-
 public final class UserSessionRepository: UserSessionRepositoryProtocol {
     let dataStore: AuthModuleDataStoreProtocol
     

@@ -84,7 +84,13 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
 
 // MARK: - User Session
 extension AppDIContainer {
-    func checkUserAuthentication() async throws -> UserSession {
-        try await self.sharedUserSessionRepository.getUserSession()
+    @discardableResult
+    func getUserAuthState() async -> UserAuthenticationState {
+        do {
+            let userSession = try await self.sharedUserSessionRepository.getUserSession()
+            return .authenticated(userSession: userSession)
+        } catch {
+            return .unAuthenticated
+        }
     }
 }

@@ -25,10 +25,12 @@ final class AppFlowCoordinator: Coordinator {
     
     @MainActor
     private func checkAuthenticationAndRoute() async {
-        do {
-            let userSession = try await self.dependencyContainer.checkUserAuthentication()
+        let authState = await self.dependencyContainer.getUserAuthState()
+        
+        switch authState {
+        case .authenticated(_):
             showHome()
-        } catch {
+        case .unAuthenticated:
             showLogin()
         }
     }
