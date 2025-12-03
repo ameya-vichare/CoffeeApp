@@ -7,14 +7,14 @@
 
 import AppModels
 
-public protocol AuthModuleDataStoreProtocol {
-    func getUserSession() throws -> UserSession
+public enum AuthModuleDataStoreError: Error {
+    case userSessionNotFound
 }
 
 public final class AuthModuleCoreDataStore: AuthModuleDataStoreProtocol {
     public init() {}
     
     public func getUserSession() throws -> UserSession {
-        UserSession(userId: "", userName: "", token: "")
+        throw AuthModuleDataStoreError.userSessionNotFound
     }
 }

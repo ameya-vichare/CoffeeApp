@@ -60,6 +60,10 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
         )
     }
     
+    func makeAuthDIContainer() -> AuthDIContainer {
+        AuthDIContainer()
+    }
+    
     func makeOrderListDIContainer() -> OrderListDIContainer {
         OrderListDIContainer(
             dependencies: OrderListDIContainer.Dependencies(

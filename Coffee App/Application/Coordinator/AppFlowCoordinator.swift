@@ -43,6 +43,10 @@ final class AppFlowCoordinator: Coordinator {
     }
     
     private func showLogin() {
-        print("Login")
+        let authDIContainer = dependencyContainer.makeAuthDIContainer()
+        let authCoordinator = authDIContainer.makeAuthCoordinator(
+            navigationController: navigationController
+        )
+        authCoordinator.start()
     }
 }

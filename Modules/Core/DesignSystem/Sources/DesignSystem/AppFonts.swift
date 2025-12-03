@@ -12,6 +12,10 @@ public enum AppFonts {
         .title
     }
     
+    public static var title2: Font {
+        .title2
+    }
+    
     public static var title3: Font {
         .title3
     }
@@ -61,6 +65,11 @@ public enum AppFonts {
     
     public static var mediumSixteen: Font {
         .system(size: 16)
+        .weight(.medium)
+    }
+    
+    public static var mediumThirty: Font {
+        .system(size: 30)
         .weight(.medium)
     }
 }
