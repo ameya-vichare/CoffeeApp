@@ -12,6 +12,12 @@ import AppUtils
 public struct LoginView: View {
     @ObservedObject private var viewModel: DefaultLoginViewModel
     @StateObject private var kb = KeyboardObserver()
+    @FocusState private var focussedField: FocussedField?
+    
+    enum FocussedField {
+        case username
+        case password
+    }
     
     public init(viewModel: DefaultLoginViewModel) {
         self.viewModel = viewModel
@@ -45,6 +51,11 @@ public struct LoginView: View {
                         .foregroundColor(AppColors.primaryGray)
                         .font(AppFonts.subHeadline)
                     )
+                        .focused($focussedField, equals: FocussedField.username)
+                        .submitLabel(.next)
+                        .onSubmit {
+                            focussedField = .password
+                        }
                         .textFieldStyle(.plain)
                         .padding([.horizontal], AppPointSystem.point_16)
                         .padding([.vertical], AppPointSystem.point_16)
@@ -71,6 +82,11 @@ public struct LoginView: View {
                         .foregroundColor(AppColors.primaryGray)
                         .font(AppFonts.subHeadline)
                     )
+                        .focused($focussedField, equals: FocussedField.password)
+                        .submitLabel(.done)
+                        .onSubmit {
+                            focussedField = nil
+                        }
                         .textFieldStyle(.plain)
                         .padding([.horizontal], AppPointSystem.point_16)
                         .padding([.vertical], AppPointSystem.point_16)
@@ -110,7 +126,9 @@ public struct LoginView: View {
             .padding(.bottom, kb.height)
             .animation(.easeOut, value: kb.height)
         }
-        
+        .onTapGesture {
+            focussedField = nil
+        }
     }
 }
 
