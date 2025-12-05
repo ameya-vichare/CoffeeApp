@@ -23,7 +23,11 @@ final class AuthDIContainer {
 
 extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
     func makeLoginView() -> AnyView {
-        let loginView = LoginView()
+        func makeLoginViewModel() -> DefaultLoginViewModel {
+            DefaultLoginViewModel()
+        }
+        
+        let loginView = LoginView(viewModel: makeLoginViewModel())
         
         return AnyView(loginView)
     }

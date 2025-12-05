@@ -10,12 +10,12 @@ import DesignSystem
 import AppUtils
 
 public struct LoginView: View {
-    
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @ObservedObject private var viewModel: DefaultLoginViewModel
     @StateObject private var kb = KeyboardObserver()
     
-    public init() {}
+    public init(viewModel: DefaultLoginViewModel) {
+        self.viewModel = viewModel
+    }
     
     public var body: some View {
         ZStack {
@@ -36,7 +36,12 @@ public struct LoginView: View {
                     Text("Username")
                         .font(AppFonts.headlineMedium)
                     
-                    TextField("Username", text: $username, prompt: Text("for e.g john.doe")
+                    TextField(
+                        "Username",
+                        text: $viewModel.username,
+                        prompt: Text(
+                            "for e.g john.doe"
+                        )
                         .foregroundColor(AppColors.primaryGray)
                         .font(AppFonts.subHeadline)
                     )
@@ -57,7 +62,12 @@ public struct LoginView: View {
                     Text("Password")
                         .font(AppFonts.headlineMedium)
                     
-                    SecureField("Password", text: $password, prompt: Text("for e.g 1234, seriously don't use this!")
+                    SecureField(
+                        "Password",
+                        text: $viewModel.password,
+                        prompt: Text(
+                            "for e.g 1234, seriously don't use this!"
+                        )
                         .foregroundColor(AppColors.primaryGray)
                         .font(AppFonts.subHeadline)
                     )
@@ -78,7 +88,9 @@ public struct LoginView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: AppPointSystem.point_12)
                             .frame(height: AppPointSystem.point_52)
-                            .foregroundStyle(AppColors.primaryCoffee)
+                            .foregroundStyle(
+                                viewModel.isFormValid ? AppColors.primaryCoffee : AppColors.primaryGray
+                            )
                         
                         Text(
                             "Login"
@@ -87,8 +99,10 @@ public struct LoginView: View {
                             .foregroundStyle(AppColors.white)
                     }
                 }
+                .disabled(!viewModel.isFormValid)
                 .buttonStyle(.plain)
                 .padding([.top], AppPointSystem.point_32)
+                
                 
                 Spacer()
             }
@@ -101,5 +115,5 @@ public struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(viewModel: DefaultLoginViewModel())
 }
