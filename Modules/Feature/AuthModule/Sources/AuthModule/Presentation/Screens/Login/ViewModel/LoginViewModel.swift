@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import AppModels
 
 public protocol LoginViewModelOutput {
     var username: String { get set }
@@ -15,6 +16,10 @@ public protocol LoginViewModelOutput {
 
 public protocol LoginViewModelActions {
     func onLoginClicked()
+}
+
+public protocol LoginViewNavigationDelegate {
+    func onUserLoginSuccess(userSession: UserSession)
 }
 
 public typealias LoginViewModel = LoginViewModelOutput & LoginViewModelActions
@@ -27,9 +32,14 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     
     private var cancellables: Set<AnyCancellable> = []
     private let userLoginUseCase: UserLoginUseCaseProtocol
+    let navigationDelegate: LoginViewNavigationDelegate?
     
-    public init(userLoginUseCase: UserLoginUseCaseProtocol) {
+    public init(
+        userLoginUseCase: UserLoginUseCaseProtocol,
+        navigationDelegate: LoginViewNavigationDelegate?
+    ) {
         self.userLoginUseCase = userLoginUseCase
+        self.navigationDelegate = navigationDelegate
         self.bindPublishers()
     }
     
@@ -65,8 +75,7 @@ extension DefaultLoginViewModel {
                     userName: username,
                     password: password
                 )
-                // Handle successful login - userSession contains the response
-                print("Login successful: \(userSession)")
+                navigationDelegate?.onUserLoginSuccess(userSession: userSession)
             } catch {
                 // Handle error
                 print("Login failed: \(error)")

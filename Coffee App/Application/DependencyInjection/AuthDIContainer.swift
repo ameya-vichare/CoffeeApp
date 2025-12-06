@@ -29,12 +29,13 @@ final class AuthDIContainer {
 
 extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
     @MainActor
-    func makeLoginView() -> AnyView {
+    func makeLoginView(navigationDelegate: LoginViewNavigationDelegate) -> AnyView {
         func makeLoginViewModel() -> DefaultLoginViewModel {
             DefaultLoginViewModel(
                 userLoginUseCase: UserLoginUseCase(
                     repository: dependencies.authRepository
-                )
+                ),
+                navigationDelegate: navigationDelegate
             )
         }
         

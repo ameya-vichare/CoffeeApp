@@ -141,7 +141,8 @@ public struct LoginView: View {
                     dataStore: FakeAuthModuleDataStore(),
                     remoteAPI: FakeAuthRemoteAPI()
                 )
-            )
+            ),
+            navigationDelegate: nil
         )
     )
 }

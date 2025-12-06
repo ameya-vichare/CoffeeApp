@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import AuthModule
+import AppModels
 
 protocol AuthCoordinatorDependencyDelegate {
-    func makeLoginView() -> AnyView
+    func makeLoginView(navigationDelegate: LoginViewNavigationDelegate) -> AnyView
 }
 
 final class AuthCoordinator: Coordinator {
@@ -23,7 +25,7 @@ final class AuthCoordinator: Coordinator {
     }
 
     func start() {
-        let loginView = dependencyDelegate.makeLoginView()
+        let loginView = dependencyDelegate.makeLoginView(navigationDelegate: self)
         let hostController = UIHostingController(rootView: loginView)
         navigationController.pushViewController(hostController, animated: true)
     }
