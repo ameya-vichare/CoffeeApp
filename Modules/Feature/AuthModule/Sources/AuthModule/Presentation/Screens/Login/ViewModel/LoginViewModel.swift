@@ -27,7 +27,6 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     private var cancellables: Set<AnyCancellable> = []
     
     public init() {
-        
         self.bindPublishers()
     }
     
@@ -51,6 +50,6 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     
     private func isPasswordValid(_ password: String) -> Bool {
         let password = password.trimmingCharacters(in: .whitespaces)
-        return password.count >= 6
+        return password.count >= 8
     }
 }
