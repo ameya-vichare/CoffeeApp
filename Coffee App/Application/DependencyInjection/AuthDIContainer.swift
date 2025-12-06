@@ -7,11 +7,13 @@
 
 import SwiftUI
 import AuthModule
+import AppModels
 
 final class AuthDIContainer {
     struct Dependencies {
         let authRepository: AuthRepositoryProtocol
         let makeTabBarCoordinator: (UINavigationController) -> TabBarCoordinator
+        let updateUserSession: (UserSession) -> Void
     }
     
     private let dependencies: Dependencies
@@ -47,5 +49,9 @@ extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
     
     func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator {
         dependencies.makeTabBarCoordinator(navigationController)
+    }
+    
+    func updateUserSession(_ userSession: UserSession) {
+        dependencies.updateUserSession(userSession)
     }
 }

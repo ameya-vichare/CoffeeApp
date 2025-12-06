@@ -71,7 +71,8 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
         AuthDIContainer(
             dependencies: AuthDIContainer.Dependencies(
                 authRepository: sharedAuthRepository,
-                makeTabBarCoordinator: makeTabBarCoordinator(navigationController:)
+                makeTabBarCoordinator: makeTabBarCoordinator(navigationController:),
+                updateUserSession: updateUserSession(_:)
             )
         )
     }

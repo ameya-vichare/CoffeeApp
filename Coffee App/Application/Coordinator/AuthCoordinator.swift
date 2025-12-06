@@ -12,6 +12,7 @@ import AppModels
 protocol AuthCoordinatorDependencyDelegate {
     func makeLoginView(navigationDelegate: LoginViewNavigationDelegate) -> AnyView
     func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator
+    func updateUserSession(_ userSession: UserSession)
 }
 
 final class AuthCoordinator: Coordinator {
@@ -34,6 +35,8 @@ final class AuthCoordinator: Coordinator {
 
 extension AuthCoordinator: LoginViewNavigationDelegate {
     func onUserLoginSuccess(userSession: UserSession) {
+        dependencyDelegate.updateUserSession(userSession)
+        
         let tabBarCoordinator = dependencyDelegate.makeTabBarCoordinator(
             navigationController: navigationController
         )
