@@ -8,6 +8,7 @@
 import SwiftUI
 import DesignSystem
 import AppUtils
+import Persistence
 
 public struct LoginView: View {
     @ObservedObject private var viewModel: DefaultLoginViewModel
@@ -133,5 +134,14 @@ public struct LoginView: View {
 }
 
 #Preview {
-    LoginView(viewModel: DefaultLoginViewModel())
+    LoginView(
+        viewModel: DefaultLoginViewModel(
+            userLoginUseCase: UserLoginUseCase(
+                repository: AuthRepository(
+                    dataStore: FakeAuthModuleDataStore(),
+                    remoteAPI: FakeAuthRemoteAPI()
+                )
+            )
+        )
+    )
 }
