@@ -6,7 +6,7 @@
 //
 
 public struct UserSession: Codable {
-    let userId: String
+    let userId: Int
     let userName: String
     let token: String
     
@@ -16,7 +16,7 @@ public struct UserSession: Codable {
         case token
     }
     
-    public init(userId: String, userName: String, token: String) {
+    public init(userId: Int, userName: String, token: String) {
         self.userId = userId
         self.userName = userName
         self.token = token
