@@ -20,6 +20,5 @@ extension CreateOrderEntity {
     }
 
     @NSManaged public var id: UUID
-    @NSManaged public var userId: Int16
     @NSManaged public var items: NSOrderedSet?
 }

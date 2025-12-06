@@ -8,8 +8,14 @@
 import Foundation
 
 public protocol NetworkService: Sendable {
+    func set(headerProvider: NetworkServiceHeaderProvider?)
+    
     func perform<T: Decodable>(request: NetworkRequest, responseType: T.Type) async throws -> T
     func performRaw(request: NetworkRequest) async throws -> NetworkResponse
+}
+
+public protocol NetworkServiceHeaderProvider: AnyObject {
+    func getDynamicHeaders() -> [String: String]
 }
 
 public final class NetworkClient: NetworkService {
@@ -17,6 +23,7 @@ public final class NetworkClient: NetworkService {
     let session: URLSessionProtocol
     let decoder: JSONDecoder
     let defaultHeaders: [String: String]
+    weak var headerProvider: NetworkServiceHeaderProvider?
     
     public init(
         baseURL: URL?,
@@ -28,6 +35,10 @@ public final class NetworkClient: NetworkService {
         self.session = session
         self.defaultHeaders = defaultHeaders
         self.decoder = decoder
+    }
+    
+    public func set(headerProvider: NetworkServiceHeaderProvider?) {
+        self.headerProvider = headerProvider
     }
     
     public func perform<T: Decodable & Sendable>(request: NetworkRequest, responseType: T.Type) async throws -> T {
@@ -80,6 +91,11 @@ extension NetworkClient {
         urlRequest.httpBody = request.httpBody
         
         var finalHeaders = defaultHeaders
+        
+        if let dynamicHeaders = self.headerProvider?.getDynamicHeaders() {
+            finalHeaders.merge(dynamicHeaders) { _, new in new }
+        }
+        
         if let requestHeaders = request.httpHeaders {
             finalHeaders.merge(requestHeaders) { _, new in new }
         }

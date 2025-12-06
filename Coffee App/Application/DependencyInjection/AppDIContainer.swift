@@ -23,9 +23,11 @@ final class AppDIContainer {
     private let networkMonitoringService: NetworkMonitoring
     
     private let sharedAuthRepository: AuthRepositoryProtocol
+    private var sharedUserSession: UserSession?
     
     init() {
         let appConfiguration = AppConfiguration()
+        let apiKey = appConfiguration.apiKey
         guard let url = URL(string: appConfiguration.apiBaseURL) else {
             fatalError("Invalid URL: \(appConfiguration.apiBaseURL)")
         }
@@ -33,7 +35,7 @@ final class AppDIContainer {
         self.networkService = NetworkClient(
             baseURL: url,
             defaultHeaders: [
-                "Authorization": "Bearer \(appConfiguration.apiKey)"
+                "Authorization": "Bearer \(apiKey)"
             ]
         )
         
@@ -51,6 +53,8 @@ final class AppDIContainer {
             ),
             remoteAPI: AuthRemoteAPI(networkService: networkService)
         )
+        
+        self.networkService.set(headerProvider: self)
     }
 }
 
@@ -100,9 +104,26 @@ extension AppDIContainer {
     func getUserAuthState() async -> UserAuthenticationState {
         do {
             let userSession = try await self.sharedAuthRepository.getUserSession()
+            self.updateUserSession(userSession)
             return .authenticated(userSession: userSession)
         } catch {
             return .unAuthenticated
         }
+    }
+    
+    func updateUserSession(_ userSession: UserSession) {
+        self.sharedUserSession = userSession
+    }
+}
+
+extension AppDIContainer: NetworkServiceHeaderProvider {
+    func getDynamicHeaders() -> [String : String] {
+        var headers: [String: String] = [:]
+        
+        if let token = sharedUserSession?.token {
+            headers["token"] = token
+        }
+        
+        return headers
     }
 }

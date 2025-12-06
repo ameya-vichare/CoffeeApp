@@ -31,7 +31,6 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @
         }
         
         let createOrder = CreateOrder(
-            userId: orders.first?.userId ?? 1,
             items: orders.flatMap { $0.items }
         )
         let createOrderAPIConfig = CreateOrderEndpoint.createOrder(data: createOrder)

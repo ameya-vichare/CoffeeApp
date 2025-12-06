@@ -21,13 +21,12 @@ struct CreateOrderMapper {
             }
         }
         
-        return CreateOrder(userId: Int(entity.userId), items: items)
+        return CreateOrder(items: items)
     }
     
     func toEntity(order: CreateOrder, in context: NSManagedObjectContext) -> CreateOrderEntity {
         let entity = CreateOrderEntity(context: context)
         entity.id = UUID()
-        entity.userId = Int16(order.userId)
         
         var items: [CreateOrderItemEntity] = []
         order.items.forEach { item in
