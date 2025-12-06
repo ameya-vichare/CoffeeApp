@@ -46,7 +46,9 @@ final class AppDIContainer {
         
         // Shared
         self.sharedAuthRepository = AuthRepository(
-            dataStore: AuthModuleCoreDataStore(),
+            dataStore: AuthModuleCoreDataStore(
+                container: persistentProvider.container
+            ),
             remoteAPI: AuthRemoteAPI(networkService: networkService)
         )
     }

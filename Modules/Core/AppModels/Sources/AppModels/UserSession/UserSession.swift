@@ -6,9 +6,9 @@
 //
 
 public struct UserSession: Codable {
-    let userId: Int
-    let userName: String
-    let token: String
+    public let userId: Int
+    public let userName: String
+    public let token: String
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"

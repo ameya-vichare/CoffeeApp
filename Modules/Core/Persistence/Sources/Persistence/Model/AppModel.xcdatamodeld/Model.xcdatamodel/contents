@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24299" systemVersion="25A362" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24299" systemVersion="25B78" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="CreateOrderEntity" representedClassName="CreateOrderEntity" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="userId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -11,5 +11,10 @@
         <attribute name="optionIDs" attributeType="Transformable" valueTransformerName="IntArrayTransformer"/>
         <attribute name="quantity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="order" maxCount="1" deletionRule="Nullify" destinationEntity="CreateOrderEntity" inverseName="items" inverseEntity="CreateOrderEntity"/>
+    </entity>
+    <entity name="UserSessionEntity" representedClassName="UserSessionEntity" syncable="YES">
+        <attribute name="token" attributeType="String"/>
+        <attribute name="userId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userName" attributeType="String"/>
     </entity>
 </model>

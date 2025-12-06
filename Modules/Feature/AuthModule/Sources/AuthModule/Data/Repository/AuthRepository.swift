@@ -23,6 +23,11 @@ public final class AuthRepository: AuthRepositoryProtocol {
     }
     
     public func loginUser(config: APIConfig) async throws -> UserSession {
-        try await self.remoteAPI.loginUser(config: config)
+        let userSession = try await self.remoteAPI.loginUser(config: config)
+        do {
+            try await self.dataStore.storeUserSession(userSession: userSession)
+        } catch {}
+        
+        return userSession
     }
 }

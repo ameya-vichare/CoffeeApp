@@ -13,5 +13,9 @@ public final class FakeAuthModuleDataStore: AuthModuleDataStoreProtocol {
     public func getUserSession() throws -> UserSession {
         throw AuthModuleDataStoreError.userSessionNotFound
     }
+    
+    public func storeUserSession(userSession: AppModels.UserSession) async throws {
+        
+    }
 }
 

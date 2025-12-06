@@ -8,5 +8,6 @@
 import AppModels
 
 public protocol AuthModuleDataStoreProtocol {
-    func getUserSession() throws -> UserSession
+    func getUserSession() async throws -> UserSession
+    func storeUserSession(userSession: UserSession) async throws
 }
