@@ -30,3 +30,9 @@ final class AuthCoordinator: Coordinator {
         navigationController.pushViewController(hostController, animated: true)
     }
 }
+
+extension AuthCoordinator: LoginViewNavigationDelegate {
+    func onUserLoginSuccess(userSession: UserSession) {
+        
+    }
+}
