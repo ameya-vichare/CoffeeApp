@@ -7,6 +7,6 @@
 
 import AppModels
 
-public protocol UserSessionRepositoryProtocol {
+public protocol AuthRepositoryProtocol {
     func getUserSession() async throws -> UserSession
 }

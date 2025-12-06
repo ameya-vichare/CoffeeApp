@@ -14,7 +14,7 @@ public protocol LoginViewModelOutput {
 }
 
 public protocol LoginViewModelActions {
-    
+    func onLoginClicked()
 }
 
 public typealias LoginViewModel = LoginViewModelOutput & LoginViewModelActions
@@ -51,5 +51,11 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     private func isPasswordValid(_ password: String) -> Bool {
         let password = password.trimmingCharacters(in: .whitespaces)
         return password.count >= 8
+    }
+}
+
+extension DefaultLoginViewModel {
+    public func onLoginClicked() {
+        
     }
 }

@@ -8,7 +8,7 @@
 import AppModels
 import Persistence
 
-public final class UserSessionRepository: UserSessionRepositoryProtocol {
+public final class AuthRepository: AuthRepositoryProtocol {
     let dataStore: AuthModuleDataStoreProtocol
     
     public init(dataStore: AuthModuleDataStoreProtocol) {

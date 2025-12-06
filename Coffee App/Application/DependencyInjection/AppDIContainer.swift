@@ -22,7 +22,7 @@ final class AppDIContainer {
     private let persistentProvider: PersistentContainerProvider
     private let networkMonitoringService: NetworkMonitoring
     
-    private let sharedUserSessionRepository: UserSessionRepositoryProtocol
+    private let sharedAuthRepository: AuthRepositoryProtocol
     
     init() {
         let appConfiguration = AppConfiguration()
@@ -45,7 +45,7 @@ final class AppDIContainer {
         self.networkMonitoringService.start()
         
         // Shared
-        self.sharedUserSessionRepository = UserSessionRepository(
+        self.sharedAuthRepository = AuthRepository(
             dataStore: AuthModuleCoreDataStore()
         )
     }
@@ -91,7 +91,7 @@ extension AppDIContainer {
     @discardableResult
     func getUserAuthState() async -> UserAuthenticationState {
         do {
-            let userSession = try await self.sharedUserSessionRepository.getUserSession()
+            let userSession = try await self.sharedAuthRepository.getUserSession()
             return .authenticated(userSession: userSession)
         } catch {
             return .unAuthenticated

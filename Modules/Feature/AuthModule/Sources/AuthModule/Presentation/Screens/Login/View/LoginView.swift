@@ -99,7 +99,7 @@ public struct LoginView: View {
                 }
 
                 Button {
-                    
+                    viewModel.onLoginClicked()
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: AppPointSystem.point_12)
