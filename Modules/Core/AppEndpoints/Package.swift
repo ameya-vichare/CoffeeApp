@@ -15,7 +15,8 @@ let package = Package(
             targets: ["AppEndpoints"]),
     ],
     dependencies: [
-        .package(path: "../Networking")
+        .package(path: "../Networking"),
+        .package(path: "../AppModels")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -23,7 +24,8 @@ let package = Package(
         .target(
             name: "AppEndpoints",
             dependencies: [
-                "Networking"
+                "Networking",
+                "AppModels"
             ]
         ),
         .testTarget(

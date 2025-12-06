@@ -19,14 +19,17 @@ public protocol LoginViewModelActions {
 
 public typealias LoginViewModel = LoginViewModelOutput & LoginViewModelActions
 
+@MainActor
 public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     @Published public var username: String = ""
     @Published public var password: String = ""
     @Published public var isFormValid: Bool = false
     
     private var cancellables: Set<AnyCancellable> = []
+    private let userLoginUseCase: UserLoginUseCaseProtocol
     
-    public init() {
+    public init(userLoginUseCase: UserLoginUseCaseProtocol) {
+        self.userLoginUseCase = userLoginUseCase
         self.bindPublishers()
     }
     
@@ -56,6 +59,18 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
 
 extension DefaultLoginViewModel {
     public func onLoginClicked() {
-        
+        Task {
+            do {
+                let userSession = try await userLoginUseCase.execute(
+                    userName: username,
+                    password: password
+                )
+                // Handle successful login - userSession contains the response
+                print("Login successful: \(userSession)")
+            } catch {
+                // Handle error
+                print("Login failed: \(error)")
+            }
+        }
     }
 }

@@ -9,8 +9,14 @@ import SwiftUI
 import AuthModule
 
 final class AuthDIContainer {
-    init() {
-        
+    struct Dependencies {
+        let authRepository: AuthRepositoryProtocol
+    }
+    
+    private let dependencies: Dependencies
+    
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
     }
     
     func makeAuthCoordinator(navigationController: UINavigationController) -> AuthCoordinator {
@@ -24,7 +30,11 @@ final class AuthDIContainer {
 extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
     func makeLoginView() -> AnyView {
         func makeLoginViewModel() -> DefaultLoginViewModel {
-            DefaultLoginViewModel()
+            DefaultLoginViewModel(
+                userLoginUseCase: UserLoginUseCase(
+                    repository: dependencies.authRepository
+                )
+            )
         }
         
         let loginView = LoginView(viewModel: makeLoginViewModel())

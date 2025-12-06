@@ -46,7 +46,8 @@ final class AppDIContainer {
         
         // Shared
         self.sharedAuthRepository = AuthRepository(
-            dataStore: AuthModuleCoreDataStore()
+            dataStore: AuthModuleCoreDataStore(),
+            remoteAPI: AuthRemoteAPI(networkService: networkService)
         )
     }
 }
@@ -61,7 +62,11 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
     }
     
     func makeAuthDIContainer() -> AuthDIContainer {
-        AuthDIContainer()
+        AuthDIContainer(
+            dependencies: AuthDIContainer.Dependencies(
+                authRepository: sharedAuthRepository
+            )
+        )
     }
     
     func makeOrderListDIContainer() -> OrderListDIContainer {
