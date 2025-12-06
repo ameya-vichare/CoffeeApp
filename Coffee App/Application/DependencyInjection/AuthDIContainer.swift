@@ -11,6 +11,7 @@ import AuthModule
 final class AuthDIContainer {
     struct Dependencies {
         let authRepository: AuthRepositoryProtocol
+        let makeTabBarCoordinator: (UINavigationController) -> TabBarCoordinator
     }
     
     private let dependencies: Dependencies
@@ -42,5 +43,9 @@ extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
         let loginView = LoginView(viewModel: makeLoginViewModel())
         
         return AnyView(loginView)
+    }
+    
+    func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator {
+        dependencies.makeTabBarCoordinator(navigationController)
     }
 }

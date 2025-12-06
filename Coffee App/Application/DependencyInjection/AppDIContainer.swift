@@ -64,7 +64,8 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
     func makeAuthDIContainer() -> AuthDIContainer {
         AuthDIContainer(
             dependencies: AuthDIContainer.Dependencies(
-                authRepository: sharedAuthRepository
+                authRepository: sharedAuthRepository,
+                makeTabBarCoordinator: makeTabBarCoordinator(navigationController:)
             )
         )
     }
