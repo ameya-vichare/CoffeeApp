@@ -9,11 +9,14 @@ import SwiftUI
 import DesignSystem
 import AppUtils
 import Persistence
+import Combine
 
 public struct LoginView: View {
     @ObservedObject private var viewModel: DefaultLoginViewModel
     @StateObject private var kb = KeyboardObserver()
     @FocusState private var focussedField: FocussedField?
+    @State var activeAlert: AlertData?
+    @State private var cancellables = Set<AnyCancellable>()
     
     enum FocussedField {
         case username
@@ -130,6 +133,24 @@ public struct LoginView: View {
         .onTapGesture {
             focussedField = nil
         }
+        .onAppear(perform: {
+            viewModel.alertSubject
+                .receive(on: DispatchQueue.main)
+                .sink { alertData in
+                    activeAlert = alertData
+                }
+                .store(in: &cancellables)
+        })
+        .alert(item: $activeAlert, content: { alertData in
+            Alert(
+                title: Text(alertData.title),
+                message: Text(alertData.message),
+                dismissButton: .default(
+                    Text(alertData.button.text),
+                    action: alertData.button.action
+                )
+            )
+        })
     }
 }
 

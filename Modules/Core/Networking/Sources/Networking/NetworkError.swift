@@ -40,11 +40,34 @@ public enum NetworkError: Error, Equatable {
     }
     
     public var message: String {
+        var message: String = "Please try again in sometime."
+        
         switch self {
         case .noInternet:
-            "Please check your internet connection and try again."
+            message = "Please check your internet connection and try again."
+        case .invalidResponse(_, let data):
+            if let errorMessage = extractErrorMessage(from: data) {
+                message = errorMessage.capitalized
+            }
         default:
-            "Please try again in sometime."
+            break
         }
+        
+        return message
+    }
+    
+    private func extractErrorMessage(from data: Data?) -> String? {
+        guard let data = data else { return nil }
+        
+        do {
+            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let errorMessage = json["error"] as? String {
+                return errorMessage
+            }
+        } catch {
+            return nil
+        }
+        
+        return nil
     }
 }

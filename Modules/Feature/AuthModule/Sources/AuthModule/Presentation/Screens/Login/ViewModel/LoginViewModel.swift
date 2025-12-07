@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 import AppModels
+import DesignSystem
+import Networking
 
 public protocol LoginViewModelOutput {
     var username: String { get set }
@@ -33,6 +35,11 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     private var cancellables: Set<AnyCancellable> = []
     private let userLoginUseCase: UserLoginUseCaseProtocol
     let navigationDelegate: LoginViewNavigationDelegate?
+    
+    private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
+    var alertPublisher: AnyPublisher<AlertData?, Never> {
+        self.alertSubject.eraseToAnyPublisher()
+    }
     
     public init(
         userLoginUseCase: UserLoginUseCaseProtocol,
@@ -77,10 +84,22 @@ extension DefaultLoginViewModel {
                     password: password
                 )
                 navigationDelegate?.onUserLoginSuccess(userSession: userSession)
+            } catch let error as NetworkError {
+                showAlert(title: error.title, message: error.message)
             } catch {
-                // TODO: - Handle error
-                print("Login failed: \(error)")
+                showAlert(title: "Login Failed", message: "Please try again.")
             }
         }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = AlertData(
+            title: title,
+            message: message,
+            button: (text: "Okay", action: { [weak self] in
+                self?.alertSubject.send(nil)
+            })
+        )
+        self.alertSubject.send(alert)
     }
 }
