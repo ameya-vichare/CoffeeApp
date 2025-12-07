@@ -15,7 +15,7 @@ final class AuthDIContainer {
         let makeTabBarCoordinator: (UINavigationController) -> TabBarCoordinator
         let updateUserSession: (UserSession) -> Void
     }
-    @Injected var authRepository: AuthRepositoryProtocol
+    @Injected private var authRepository: AuthRepositoryProtocol
     
     private let dependencies: Dependencies
     
