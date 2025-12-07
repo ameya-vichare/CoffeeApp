@@ -18,16 +18,16 @@ import Resolver
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
-        let assemblies: [DependencyAssembly] = [
+        let assembly: [DependencyAssembly] = [
             CoreServicesAssembly()
         ]
         
-        assemblies.forEach { $0.assemble(container: main) }
+        assembly.forEach { $0.assemble(using: main) }
     }
 }
 
 final class AppDIContainer {
-    private let networkService: NetworkService
+    @Injected private var networkService: NetworkService
     @Injected private var imageService: ImageService
     @Injected private var persistentProvider: PersistentContainerProvider
     @Injected private var networkMonitoringService: NetworkMonitoring
@@ -36,21 +36,9 @@ final class AppDIContainer {
     private var sharedUserSession: UserSession?
     
     init() {
-        let appConfiguration = AppConfiguration()
-        let apiKey = appConfiguration.apiKey
-        guard let url = URL(string: appConfiguration.apiBaseURL) else {
-            fatalError("Invalid URL: \(appConfiguration.apiBaseURL)")
-        }
-        
-        self.networkService = NetworkClient(
-            baseURL: url,
-            defaultHeaders: [
-                "Authorization": "Bearer \(apiKey)"
-            ]
-        )
-        
         // Shared
         let persistentProvider = Resolver.resolve(PersistentContainerProvider.self)
+        let networkService = Resolver.resolve(NetworkService.self)
         self.sharedAuthRepository = AuthRepository(
             dataStore: AuthModuleCoreDataStore(
                 container: persistentProvider.container

@@ -7,8 +7,6 @@
 
 import Resolver
 
-/// Protocol for dependency assemblies, similar to Swinject's Assembly pattern
 protocol DependencyAssembly {
-    func assemble(container: Resolver)
+    func assemble(using resolver: Resolver)
 }
-
