@@ -1,5 +1,4 @@
 {
-  "originHash" : "ff1ebdf0511601df8dd1088a6a91d2bc2a71a67f6f73a5daa0f2b4b729714a6c",
   "pins" : [
     {
       "identity" : "sdwebimage",
@@ -20,5 +19,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
