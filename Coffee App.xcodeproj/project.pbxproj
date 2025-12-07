@@ -22,6 +22,7 @@
 		9D065B902EE58E5C00120F6C /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9D065B8F2EE58E5C00120F6C /* Persistence */; };
 		9D065B932EE58E6A00120F6C /* AuthModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D065B922EE58E6A00120F6C /* AuthModule */; };
 		9D065B962EE58E7700120F6C /* CoffeeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D065B952EE58E7700120F6C /* CoffeeModule */; };
+		9D065B992EE58EE400120F6C /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 9D065B982EE58EE400120F6C /* Resolver */; };
 		9D47415F2E756FE400C16B6D /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 9D47415E2E756FE400C16B6D /* Networking */; };
 		9D4741742E75709300C16B6D /* CoffeeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741732E75709300C16B6D /* CoffeeModule */; };
 		9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B62E7716B700C16B6D /* DesignSystem */; };
@@ -89,6 +90,7 @@
 				9D065B8D2EE58E4F00120F6C /* NetworkMonitoring in Frameworks */,
 				9D065B672EE58DFA00120F6C /* ImageLoading in Frameworks */,
 				9D065B8A2EE58E2B00120F6C /* Networking in Frameworks */,
+				9D065B992EE58EE400120F6C /* Resolver in Frameworks */,
 				9DEB367E2EBA511F003DDC93 /* Persistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +166,7 @@
 				9D065B8F2EE58E5C00120F6C /* Persistence */,
 				9D065B922EE58E6A00120F6C /* AuthModule */,
 				9D065B952EE58E7700120F6C /* CoffeeModule */,
+				9D065B982EE58EE400120F6C /* Resolver */,
 			);
 			productName = "Coffee App";
 			productReference = 9D4741432E756E8100C16B6D /* Coffee App.app */;
@@ -228,6 +231,7 @@
 				9D065B8E2EE58E5C00120F6C /* XCLocalSwiftPackageReference "Modules/Core/Persistence" */,
 				9D065B912EE58E6A00120F6C /* XCLocalSwiftPackageReference "Modules/Feature/AuthModule" */,
 				9D065B942EE58E7700120F6C /* XCLocalSwiftPackageReference "Modules/Feature/CoffeeModule" */,
+				9D065B972EE58EE400120F6C /* XCRemoteSwiftPackageReference "Resolver" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D4741442E756E8100C16B6D /* Products */;
@@ -583,6 +587,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9D065B972EE58EE400120F6C /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9D065A382EDDDD0100120F6C /* DesignSystem */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -643,6 +658,11 @@
 		9D065B952EE58E7700120F6C /* CoffeeModule */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoffeeModule;
+		};
+		9D065B982EE58EE400120F6C /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D065B972EE58EE400120F6C /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
 		};
 		9D47415E2E756FE400C16B6D /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;

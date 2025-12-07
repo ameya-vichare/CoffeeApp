@@ -16,12 +16,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../AppCore"),
-        .package(path: "../Networking"),
-        .package(path: "../DesignSystem"),
-        .package(path: "../ImageLoading"),
-        .package(path: "../Persistence"),
-        .package(path: "../NetworkMonitoring")
+        .package(path: "../../Core/AppCore"),
+        .package(path: "../../Core/Networking"),
+        .package(path: "../../Core/ImageLoading"),
+        .package(path: "../../Core/Persistence"),
+        .package(path: "../../Core/NetworkMonitoring")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -31,7 +30,6 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Networking",
-                "DesignSystem",
                 "ImageLoading",
                 "Persistence",
                 "NetworkMonitoring"

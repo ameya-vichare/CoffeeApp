@@ -1,6 +1,15 @@
 {
-  "originHash" : "ff1ebdf0511601df8dd1088a6a91d2bc2a71a67f6f73a5daa0f2b4b729714a6c",
+  "originHash" : "54c02db39141619bc011add053feeb5b4368322d8c6ffdc69cac1e856f966390",
   "pins" : [
+    {
+      "identity" : "resolver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Resolver.git",
+      "state" : {
+        "revision" : "47602af1ac8d7952299fbd0bda3cfbd12cf3a8ca",
+        "version" : "1.5.1"
+      }
+    },
     {
       "identity" : "sdwebimage",
       "kind" : "remoteSourceControl",

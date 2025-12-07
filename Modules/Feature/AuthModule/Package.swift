@@ -16,13 +16,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../AppModels"),
-        .package(path: "../Networking"),
-        .package(path: "../AppEndpoints"),
-        .package(path: "../AppConstants"),
-        .package(path: "../AppUtils"),
-        .package(path: "../DesignSystem"),
-        .package(path: "../Persistence")
+        .package(path: "../../Core/AppCore"),
+        .package(path: "../../Core/Networking"),
+        .package(path: "../../Core/Persistence")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -30,12 +26,8 @@ let package = Package(
         .target(
             name: "AuthModule",
             dependencies: [
-                "AppModels",
+                "AppCore",
                 "Networking",
-                "AppEndpoints",
-                "AppConstants",
-                "AppUtils",
-                "DesignSystem",
                 "Persistence"
             ]
         ),
