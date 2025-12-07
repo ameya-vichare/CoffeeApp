@@ -38,6 +38,7 @@ extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
                 userLoginUseCase: UserLoginUseCase(
                     repository: dependencies.authRepository
                 ),
+                loginValidationUseCase: LoginValidationUseCase(),
                 navigationDelegate: navigationDelegate
             )
         }

@@ -14,6 +14,7 @@ import Networking
 public protocol LoginViewModelOutput {
     var username: String { get set }
     var password: String { get set }
+    var isFormValid: Bool { get }
 }
 
 public protocol LoginViewModelActions {
@@ -28,53 +29,65 @@ public typealias LoginViewModel = LoginViewModelOutput & LoginViewModelActions
 
 @MainActor
 public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
+    // MARK: - Input
     @Published public var username: String = ""
     @Published public var password: String = ""
     @Published public var isFormValid: Bool = false
     
-    private var cancellables: Set<AnyCancellable> = []
+    // MARK: - Usecases
     private let userLoginUseCase: UserLoginUseCaseProtocol
+    private let loginValidationUseCase: LoginValidationUseCaseProtocol
+
+    // MARK: - Navigation
     let navigationDelegate: LoginViewNavigationDelegate?
     
+    // MARK: - Publishers
     private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
     var alertPublisher: AnyPublisher<AlertData?, Never> {
         self.alertSubject.eraseToAnyPublisher()
     }
     
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // MARK: - Init
     public init(
         userLoginUseCase: UserLoginUseCaseProtocol,
+        loginValidationUseCase: LoginValidationUseCaseProtocol,
         navigationDelegate: LoginViewNavigationDelegate?
     ) {
         self.userLoginUseCase = userLoginUseCase
+        self.loginValidationUseCase = loginValidationUseCase
         self.navigationDelegate = navigationDelegate
         self.bindPublishers()
     }
     
+    // MARK: - Private
     private func bindPublishers() {
         Publishers.CombineLatest($username, $password)
             .debounce(for: .milliseconds(200), scheduler: DispatchQueue.main)
             .sink { [weak self] username, password in
                 guard let self else { return }
                 
-                let isUsernameValid = self.isUsernameValid(username)
-                let isPasswordValid = self.isPasswordValid(password)
+                let isUsernameValid = self.loginValidationUseCase.validateUsername(username)
+                let isPasswordValid = self.loginValidationUseCase.validatePassword(password)
                 self.isFormValid = isUsernameValid && isPasswordValid
             }
             .store(in: &cancellables)
     }
     
-    // TODO: - Extract to usecase
-    private func isUsernameValid(_ username: String) -> Bool {
-        let username = username.trimmingCharacters(in: .whitespaces)
-        return !username.isEmpty && username.count >= 4
-    }
-    
-    private func isPasswordValid(_ password: String) -> Bool {
-        let password = password.trimmingCharacters(in: .whitespaces)
-        return password.count >= 8
+    private func showAlert(title: String, message: String) {
+        let alert = AlertData(
+            title: title,
+            message: message,
+            button: (text: "Okay", action: { [weak self] in
+                self?.alertSubject.send(nil)
+            })
+        )
+        self.alertSubject.send(alert)
     }
 }
 
+// MARK: - Actions
 extension DefaultLoginViewModel {
     public func onLoginClicked() {
         Task {
@@ -90,16 +103,5 @@ extension DefaultLoginViewModel {
                 showAlert(title: "Login Failed", message: "Please try again.")
             }
         }
-    }
-    
-    private func showAlert(title: String, message: String) {
-        let alert = AlertData(
-            title: title,
-            message: message,
-            button: (text: "Okay", action: { [weak self] in
-                self?.alertSubject.send(nil)
-            })
-        )
-        self.alertSubject.send(alert)
     }
 }

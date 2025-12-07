@@ -163,6 +163,7 @@ public struct LoginView: View {
                     remoteAPI: FakeAuthRemoteAPI()
                 )
             ),
+            loginValidationUseCase: LoginValidationUseCase(),
             navigationDelegate: nil
         )
     )
