@@ -14,12 +14,23 @@ import ImageLoading
 import SwiftUI
 import Persistence
 import AuthModule
+import Resolver
+
+extension Resolver: ResolverRegistering {
+    public static func registerAllServices() {
+        let assemblies: [DependencyAssembly] = [
+            CoreServicesAssembly()
+        ]
+        
+        assemblies.forEach { $0.assemble(container: main) }
+    }
+}
 
 final class AppDIContainer {
     private let networkService: NetworkService
-    private let imageService: ImageService
-    private let persistentProvider: PersistentContainerProvider
-    private let networkMonitoringService: NetworkMonitoring
+    @Injected private var imageService: ImageService
+    @Injected private var persistentProvider: PersistentContainerProvider
+    @Injected private var networkMonitoringService: NetworkMonitoring
     
     private let sharedAuthRepository: AuthRepositoryProtocol
     private var sharedUserSession: UserSession?
@@ -38,14 +49,8 @@ final class AppDIContainer {
             ]
         )
         
-        self.imageService = SDWebImageService()
-        
-        self.persistentProvider = PersistentContainerProvider(modelName: "AppModel")
-        
-        self.networkMonitoringService = NetworkMonitor()
-        self.networkMonitoringService.start()
-        
         // Shared
+        let persistentProvider = Resolver.resolve(PersistentContainerProvider.self)
         self.sharedAuthRepository = AuthRepository(
             dataStore: AuthModuleCoreDataStore(
                 container: persistentProvider.container
@@ -54,6 +59,7 @@ final class AppDIContainer {
         )
         
         self.networkService.set(headerProvider: self)
+        self.networkMonitoringService.start()
     }
 }
 
