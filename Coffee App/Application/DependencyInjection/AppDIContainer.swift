@@ -45,13 +45,7 @@ final class AppDIContainer {
 // MARK: - Container creation
 extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
     func makeOrderListDIContainer() -> OrderListDIContainer {
-        OrderListDIContainer(
-            dependencies: OrderListDIContainer.Dependencies(
-                networkService: networkService,
-                persistentProvider: persistentProvider,
-                imageService: imageService
-            )
-        )
+        OrderListDIContainer()
     }
     
     func makeMenuListDIContainer() -> MenuListDIContainer {
@@ -77,7 +71,6 @@ extension AppDIContainer {
     func makeAuthDIContainer() -> AuthDIContainer {
         AuthDIContainer(
             dependencies: AuthDIContainer.Dependencies(
-                authRepository: sharedAuthRepository,
                 makeTabBarCoordinator: makeTabBarCoordinator(navigationController:),
                 updateUserSession: updateUserSession(_:)
             )

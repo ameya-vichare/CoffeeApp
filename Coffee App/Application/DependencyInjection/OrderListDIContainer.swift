@@ -10,19 +10,14 @@ import Persistence
 import Networking
 import SwiftUI
 import ImageLoading
+import Resolver
 
 final class OrderListDIContainer {
-    struct Dependencies {
-        let networkService: NetworkService
-        let persistentProvider: PersistentContainerProvider
-        let imageService: ImageService
-    }
+    @Injected private var networkService: NetworkService
+    @Injected private var persistentProvider: PersistentContainerProvider
+    @Injected private var imageService: ImageService
     
-    private let dependencies: Dependencies
-    
-    init(dependencies: Dependencies) {
-        self.dependencies = dependencies
-    }
+    init() {}
     
     func makeOrderListCoordinator(navigationController: UINavigationController) -> OrderListCoordinator {
         OrderListCoordinator(
@@ -39,10 +34,10 @@ extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
         func getOrderModuleClientRepository() -> OrderModuleClientRepository {
             OrderModuleClientRepository(
                 remoteAPI: OrderModuleRemoteAPI(
-                    networkService: self.dependencies.networkService
+                    networkService: networkService
                 ),
                 dataStore: OrderModuleCoreDataStore(
-                    container: self.dependencies.persistentProvider.container
+                    container: persistentProvider.container
                 )
             )
         }
@@ -57,7 +52,7 @@ extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
         }
         
         let orderListView = OrderListView(viewModel: makeCoffeeListViewModel())
-            .environment(\.imageService, self.dependencies.imageService)
+            .environment(\.imageService, imageService)
         
         return AnyView(orderListView)
     }

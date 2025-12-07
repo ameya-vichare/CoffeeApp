@@ -8,13 +8,14 @@
 import SwiftUI
 import AuthModule
 import AppCore
+import Resolver
 
 final class AuthDIContainer {
     struct Dependencies {
-        let authRepository: AuthRepositoryProtocol
         let makeTabBarCoordinator: (UINavigationController) -> TabBarCoordinator
         let updateUserSession: (UserSession) -> Void
     }
+    @Injected var authRepository: AuthRepositoryProtocol
     
     private let dependencies: Dependencies
     
@@ -36,7 +37,7 @@ extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
         func makeLoginViewModel() -> DefaultLoginViewModel {
             DefaultLoginViewModel(
                 userLoginUseCase: UserLoginUseCase(
-                    repository: dependencies.authRepository
+                    repository: authRepository
                 ),
                 loginValidationUseCase: LoginValidationUseCase(),
                 navigationDelegate: navigationDelegate
