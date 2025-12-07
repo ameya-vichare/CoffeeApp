@@ -56,6 +56,7 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
             .store(in: &cancellables)
     }
     
+    // TODO: - Extract to usecase
     private func isUsernameValid(_ username: String) -> Bool {
         let username = username.trimmingCharacters(in: .whitespaces)
         return !username.isEmpty && username.count >= 4
@@ -77,7 +78,7 @@ extension DefaultLoginViewModel {
                 )
                 navigationDelegate?.onUserLoginSuccess(userSession: userSession)
             } catch {
-                // Handle error
+                // TODO: - Handle error
                 print("Login failed: \(error)")
             }
         }
