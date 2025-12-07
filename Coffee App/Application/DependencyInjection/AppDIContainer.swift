@@ -49,14 +49,7 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
     }
     
     func makeMenuListDIContainer() -> MenuListDIContainer {
-        MenuListDIContainer(
-            dependencies: MenuListDIContainer.Dependencies(
-                networkService: networkService,
-                networkMonitoringService: networkMonitoringService,
-                persistentProvider: persistentProvider,
-                imageService: imageService
-            )
-        )
+        MenuListDIContainer()
     }
 }
 

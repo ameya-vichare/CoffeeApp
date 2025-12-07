@@ -13,20 +13,15 @@ import SwiftUI
 import ImageLoading
 import Combine
 import AppCore
+import Resolver
 
 final class MenuListDIContainer {
-    struct Dependencies {
-        let networkService: NetworkService
-        let networkMonitoringService: NetworkMonitoring
-        let persistentProvider: PersistentContainerProvider
-        let imageService: ImageService
-    }
+    @Injected private var networkService: NetworkService
+    @Injected private var networkMonitoringService: NetworkMonitoring
+    @Injected private var persistentProvider: PersistentContainerProvider
+    @Injected private var imageService: ImageService
     
-    let dependencies: Dependencies
-    
-    init(dependencies: Dependencies) {
-        self.dependencies = dependencies
-    }
+    init() {}
     
     func makeMenuListCoordinator(navigationController: UINavigationController) -> MenuListCoordinator {
         MenuListCoordinator(
@@ -43,10 +38,10 @@ extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
         func getOrderModuleClientRepository() -> OrderModuleClientRepository {
             OrderModuleClientRepository(
                 remoteAPI: OrderModuleRemoteAPI(
-                    networkService: self.dependencies.networkService
+                    networkService: networkService
                 ),
                 dataStore: OrderModuleCoreDataStore(
-                    container: self.dependencies.persistentProvider.container
+                    container: persistentProvider.container
                 )
             )
         }
@@ -54,13 +49,13 @@ extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
             let orderModuleClientRepository = getOrderModuleClientRepository()
             return DefaultMenuListViewModel(
-                networkMonitor: self.dependencies.networkMonitoringService,
+                networkMonitor: networkMonitoringService,
                 getMenuUseCase: GetMenuUsecase(
                     repository: orderModuleClientRepository
                 ),
                 createOrderUseCase: CreateOrderUsecase(
                     repository: orderModuleClientRepository,
-                    networkMonitor: self.dependencies.networkMonitoringService
+                    networkMonitor: networkMonitoringService
                 ),
                 retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
                     repository: orderModuleClientRepository
@@ -70,7 +65,7 @@ extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
         }
         
         let menuListView = MenuListView(viewModel: makeMenuListViewModel())
-            .environment(\.imageService, self.dependencies.imageService)
+            .environment(\.imageService, imageService)
         
         return AnyView(menuListView)
     }
@@ -84,7 +79,7 @@ extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
                 priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
                 createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
             )
-        ).environment(\.imageService, self.dependencies.imageService)
+        ).environment(\.imageService, imageService)
         
         return AnyView(sheetView)
     }
