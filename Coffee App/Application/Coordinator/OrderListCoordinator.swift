@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoffeeModule
-import AppModels
+import AppCore
 
 protocol OrderListCoordinatorDependencyDelegate {
     func makeOrderListView(navigationDelegate: OrderListNavigationDelegate) -> AnyView

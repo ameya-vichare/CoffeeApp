@@ -5,7 +5,7 @@
 //  Created by Ameya on 06/12/25.
 //
 
-import AppModels
+import AppCore
 import CoreData
 
 struct UserSessionMapper {

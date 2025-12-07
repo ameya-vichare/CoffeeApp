@@ -5,9 +5,8 @@
 //  Created by Ameya on 24/10/25.
 //
 
-import AppModels
+import AppCore
 import Combine
-import DesignSystem
 import Foundation
 import NetworkMonitoring
 import Networking

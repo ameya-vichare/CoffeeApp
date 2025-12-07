@@ -5,7 +5,7 @@
 //  Created by Ameya on 05/11/25.
 //
 
-import AppModels
+import AppCore
 
 public final class FakeOrderModuleDataStore: OrderModuleDataStoreProtocol {
     public init () {

@@ -5,7 +5,7 @@
 //  Created by Ameya on 05/12/25.
 //
 
-import AppModels
+import AppCore
 import Networking
 
 public final class AuthRemoteAPI: AuthAPIProtocol {

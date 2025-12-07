@@ -5,8 +5,7 @@
 //  Created by Ameya on 05/12/25.
 //
 
-import AppModels
-import AppEndpoints
+import AppCore
 import Networking
 
 public protocol UserLoginUseCaseProtocol {

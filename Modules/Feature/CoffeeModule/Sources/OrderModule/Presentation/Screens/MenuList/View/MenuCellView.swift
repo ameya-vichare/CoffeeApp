@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import DesignSystem
 import ImageLoading
-import AppModels
+import AppCore
 import Combine
 
 struct MenuCellView: View {

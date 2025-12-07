@@ -5,7 +5,7 @@
 //  Created by Ameya on 13/09/25.
 //
 
-import AppModels
+import AppCore
 import Networking
 
 public protocol OrderModuleRepositoryProtocol: Sendable {

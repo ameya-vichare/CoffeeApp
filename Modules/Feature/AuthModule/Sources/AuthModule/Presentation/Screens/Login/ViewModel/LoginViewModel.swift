@@ -7,8 +7,7 @@
 
 import Combine
 import Foundation
-import AppModels
-import DesignSystem
+import AppCore
 import Networking
 
 public protocol LoginViewModelOutput {

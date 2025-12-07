@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import AppModels
-import AppEndpoints
+import AppCore
 import NetworkMonitoring
 
 public protocol CreateOrderUsecaseProtocol {

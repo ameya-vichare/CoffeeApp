@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AuthModule
-import AppModels
+import AppCore
 
 protocol AuthCoordinatorDependencyDelegate {
     func makeLoginView(navigationDelegate: LoginViewNavigationDelegate) -> AnyView

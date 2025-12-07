@@ -5,7 +5,7 @@
 //  Created by Ameya on 12/11/25.
 //
 
-import AppModels
+import AppCore
 
 protocol MenuModifierDeselectionUseCaseProtocol {
     func deselectOtherItems(

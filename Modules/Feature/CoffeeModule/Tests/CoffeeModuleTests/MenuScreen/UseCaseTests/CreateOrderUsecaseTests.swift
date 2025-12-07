@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import AppModels
+import AppCore
 import NetworkMonitoring
 import Networking
 @testable import CoffeeModule

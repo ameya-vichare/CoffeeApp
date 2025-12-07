@@ -5,8 +5,7 @@
 //  Created by Ameya on 13/09/25.
 //
 
-import AppUtils
-import AppModels
+import AppCore
 
 protocol OrderCellViewModelOutput {
     var id: String { get }

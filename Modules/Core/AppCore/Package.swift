@@ -4,32 +4,45 @@
 import PackageDescription
 
 let package = Package(
-    name: "Persistence",
+    name: "AppCore",
     platforms: [
         .iOS(.v17)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Persistence",
-            targets: ["Persistence"]
+            name: "AppCore",
+            targets: ["AppCore"]
         ),
     ],
     dependencies: [
-        .package(path: "../AppCore"),
+        // Depend on the separate modules
+        .package(path: "../AppConstants"),
+        .package(path: "../AppModels"),
+        .package(path: "../AppUtils"),
+        .package(path: "../AppEndpoints"),
+        .package(path: "../Networking"),
+        .package(path: "../DesignSystem"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Persistence",
+            name: "AppCore",
             dependencies: [
-                "AppCore"
-            ]
+                "AppConstants",
+                "AppModels",
+                "AppUtils",
+                "AppEndpoints",
+                "Networking",
+                "DesignSystem",
+            ],
+            path: "Sources/AppCore"
         ),
         .testTarget(
-            name: "PersistenceTests",
-            dependencies: ["Persistence"]
+            name: "AppCoreTests",
+            dependencies: ["AppCore"]
         ),
     ]
 )
+

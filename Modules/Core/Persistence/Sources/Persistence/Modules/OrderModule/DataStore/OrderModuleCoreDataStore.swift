@@ -5,7 +5,7 @@
 //  Created by Ameya on 04/11/25.
 //
 
-import AppModels
+import AppCore
 import CoreData
 
 public final class OrderModuleCoreDataStore: OrderModuleDataStoreProtocol {

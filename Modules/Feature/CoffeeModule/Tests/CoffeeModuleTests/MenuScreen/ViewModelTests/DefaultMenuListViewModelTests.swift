@@ -7,10 +7,9 @@
 
 import XCTest
 import Combine
-import AppModels
+import AppCore
 import Networking
 import NetworkMonitoring
-import DesignSystem
 @testable import CoffeeModule
 
 @MainActor

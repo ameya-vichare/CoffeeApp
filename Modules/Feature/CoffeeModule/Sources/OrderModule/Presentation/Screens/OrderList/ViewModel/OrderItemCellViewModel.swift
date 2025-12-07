@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AppModels
+import AppCore
 
 // View model for order's items
 struct OrderItemCellViewModel: Identifiable {

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AppModels
+import AppCore
 import Combine
 
 protocol MenuModifierBottomSheetViewModelOutput {

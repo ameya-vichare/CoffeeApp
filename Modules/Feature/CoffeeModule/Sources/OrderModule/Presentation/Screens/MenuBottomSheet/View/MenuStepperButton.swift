@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import DesignSystem
 import ImageLoading
-import AppModels
+import AppCore
 
 struct MenuStepperButton: View {
     @State private var isIncrementing: Bool = false

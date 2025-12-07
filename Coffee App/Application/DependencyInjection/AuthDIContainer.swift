@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AuthModule
-import AppModels
+import AppCore
 
 final class AuthDIContainer {
     struct Dependencies {

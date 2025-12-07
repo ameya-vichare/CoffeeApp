@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import DesignSystem
-import AppUtils
+import AppCore
 import Persistence
 import Combine
 

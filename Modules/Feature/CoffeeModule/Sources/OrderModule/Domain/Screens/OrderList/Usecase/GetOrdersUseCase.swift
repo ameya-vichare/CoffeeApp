@@ -5,8 +5,7 @@
 //  Created by Ameya on 11/11/25.
 //
 
-import AppEndpoints
-import AppModels
+import AppCore
 
 public protocol GetOrdersUseCaseProtocol {
     func execute() async throws -> [Order]

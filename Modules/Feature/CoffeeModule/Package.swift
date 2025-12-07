@@ -16,11 +16,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../AppModels"),
+        .package(path: "../AppCore"),
         .package(path: "../Networking"),
-        .package(path: "../AppEndpoints"),
-        .package(path: "../AppConstants"),
-        .package(path: "../AppUtils"),
         .package(path: "../DesignSystem"),
         .package(path: "../ImageLoading"),
         .package(path: "../Persistence"),
@@ -32,11 +29,8 @@ let package = Package(
         .target(
             name: "CoffeeModule",
             dependencies: [
-                "AppModels",
+                "AppCore",
                 "Networking",
-                "AppEndpoints",
-                "AppConstants",
-                "AppUtils",
                 "DesignSystem",
                 "ImageLoading",
                 "Persistence",

@@ -7,14 +7,13 @@
 
 import Networking
 import NetworkMonitoring
-import AppConstants
+import AppCore
 import Foundation
 import CoffeeModule
 import ImageLoading
 import SwiftUI
 import Persistence
 import AuthModule
-import AppModels
 
 final class AppDIContainer {
     private let networkService: NetworkService

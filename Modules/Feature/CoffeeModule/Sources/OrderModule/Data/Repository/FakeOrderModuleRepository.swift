@@ -6,7 +6,7 @@
 //
 
 import Networking
-import AppModels
+import AppCore
 
 final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
     enum Result {

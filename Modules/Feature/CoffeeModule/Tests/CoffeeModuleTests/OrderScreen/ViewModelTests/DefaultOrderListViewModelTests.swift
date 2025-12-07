@@ -6,10 +6,9 @@
 //
 
 import XCTest
-import AppModels
+import AppCore
 import Networking
 import Combine
-import DesignSystem
 @testable import CoffeeModule
 
 @MainActor

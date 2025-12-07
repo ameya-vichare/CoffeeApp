@@ -5,7 +5,7 @@
 //  Created by Ameya on 11/11/25.
 //
 
-import AppModels
+import AppCore
 
 public protocol MenuModifierBottomSheetCreateOrderUseCaseProtocol {
     func buildCreateOrderItem(

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoffeeModule
-import AppModels
+import AppCore
 
 protocol MenuListCoordinatorDependencyDelegate: AnyObject {
     func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView

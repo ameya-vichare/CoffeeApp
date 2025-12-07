@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import AppModels
-import AppEndpoints
+import AppCore
 
 public protocol GetMenuUsecaseProtocol {
     func execute() async throws -> MenuResponse

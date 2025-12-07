@@ -12,7 +12,7 @@ import NetworkMonitoring
 import SwiftUI
 import ImageLoading
 import Combine
-import AppModels
+import AppCore
 
 final class MenuListDIContainer {
     struct Dependencies {

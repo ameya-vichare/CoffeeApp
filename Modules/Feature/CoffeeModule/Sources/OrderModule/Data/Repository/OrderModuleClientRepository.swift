@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import AppModels
+import AppCore
 import Networking
 import Persistence
 import Combine
-import AppEndpoints
 
 public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @unchecked Sendable {
     let remoteAPI: OrderModuleAPIProtocol

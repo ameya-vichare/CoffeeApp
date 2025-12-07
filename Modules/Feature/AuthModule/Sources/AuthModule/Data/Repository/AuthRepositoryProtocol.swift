@@ -5,7 +5,7 @@
 //  Created by Ameya on 03/12/25.
 //
 
-import AppModels
+import AppCore
 import Networking
 
 public protocol AuthRepositoryProtocol {

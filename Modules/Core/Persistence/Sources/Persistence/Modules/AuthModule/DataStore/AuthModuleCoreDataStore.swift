@@ -5,7 +5,7 @@
 //  Created by Ameya on 01/12/25.
 //
 
-import AppModels
+import AppCore
 import CoreData
 
 public enum AuthModuleDataStoreError: Error {

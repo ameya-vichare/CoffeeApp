@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import AppModels
+import AppCore
 import Networking
-import DesignSystem
 import Combine
 
 public protocol OrderListNavigationDelegate {

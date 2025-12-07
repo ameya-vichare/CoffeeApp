@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import AppModels
+import AppCore
 @testable import CoffeeModule
 
 final class OrderItemCellViewModelTests: XCTestCase {

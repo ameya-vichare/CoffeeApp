@@ -7,7 +7,7 @@
 
 import XCTest
 import Combine
-import AppModels
+import AppCore
 @testable import CoffeeModule
 
 final class MenuListCellViewModelTests: XCTestCase {

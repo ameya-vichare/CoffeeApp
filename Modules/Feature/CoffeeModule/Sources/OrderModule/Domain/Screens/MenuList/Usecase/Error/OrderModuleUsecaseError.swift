@@ -7,8 +7,7 @@
 
 
 import Foundation
-import AppModels
-import AppEndpoints
+import AppCore
 import NetworkMonitoring
 
 public enum OrderModuleUsecaseError: Error {

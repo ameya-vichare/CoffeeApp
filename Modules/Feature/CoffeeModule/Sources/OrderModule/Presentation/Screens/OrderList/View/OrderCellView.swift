@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import AppModels
-import DesignSystem
+import AppCore
 import ImageLoading
 
 struct OrderCellView: View {
