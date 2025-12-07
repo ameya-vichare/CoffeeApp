@@ -32,20 +32,11 @@ final class AppDIContainer {
     @Injected private var persistentProvider: PersistentContainerProvider
     @Injected private var networkMonitoringService: NetworkMonitoring
     
-    private let sharedAuthRepository: AuthRepositoryProtocol
+    // Shared
+    @Injected private var sharedAuthRepository: AuthRepositoryProtocol
     private var sharedUserSession: UserSession?
     
     init() {
-        // Shared
-        let persistentProvider = Resolver.resolve(PersistentContainerProvider.self)
-        let networkService = Resolver.resolve(NetworkService.self)
-        self.sharedAuthRepository = AuthRepository(
-            dataStore: AuthModuleCoreDataStore(
-                container: persistentProvider.container
-            ),
-            remoteAPI: AuthRemoteAPI(networkService: networkService)
-        )
-        
         self.networkService.set(headerProvider: self)
         self.networkMonitoringService.start()
     }
@@ -53,23 +44,6 @@ final class AppDIContainer {
 
 // MARK: - Container creation
 extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
-    func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator {
-        TabBarCoordinator(
-            navigationController: navigationController,
-            dependencyDelegate: self
-        )
-    }
-    
-    func makeAuthDIContainer() -> AuthDIContainer {
-        AuthDIContainer(
-            dependencies: AuthDIContainer.Dependencies(
-                authRepository: sharedAuthRepository,
-                makeTabBarCoordinator: makeTabBarCoordinator(navigationController:),
-                updateUserSession: updateUserSession(_:)
-            )
-        )
-    }
-    
     func makeOrderListDIContainer() -> OrderListDIContainer {
         OrderListDIContainer(
             dependencies: OrderListDIContainer.Dependencies(
@@ -87,6 +61,25 @@ extension AppDIContainer: TabBarCoordinatorDependencyDelegate {
                 networkMonitoringService: networkMonitoringService,
                 persistentProvider: persistentProvider,
                 imageService: imageService
+            )
+        )
+    }
+}
+
+extension AppDIContainer {
+    func makeTabBarCoordinator(navigationController: UINavigationController) -> TabBarCoordinator {
+        TabBarCoordinator(
+            navigationController: navigationController,
+            dependencyDelegate: self
+        )
+    }
+    
+    func makeAuthDIContainer() -> AuthDIContainer {
+        AuthDIContainer(
+            dependencies: AuthDIContainer.Dependencies(
+                authRepository: sharedAuthRepository,
+                makeTabBarCoordinator: makeTabBarCoordinator(navigationController:),
+                updateUserSession: updateUserSession(_:)
             )
         )
     }
@@ -110,6 +103,7 @@ extension AppDIContainer {
     }
 }
 
+// MARK: - Header Provider
 extension AppDIContainer: NetworkServiceHeaderProvider {
     func getDynamicHeaders() -> [String : String] {
         var headers: [String: String] = [:]

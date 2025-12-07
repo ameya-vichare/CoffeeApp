@@ -11,6 +11,7 @@ import NetworkMonitoring
 import Persistence
 import AppCore
 import Foundation
+import AuthModule
 
 struct CoreServicesAssembly: DependencyAssembly {
     func assemble(using resolver: Resolver) {
@@ -44,5 +45,17 @@ struct CoreServicesAssembly: DependencyAssembly {
             )
         }
         .scope(.shared)
+        
+        // AuthRepository
+        resolver.register { (resolver: Resolver) -> AuthRepositoryProtocol in
+            let persistentProvider = resolver.resolve(PersistentContainerProvider.self)
+            let networkService = resolver.resolve(NetworkService.self)
+            return AuthRepository(
+                dataStore: AuthModuleCoreDataStore(
+                    container: persistentProvider.container
+                ),
+                remoteAPI: AuthRemoteAPI(networkService: networkService)
+            )
+        }
     }
 }
