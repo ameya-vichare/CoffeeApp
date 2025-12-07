@@ -57,5 +57,6 @@ struct CoreServicesAssembly: DependencyAssembly {
                 remoteAPI: AuthRemoteAPI(networkService: networkService)
             )
         }
+        .scope(.shared)
     }
 }
