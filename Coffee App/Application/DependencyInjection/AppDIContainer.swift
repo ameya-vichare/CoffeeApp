@@ -32,8 +32,6 @@ extension Resolver: ResolverRegistering {
 
 final class AppDIContainer {
     @Injected private var networkService: NetworkService
-    @Injected private var imageService: ImageService
-    @Injected private var persistentProvider: PersistentContainerProvider
     @Injected private var networkMonitoringService: NetworkMonitoring
     
     // Shared
