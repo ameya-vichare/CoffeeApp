@@ -13,14 +13,15 @@ import NetworkMonitoring
 
 struct OrderModuleAssembly: DependencyAssembly {
     func assemble(using resolver: Resolver) {
-        // OrderModuleRemoteAPI
+        // OrderModuleRemoteAPI as OrderModuleAPIProtocol
         resolver.register { (resolver: Resolver) -> OrderModuleRemoteAPI in
             OrderModuleRemoteAPI(
                 networkService: resolver.resolve(NetworkService.self)
             )
-        }.implements(OrderModuleAPIProtocol.self)
+        }
+        .implements(OrderModuleAPIProtocol.self)
         
-        // OrderModuleClientRepository
+        // OrderModuleClientRepository as OrderModuleRepositoryProtocol
         resolver.register { (resolver: Resolver) -> OrderModuleClientRepository in
             OrderModuleClientRepository(
                 remoteAPI: resolver.resolve(OrderModuleRemoteAPI.self),
@@ -28,8 +29,8 @@ struct OrderModuleAssembly: DependencyAssembly {
                     container: resolver.resolve(PersistentContainerProvider.self).container
                 )
             )
-        }.implements(OrderModuleRepositoryProtocol.self)
-        
+        }
+        .implements(OrderModuleRepositoryProtocol.self)
         
         // GetMenuUsecase
         resolver.register { (resolver: Resolver) -> GetMenuUsecase in
