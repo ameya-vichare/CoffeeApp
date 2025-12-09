@@ -16,15 +16,15 @@ struct CoreServicesAssembly: DependencyAssembly {
     func assemble(using resolver: Resolver) {
         // ImageService
         resolver.register { SDWebImageService() as ImageService }
-            .scope(.shared)
+            .scope(.application)
         
         // NetworkMonitoring
         resolver.register { NetworkMonitor() as NetworkMonitoring }
-            .scope(.shared)
+            .scope(.application)
         
         // PersistentContainerProvider
         resolver.register { PersistentContainerProvider(modelName: "AppModel") }
-            .scope(.shared)
+            .scope(.application)
         
         resolver.register { AppConfiguration() }
         
@@ -43,6 +43,6 @@ struct CoreServicesAssembly: DependencyAssembly {
                 ]
             )
         }
-        .scope(.shared)
+        .scope(.application)
     }
 }

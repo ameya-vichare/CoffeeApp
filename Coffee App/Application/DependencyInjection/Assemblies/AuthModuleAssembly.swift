@@ -23,7 +23,7 @@ struct AuthModuleAssembly: DependencyAssembly {
                 remoteAPI: AuthRemoteAPI(networkService: networkService)
             )
         }
-        .scope(.shared)
+        .scope(.application)
         
         // UserLoginUseCase
         resolver.register { (resolver: Resolver) -> UserLoginUseCase in
