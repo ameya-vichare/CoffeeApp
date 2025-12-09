@@ -16,7 +16,6 @@ import Persistence
 import AuthModule
 import Resolver
 
-
 final class AppDIContainer {
     @Injected private var networkService: NetworkService
     @Injected private var networkMonitoringService: NetworkMonitoring
