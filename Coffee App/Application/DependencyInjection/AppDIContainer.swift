@@ -19,7 +19,11 @@ import Resolver
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         let assembly: [DependencyAssembly] = [
-            CoreServicesAssembly()
+            // Core Services
+            CoreServicesAssembly(),
+            
+            // Feature Assemblies
+            MenuListAssembly(),
         ]
         
         assembly.forEach { $0.assemble(using: main) }

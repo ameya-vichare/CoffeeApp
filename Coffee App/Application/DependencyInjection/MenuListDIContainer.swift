@@ -16,9 +16,7 @@ import AppCore
 import Resolver
 
 final class MenuListDIContainer {
-    @Injected private var networkService: NetworkService
     @Injected private var networkMonitoringService: NetworkMonitoring
-    @Injected private var persistentProvider: PersistentContainerProvider
     @Injected private var imageService: ImageService
     
     init() {}
@@ -35,31 +33,12 @@ final class MenuListDIContainer {
 extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
     @MainActor
     func makeMenuListView(navigationDelegate: MenuListViewNavigationDelegate) -> AnyView {
-        func getOrderModuleClientRepository() -> OrderModuleClientRepository {
-            OrderModuleClientRepository(
-                remoteAPI: OrderModuleRemoteAPI(
-                    networkService: networkService
-                ),
-                dataStore: OrderModuleCoreDataStore(
-                    container: persistentProvider.container
-                )
-            )
-        }
-        
         func makeMenuListViewModel() -> DefaultMenuListViewModel {
-            let orderModuleClientRepository = getOrderModuleClientRepository()
-            return DefaultMenuListViewModel(
+            DefaultMenuListViewModel(
                 networkMonitor: networkMonitoringService,
-                getMenuUseCase: GetMenuUsecase(
-                    repository: orderModuleClientRepository
-                ),
-                createOrderUseCase: CreateOrderUsecase(
-                    repository: orderModuleClientRepository,
-                    networkMonitor: networkMonitoringService
-                ),
-                retryPendingOrdersUsecase: RetryPendingOrdersUsecase(
-                    repository: orderModuleClientRepository
-                ),
+                getMenuUseCase: Resolver.resolve(GetMenuUsecase.self),
+                createOrderUseCase: Resolver.resolve(CreateOrderUsecase.self),
+                retryPendingOrdersUsecase: Resolver.resolve(RetryPendingOrdersUsecase.self),
                 navigationDelegate: navigationDelegate
             )
         }
@@ -76,8 +55,8 @@ extension MenuListDIContainer: MenuListCoordinatorDependencyDelegate {
             viewModel: DefaultMenuModifierBottomSheetViewModel(
                 menuItem: item,
                 onOrderItemCreated: onOrderItemCreated,
-                priceComputeUseCase: MenuModifierBottomSheetPriceComputeUsecase(),
-                createOrderUseCase: MenuModifierBottomSheetCreateOrderUseCase()
+                priceComputeUseCase: Resolver.resolve(MenuModifierBottomSheetPriceComputeUsecase.self),
+                createOrderUseCase: Resolver.resolve(MenuModifierBottomSheetCreateOrderUseCase.self)
             )
         ).environment(\.imageService, imageService)
         
