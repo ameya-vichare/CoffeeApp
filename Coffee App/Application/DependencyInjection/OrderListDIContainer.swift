@@ -13,8 +13,6 @@ import ImageLoading
 import Resolver
 
 final class OrderListDIContainer {
-    @Injected private var networkService: NetworkService
-    @Injected private var persistentProvider: PersistentContainerProvider
     @Injected private var imageService: ImageService
     
     init() {}
@@ -31,22 +29,9 @@ final class OrderListDIContainer {
 extension OrderListDIContainer: OrderListCoordinatorDependencyDelegate {
     @MainActor
     func makeOrderListView(navigationDelegate: OrderListNavigationDelegate) -> AnyView {
-        func getOrderModuleClientRepository() -> OrderModuleClientRepository {
-            OrderModuleClientRepository(
-                remoteAPI: OrderModuleRemoteAPI(
-                    networkService: networkService
-                ),
-                dataStore: OrderModuleCoreDataStore(
-                    container: persistentProvider.container
-                )
-            )
-        }
-        
         func makeCoffeeListViewModel() -> DefaultOrderListViewModel {
             DefaultOrderListViewModel(
-                getOrdersUseCase: GetOrdersUseCase(
-                    repository: getOrderModuleClientRepository()
-                ),
+                getOrdersUseCase: Resolver.resolve(GetOrdersUseCase.self),
                 navigationDelegate: navigationDelegate
             )
         }

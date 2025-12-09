@@ -1,5 +1,5 @@
 //
-//  MenuListAssembly.swift
+//  OrderModuleAssembly.swift
 //  Coffee App
 //
 //  Created by Ameya on 10/10/25.
@@ -11,14 +11,14 @@ import Networking
 import Persistence
 import NetworkMonitoring
 
-struct MenuListAssembly: DependencyAssembly {
+struct OrderModuleAssembly: DependencyAssembly {
     func assemble(using resolver: Resolver) {
         // OrderModuleRemoteAPI
         resolver.register { (resolver: Resolver) -> OrderModuleRemoteAPI in
             OrderModuleRemoteAPI(
                 networkService: resolver.resolve(NetworkService.self)
             )
-        }
+        }.implements(OrderModuleAPIProtocol.self)
         
         // OrderModuleClientRepository
         resolver.register { (resolver: Resolver) -> OrderModuleClientRepository in
@@ -28,12 +28,8 @@ struct MenuListAssembly: DependencyAssembly {
                     container: resolver.resolve(PersistentContainerProvider.self).container
                 )
             )
-        }
+        }.implements(OrderModuleRepositoryProtocol.self)
         
-        // Register OrderModuleClientRepository as OrderModuleRepositoryProtocol
-        resolver.register { (resolver: Resolver) -> OrderModuleRepositoryProtocol in
-            resolver.resolve(OrderModuleClientRepository.self)
-        }
         
         // GetMenuUsecase
         resolver.register { (resolver: Resolver) -> GetMenuUsecase in
@@ -53,6 +49,13 @@ struct MenuListAssembly: DependencyAssembly {
         // RetryPendingOrdersUsecase
         resolver.register { (resolver: Resolver) -> RetryPendingOrdersUsecase in
             RetryPendingOrdersUsecase(
+                repository: resolver.resolve(OrderModuleRepositoryProtocol.self)
+            )
+        }
+        
+        // GetOrdersUseCase
+        resolver.register { (resolver: Resolver) -> GetOrdersUseCase in
+            GetOrdersUseCase(
                 repository: resolver.resolve(OrderModuleRepositoryProtocol.self)
             )
         }

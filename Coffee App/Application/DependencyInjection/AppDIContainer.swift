@@ -23,7 +23,7 @@ extension Resolver: ResolverRegistering {
             CoreServicesAssembly(),
             
             // Feature Assemblies
-            MenuListAssembly(),
+            OrderModuleAssembly(),
         ]
         
         assembly.forEach { $0.assemble(using: main) }
