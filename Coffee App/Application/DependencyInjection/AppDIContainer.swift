@@ -16,19 +16,6 @@ import Persistence
 import AuthModule
 import Resolver
 
-extension Resolver: ResolverRegistering {
-    public static func registerAllServices() {
-        let assembly: [DependencyAssembly] = [
-            // Core Services
-            CoreServicesAssembly(),
-            
-            // Feature Assemblies
-            OrderModuleAssembly(),
-        ]
-        
-        assembly.forEach { $0.assemble(using: main) }
-    }
-}
 
 final class AppDIContainer {
     @Injected private var networkService: NetworkService

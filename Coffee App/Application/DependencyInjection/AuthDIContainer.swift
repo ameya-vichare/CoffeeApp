@@ -15,7 +15,6 @@ final class AuthDIContainer {
         let makeTabBarCoordinator: (UINavigationController) -> TabBarCoordinator
         let updateUserSession: (UserSession) -> Void
     }
-    @Injected private var authRepository: AuthRepositoryProtocol
     
     private let dependencies: Dependencies
     
@@ -36,10 +35,8 @@ extension AuthDIContainer: AuthCoordinatorDependencyDelegate {
     func makeLoginView(navigationDelegate: LoginViewNavigationDelegate) -> AnyView {
         func makeLoginViewModel() -> DefaultLoginViewModel {
             DefaultLoginViewModel(
-                userLoginUseCase: UserLoginUseCase(
-                    repository: authRepository
-                ),
-                loginValidationUseCase: LoginValidationUseCase(),
+                userLoginUseCase: Resolver.resolve(UserLoginUseCase.self),
+                loginValidationUseCase: Resolver.resolve(LoginValidationUseCase.self),
                 navigationDelegate: navigationDelegate
             )
         }
