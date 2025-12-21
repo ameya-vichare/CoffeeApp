@@ -12,7 +12,7 @@ import AppCore
 
 final class MenuListCellViewModelTests: XCTestCase {
     
-    var sut: MenuListCellViewModel!
+    var sut: DefaultMenuListCellViewModel!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -26,9 +26,9 @@ final class MenuListCellViewModelTests: XCTestCase {
     
     func testMenuListCellViewModel_WhenGivenValidData_ThenMappingIsCorrect() {
         // Given
-        sut = MenuListCellViewModel(
+        sut = DefaultMenuListCellViewModel(
             menuItem: MenuItem.createFake(),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
+            onShowMenuModifierBottomSheet: {  }
         )
 
         // Then
@@ -71,7 +71,7 @@ final class MenuListCellViewModelTests: XCTestCase {
     
     func testMenuListCellViewModel_WhenGivenInvalidData_ThenDefaultValuesAreMapped() {
         // Given
-        sut = MenuListCellViewModel(
+        sut = DefaultMenuListCellViewModel(
             menuItem: MenuItem(
                 id: nil,
                 name: nil,
@@ -81,7 +81,7 @@ final class MenuListCellViewModelTests: XCTestCase {
                 currency: nil,
                 modifiers: nil
             ),
-            orderItemUpdates: PassthroughSubject<CreateOrderItem, Never>()
+            onShowMenuModifierBottomSheet: {  }
         )
 
         // Then

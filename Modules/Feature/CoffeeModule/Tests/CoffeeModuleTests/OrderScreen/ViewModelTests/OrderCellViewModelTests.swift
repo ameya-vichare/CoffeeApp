@@ -11,7 +11,7 @@ import AppCore
 
 final class OrderCellViewModelTests: XCTestCase {
     
-    var sut: OrderCellViewModel!
+    var sut: DefaultOrderCellViewModel!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -25,13 +25,14 @@ final class OrderCellViewModelTests: XCTestCase {
     func testOrderCellViewModel_WhenAllDataIsValid_ThenDataIsMappedCorrectly() {
         // Given
         let order = Order.createFake()
-        sut = OrderCellViewModel(
+        sut = DefaultOrderCellViewModel(
             order: order,
             itemsViewModel: [
                 OrderItemCellViewModel(
                     item: OrderItem.createFake()
                 )
-            ]
+            ],
+            onNavigateToOrderDetail: { _ in }
         )
         
         // When
@@ -56,9 +57,10 @@ final class OrderCellViewModelTests: XCTestCase {
             status: nil,
             items: []
         )
-        sut = OrderCellViewModel(
+        sut = DefaultOrderCellViewModel(
             order: order,
-            itemsViewModel: []
+            itemsViewModel: [],
+            onNavigateToOrderDetail: { _ in }
         )
         
         // When
@@ -82,9 +84,10 @@ final class OrderCellViewModelTests: XCTestCase {
             status: nil,
             items: []
         )
-        sut = OrderCellViewModel(
+        sut = DefaultOrderCellViewModel(
             order: order,
-            itemsViewModel: []
+            itemsViewModel: [],
+            onNavigateToOrderDetail: { _ in }
         )
         
         XCTAssertEqual(sut.displayTotalPriceLabel, "", "OrderCellViewModel's displayTotalPriceLabel should be mapped correctly")
@@ -100,9 +103,10 @@ final class OrderCellViewModelTests: XCTestCase {
             status: nil,
             items: []
         )
-        sut = OrderCellViewModel(
+        sut = DefaultOrderCellViewModel(
             order: order,
-            itemsViewModel: []
+            itemsViewModel: [],
+            onNavigateToOrderDetail: { _ in }
         )
         
         XCTAssertEqual(sut.displayTotalPriceLabel, "", "OrderCellViewModel's displayTotalPriceLabel should be mapped correctly")

@@ -114,6 +114,17 @@ final class DefaultMenuListViewModelTests: XCTestCase {
         }
     }
     
+    final class MockNavigationDelegate: MenuListViewNavigationDelegate {
+        func showMenuModifierBottomsheet(
+            for item: AppModels.MenuItem,
+            onOrderItemCreated: @escaping (CreateOrderItem) -> Void
+        ) {
+            onOrderItemCreated(
+                CreateOrderItem(itemID: 1, quantity: 1, optionIDs: [])
+            )
+        }
+    }
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         
@@ -136,7 +147,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: nil
         )
         // When
         
@@ -164,7 +176,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: nil
         )
         
         // When
@@ -195,7 +208,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: nil
         )
         
         let expectation = XCTestExpectation(description: "An alert should be shown")
@@ -251,7 +265,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: nil
         )
         
         var alertData: AlertData?
@@ -293,7 +308,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: MockNavigationDelegate()
         )
         let expectation = XCTestExpectation(description: "A success alert should be shown")
         var alertData: AlertData?
@@ -304,10 +320,11 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             expectation.fulfill()
         }.store(in: &cancellables)
         
-        sut.orderItemUpdatesSubject
-            .send(
-                CreateOrderItem(itemID: 0, quantity: 1, optionIDs: [1,2])
-            )
+        await sut.viewDidLoad()
+        
+        if case .mainMenu(vm: let vm) = sut.datasource.first {
+            vm.showMenuModifierBottomsheet()
+        }
         
         await fulfillment(of: [expectation], timeout: 1)
         
@@ -340,7 +357,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: MockNavigationDelegate()
         )
         let expectation = XCTestExpectation(description: "An error alert should be shown")
         var alertData: AlertData?
@@ -351,10 +369,11 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             expectation.fulfill()
         }.store(in: &cancellables)
         
-        sut.orderItemUpdatesSubject
-            .send(
-                CreateOrderItem(itemID: 0, quantity: 1, optionIDs: [1,2])
-            )
+        await sut.viewDidLoad()
+        
+        if case .mainMenu(vm: let vm) = sut.datasource.first {
+            vm.showMenuModifierBottomsheet()
+        }
         
         await fulfillment(of: [expectation], timeout: 1)
         
@@ -387,7 +406,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .success
-            )
+            ),
+            navigationDelegate: nil
         )
         
         // When
@@ -415,7 +435,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             createOrderUseCase: MockCreateOrderUsecase(
                 result: .failure(OrderModuleUsecaseError.creatingOrderFailed)
             ),
-            retryPendingOrdersUsecase: retryPendingOrderUsecase
+            retryPendingOrdersUsecase: retryPendingOrderUsecase,
+            navigationDelegate: nil
         )
         let expectation = XCTestExpectation(description: "Pending orders are retried")
         var alertData: AlertData?
@@ -468,7 +489,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             createOrderUseCase: MockCreateOrderUsecase(
                 result: .failure(OrderModuleUsecaseError.creatingOrderFailed)
             ),
-            retryPendingOrdersUsecase: retryPendingOrderUsecase
+            retryPendingOrdersUsecase: retryPendingOrderUsecase,
+            navigationDelegate: nil
         )
         let expectation = XCTestExpectation(description: "Pending orders should not be retried")
     
@@ -504,7 +526,8 @@ final class DefaultMenuListViewModelTests: XCTestCase {
             ),
             retryPendingOrdersUsecase: MockRetryPendingOrdersUsecase(
                 result: .failure(NetworkError.cancelled)
-            )
+            ),
+            navigationDelegate: nil
         )
         let expectation = XCTestExpectation(description: "An error alert should be shown")
         var alertData: AlertData?

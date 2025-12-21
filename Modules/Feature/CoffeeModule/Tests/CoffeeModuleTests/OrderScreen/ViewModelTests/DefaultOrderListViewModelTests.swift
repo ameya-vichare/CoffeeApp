@@ -55,7 +55,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
     func testDefaultOrderListViewModel_WhenInitialState_DatasourceIsEmptyAndStateIsPreparing() {
         // Given
         sut = DefaultOrderListViewModel(
-            getOrdersUseCase: MockGetOrdersUseCase(result: .success([]))
+            getOrdersUseCase: MockGetOrdersUseCase(result: .success([])),
+            navigationDelegate: nil
         )
         
         // When
@@ -70,7 +71,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
         sut = DefaultOrderListViewModel(
             getOrdersUseCase: MockGetOrdersUseCase(
                 result: .success([Order.createFake(), Order.createFake()])
-            )
+            ),
+            navigationDelegate: nil
         )
         
         // When
@@ -86,7 +88,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
         sut = DefaultOrderListViewModel(
             getOrdersUseCase: MockGetOrdersUseCase(
                 result: .failure(NetworkError.noInternet)
-            )
+            ),
+            navigationDelegate: nil
         )
         let expectation = XCTestExpectation(description: "An alert should be received.")
         var alertData: AlertData?
@@ -114,7 +117,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
         sut = DefaultOrderListViewModel(
             getOrdersUseCase: MockGetOrdersUseCase(
                 result: .genericError(DummyError())
-            )
+            ),
+            navigationDelegate: nil
         )
         var alertData: AlertData?
         
@@ -136,7 +140,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
         sut = DefaultOrderListViewModel(
             getOrdersUseCase: MockGetOrdersUseCase(
                 result: .success([Order.createFake(), Order.createFake()])
-            )
+            ),
+            navigationDelegate: nil
         )
         
         // When
@@ -154,7 +159,8 @@ final class DefaultOrderListViewModelTests: XCTestCase {
                 result: .success(
                     [Order.createFake(), Order.createFake(orderId: "")]
                 )
-            )
+            ),
+            navigationDelegate: nil
         )
         
         // When
