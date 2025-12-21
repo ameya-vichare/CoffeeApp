@@ -69,6 +69,7 @@ public struct LoginView: View {
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .padding([.bottom], AppPointSystem.point_8)
+                        .accessibilityIdentifier("UsernameTextField")
                 }
                 .padding([.bottom], AppPointSystem.point_12)
                 
@@ -99,6 +100,7 @@ public struct LoginView: View {
                         )
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .accessibilityIdentifier("PasswordTextField")
                 }
 
                 Button {
@@ -121,7 +123,7 @@ public struct LoginView: View {
                 .disabled(!viewModel.isFormValid)
                 .buttonStyle(.plain)
                 .padding([.top], AppPointSystem.point_32)
-                
+                .accessibilityIdentifier("LoginButton")
                 
                 Spacer()
             }
@@ -147,7 +149,7 @@ public struct LoginView: View {
                 dismissButton: .default(
                     Text(alertData.button.text),
                     action: alertData.button.action
-                )
+                ),
             )
         })
     }

@@ -62,6 +62,7 @@ public struct OrderListView: View {
             handleState(state: viewModel.state)
         }
         .navigationTitle("Orders")
+        .accessibilityIdentifier("OrderListView")
     }
     
     @ViewBuilder

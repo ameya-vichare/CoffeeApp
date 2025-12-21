@@ -23,8 +23,14 @@ struct CoreServicesAssembly: DependencyAssembly {
             .scope(.application)
         
         // PersistentContainerProvider
-        resolver.register { PersistentContainerProvider(modelName: "AppModel") }
-            .scope(.application)
+        let useInMemoryStore = ProcessInfo.processInfo.arguments.contains("--uitesting")
+        resolver.register {
+            PersistentContainerProvider(
+                modelName: "AppModel",
+                inMemory: useInMemoryStore
+            )
+        }
+        .scope(.application)
         
         resolver.register { AppConfiguration() }
         
