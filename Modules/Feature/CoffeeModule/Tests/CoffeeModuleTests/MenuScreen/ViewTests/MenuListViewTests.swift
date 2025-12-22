@@ -13,21 +13,16 @@ import AppCore
 @MainActor
 final class MenuListViewTests: XCTestCase {
     
-    // MARK: - Mock ViewModel
-    final class MockMenuListViewModel: ObservableObject, MenuListViewModel {
-        @Published var state: ScreenViewState = .preparing
-        @Published var datasource: [MenuListCellType] = []
-        
-        var alertSubject = PassthroughSubject<AlertData?, Never>()
-        var alertPublisher: AnyPublisher<AlertData?, Never> {
-            alertSubject.eraseToAnyPublisher()
-        }
-        
-        var viewDidLoadCalled = false
-        
+    class MockMenuListViewModel: MenuListViewModel {
         func viewDidLoad() async {
-            viewDidLoadCalled = true
+            
         }
+
+        var state: CoffeeModule.ScreenViewState = .preparing
+
+        var datasource: [CoffeeModule.MenuListCellType] = []
+
+        var alertPublisher: AnyPublisher<AlertData?, Never> = PassthroughSubject().eraseToAnyPublisher()
     }
 
     override func setUpWithError() throws {
