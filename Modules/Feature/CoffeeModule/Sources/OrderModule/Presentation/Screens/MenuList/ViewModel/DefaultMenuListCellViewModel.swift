@@ -9,7 +9,7 @@ import Foundation
 import AppCore
 import Combine
 
-protocol MenuListCellViewModelOutput {
+public protocol MenuListCellViewModelOutput {
     var id: Int { get }
     var name: String { get }
     var currency: String { get }
@@ -18,11 +18,11 @@ protocol MenuListCellViewModelOutput {
     var imageURL: URL? { get }
 }
 
-protocol MenuListCellViewModelActions {
+public protocol MenuListCellViewModelActions {
     func showMenuModifierBottomsheet()
 }
 
-typealias MenuListCellViewModel = MenuListCellViewModelActions & MenuListCellViewModelOutput 
+public typealias MenuListCellViewModel = MenuListCellViewModelActions & MenuListCellViewModelOutput 
 
 struct DefaultMenuListCellViewModel: MenuListCellViewModel {
     let id: Int

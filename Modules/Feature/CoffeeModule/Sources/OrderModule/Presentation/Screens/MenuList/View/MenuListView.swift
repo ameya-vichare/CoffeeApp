@@ -11,12 +11,12 @@ import Combine
 import Persistence
 import NetworkMonitoring
 
-public struct MenuListView: View {
-    @ObservedObject var viewModel: DefaultMenuListViewModel
+public struct MenuListView<ViewModel>: View where ViewModel: MenuListViewModel {
+    @ObservedObject var viewModel: ViewModel
     @State var activeAlert: AlertData?
     @State private var cancellables = Set<AnyCancellable>()
     
-    public init(viewModel: DefaultMenuListViewModel) {
+    public init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
     
@@ -39,7 +39,7 @@ public struct MenuListView: View {
             handleState(state: viewModel.state)
         }
         .onAppear(perform: {
-            viewModel.alertSubject
+            viewModel.alertPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { alertData in
                     activeAlert = alertData

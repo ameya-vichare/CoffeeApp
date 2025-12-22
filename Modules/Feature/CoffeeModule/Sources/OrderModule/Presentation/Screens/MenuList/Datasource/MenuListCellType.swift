@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum MenuListCellType: Identifiable {
-    var id: String {
+public enum MenuListCellType: Identifiable {
+    public var id: String {
         switch self {
         case .mainMenu(let vm):
             return "\(vm.id)"

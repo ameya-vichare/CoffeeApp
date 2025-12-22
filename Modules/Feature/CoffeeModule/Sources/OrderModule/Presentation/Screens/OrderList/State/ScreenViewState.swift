@@ -5,7 +5,7 @@
 //  Created by Ameya on 24/10/25.
 //
 
-enum ScreenViewState {
+public enum ScreenViewState {
     case preparing
     case fetchingData
     case dataFetched

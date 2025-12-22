@@ -15,20 +15,20 @@ public protocol MenuListViewNavigationDelegate {
     func showMenuModifierBottomsheet(for item: MenuItem, onOrderItemCreated: @escaping ((CreateOrderItem) -> Void))
 }
 
-protocol MenuListViewModelOutput {
+public protocol MenuListViewModelOutput {
     var state: ScreenViewState { get }
     var datasource: [MenuListCellType] { get }
     var alertPublisher: AnyPublisher<AlertData?, Never> { get }
 }
 
-protocol MenuListViewModelInput {
+public protocol MenuListViewModelActions {
     func viewDidLoad() async
 }
 
-typealias MenuListViewModel = MenuListViewModelInput & MenuListViewModelOutput
+public typealias MenuListViewModel = MenuListViewModelOutput & MenuListViewModelActions & ObservableObject
 
 @MainActor
-public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel {
+public final class DefaultMenuListViewModel: MenuListViewModel {
     public let networkMonitor: NetworkMonitoring
     
     public let getMenuUseCase: GetMenuUsecaseProtocol
@@ -40,11 +40,11 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Output
-    @Published private(set) var state: ScreenViewState = .preparing
-    @Published private(set) var datasource: [MenuListCellType] = []
+    @Published private(set) public var state: ScreenViewState = .preparing
+    @Published private(set) public var datasource: [MenuListCellType] = []
     
     private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
-    var alertPublisher: AnyPublisher<AlertData?, Never> {
+    public var alertPublisher: AnyPublisher<AlertData?, Never> {
         self.alertSubject.eraseToAnyPublisher()
     }
     
@@ -67,7 +67,7 @@ public final class DefaultMenuListViewModel: ObservableObject, MenuListViewModel
 
 // MARK: - Input
 extension DefaultMenuListViewModel {
-    func viewDidLoad() async {
+    public func viewDidLoad() async {
         await getMenuItems()
     }
 }
