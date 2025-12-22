@@ -57,6 +57,23 @@
 		9DB0DE582EF83D2300C08F8E /* CoffeeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoffeeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9D62D63A2EF98C2300F56163 /* Exceptions for "CoffeeAppTests" folder in "Coffee App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoffeeAppUnitTestPlan.xctestplan,
+			);
+			target = 9D4741422E756E8100C16B6D /* Coffee App */;
+		};
+		9D62D63B2EF98C2300F56163 /* Exceptions for "CoffeeAppTests" folder in "CoffeeAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoffeeAppUnitTestPlan.xctestplan,
+			);
+			target = 9DA256F22EA672AF00B8CF98 /* CoffeeAppTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9D4741452E756E8100C16B6D /* Coffee App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -65,6 +82,10 @@
 		};
 		9DA256F42EA672AF00B8CF98 /* CoffeeAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9D62D63A2EF98C2300F56163 /* Exceptions for "CoffeeAppTests" folder in "Coffee App" target */,
+				9D62D63B2EF98C2300F56163 /* Exceptions for "CoffeeAppTests" folder in "CoffeeAppTests" target */,
+			);
 			path = CoffeeAppTests;
 			sourceTree = "<group>";
 		};

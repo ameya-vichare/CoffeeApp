@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "774C613F-FF0E-482A-B8C1-5A007A61BA62",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Coffee App.xcodeproj",
+        "identifier" : "9DA256F22EA672AF00B8CF98",
+        "name" : "CoffeeAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}

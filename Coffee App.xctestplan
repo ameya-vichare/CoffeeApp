@@ -18,19 +18,18 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Coffee App.xcodeproj",
-        "identifier" : "9DA256F22EA672AF00B8CF98",
-        "name" : "CoffeeAppTests"
+        "identifier" : "9DB0DE572EF83D2300C08F8E",
+        "name" : "CoffeeAppUITests"
       }
     },
     {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Coffee App.xcodeproj",
-        "identifier" : "9DB0DE572EF83D2300C08F8E",
-        "name" : "CoffeeAppUITests"
+        "identifier" : "9DA256F22EA672AF00B8CF98",
+        "name" : "CoffeeAppTests"
       }
     }
   ],
