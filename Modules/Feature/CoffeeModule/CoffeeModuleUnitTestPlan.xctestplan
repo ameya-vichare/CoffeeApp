@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "9F6C681D-5C87-43EE-950C-3AE8F804A207",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "CoffeeModuleTests",
+        "name" : "CoffeeModuleTests"
+      }
+    }
+  ],
+  "version" : 1
+}
