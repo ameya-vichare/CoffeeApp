@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "1D291038-5961-4D0F-BE99-3573D5AA66FB",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Coffee App.xcodeproj",
+      "identifier" : "9D4741422E756E8100C16B6D",
+      "name" : "Coffee App"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Coffee App.xcodeproj",
+        "identifier" : "9DA256F22EA672AF00B8CF98",
+        "name" : "CoffeeAppTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Coffee App.xcodeproj",
+        "identifier" : "9DB0DE572EF83D2300C08F8E",
+        "name" : "CoffeeAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

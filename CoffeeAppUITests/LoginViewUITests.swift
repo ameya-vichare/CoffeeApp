@@ -89,6 +89,16 @@ final class LoginViewUITests: XCTestCase {
         
         loginButton.tap()
         
+        let usernameAttachment = XCTAttachment(screenshot: usernameTextField.screenshot())
+        usernameAttachment.name = "usernameTextFieldScreenshot"
+        usernameAttachment.lifetime = .keepAlways
+        add(usernameAttachment)
+        
+        let appAttachment = XCTAttachment(screenshot: app.screenshot())
+        appAttachment.name = "appScreenshot"
+        appAttachment.lifetime = .keepAlways
+        add(appAttachment)
+        
         let orderListScreen = app.navigationBars["Orders"]
         XCTAssertTrue(orderListScreen.waitForExistence(timeout: 2), "When user enters right credentials, they should be redirected to the Orders screen")
     }
