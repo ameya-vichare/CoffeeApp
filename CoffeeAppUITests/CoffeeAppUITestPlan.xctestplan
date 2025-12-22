@@ -12,7 +12,13 @@
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
-
+    {
+      "target" : {
+        "containerPath" : "container:Coffee App.xcodeproj",
+        "identifier" : "9DB0DE572EF83D2300C08F8E",
+        "name" : "CoffeeAppUITests"
+      }
+    }
   ],
   "version" : 1
 }
