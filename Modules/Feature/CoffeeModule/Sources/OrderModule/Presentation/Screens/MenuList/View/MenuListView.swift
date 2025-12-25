@@ -11,7 +11,7 @@ import Combine
 import Persistence
 import NetworkMonitoring
 
-public struct MenuListView<ViewModel>: View where ViewModel: MenuListViewModel {
+public struct MenuListView<ViewModel: MenuListViewModel>: View {
     @ObservedObject var viewModel: ViewModel
     @State var activeAlert: AlertData?
     @State private var cancellables = Set<AnyCancellable>()

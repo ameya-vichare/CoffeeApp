@@ -20,7 +20,8 @@ let package = Package(
         .package(path: "../../Core/Networking"),
         .package(path: "../../Core/ImageLoading"),
         .package(path: "../../Core/Persistence"),
-        .package(path: "../../Core/NetworkMonitoring")
+        .package(path: "../../Core/NetworkMonitoring"),
+        .package(url: "https://github.com/nalexn/ViewInspector", from: "0.10.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -37,7 +38,10 @@ let package = Package(
         ),
         .testTarget(
             name: "CoffeeModuleTests",
-            dependencies: ["CoffeeModule"]
+            dependencies: [
+                "CoffeeModule",
+                .product(name: "ViewInspector", package: "ViewInspector")
+            ]
         ),
     ]
 )
