@@ -42,7 +42,7 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @
         try await self.dataStore.storeCreateOrder(order: order)
     }
     
-    public func getOrders(config: APIConfig) async throws -> [Order] {
+    public func getOrders(config: APIConfig) async throws -> OrderResponse {
         try await self.remoteAPI.getOrders(config: config)
     }
     

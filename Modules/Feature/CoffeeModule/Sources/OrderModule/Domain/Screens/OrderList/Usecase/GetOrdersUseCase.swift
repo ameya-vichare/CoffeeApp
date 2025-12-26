@@ -20,6 +20,6 @@ public final class GetOrdersUseCase: GetOrdersUseCaseProtocol {
     
     public func execute() async throws -> [Order] {
         let getCoffeeOrderConfig = OrderEndpoint.getOrders
-        return try await repository.getOrders(config: getCoffeeOrderConfig)
+        return try await repository.getOrders(config: getCoffeeOrderConfig).orders ?? []
     }
 }

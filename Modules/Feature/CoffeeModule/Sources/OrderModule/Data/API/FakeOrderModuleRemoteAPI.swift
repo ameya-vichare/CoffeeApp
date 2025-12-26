@@ -11,10 +11,17 @@ import Networking
 public final class FakeOrderModuleRemoteAPI: OrderModuleAPIProtocol {
     public init () {}
     
-    public func getOrders(config: APIConfig) async throws -> [Order] {
-        [
-            Order.createFake()
-        ]
+    public func getOrders(config: APIConfig) async throws -> OrderResponse {
+        OrderResponse(
+            orders: [
+                Order.createFake()
+            ],
+            pagination: OrderPagination(
+                limit: 0,
+                nextCursor: "",
+                hasMore: true
+            )
+        )
     }
     
     public func getMenu(config: any Networking.APIConfig) async throws -> MenuResponse {

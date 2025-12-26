@@ -10,7 +10,7 @@ import AppCore
 
 final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
     enum Result {
-        case getOrdersSuccess([Order])
+        case getOrdersSuccess(OrderResponse)
         case getOrdersFailure(NetworkError)
         case getMenuSuccess(MenuResponse)
         case getMenuFailure(NetworkError)
@@ -28,7 +28,7 @@ final class FakeOrderModuleRepository: OrderModuleRepositoryProtocol {
         self.result = result
     }
     
-    func getOrders(config: APIConfig) async throws -> [Order] {
+    func getOrders(config: APIConfig) async throws -> OrderResponse {
         switch result {
         case .getOrdersSuccess(let orders):
             return orders

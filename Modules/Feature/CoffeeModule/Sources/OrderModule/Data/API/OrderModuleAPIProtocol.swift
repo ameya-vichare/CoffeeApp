@@ -9,7 +9,7 @@ import AppCore
 import Networking
 
 public protocol OrderModuleAPIProtocol: Sendable {
-    func getOrders(config: APIConfig) async throws -> [Order]
+    func getOrders(config: APIConfig) async throws -> OrderResponse
     func getMenu(config: APIConfig) async throws -> MenuResponse
     func createOrder(config: APIConfig) async throws -> CreateOrderResponse
 }
