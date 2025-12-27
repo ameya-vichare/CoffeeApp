@@ -97,7 +97,7 @@ extension DefaultMenuListViewModel {
 extension DefaultMenuListViewModel {
     private func getMenuItems() async {
         do {
-            self.state = .fetchingData
+            self.state = .fetchingData(isInitial: true)
             let response = try await self.getMenuUseCase.execute()
             self.prepareDatasource(using: response)
             self.state = .dataFetched

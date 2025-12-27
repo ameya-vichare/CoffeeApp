@@ -29,6 +29,14 @@ public struct OrderListView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(AppColors.clear)
                     .listRowInsets(EdgeInsets(top: AppPointSystem.point_12, leading: AppPointSystem.point_16, bottom: AppPointSystem.point_12, trailing: AppPointSystem.point_16))
+                    .onAppear {
+                        if let cellIndex = self.viewModel.datasource.firstIndex { $0.id == item.id },
+                            cellIndex >= self.viewModel.datasource.count - 3 {
+                            Task {
+                                await self.viewModel.loadNextPage()
+                            }
+                        }
+                    }
             }
             .listStyle(.plain)
             .background(AppColors.clear)
@@ -78,10 +86,12 @@ public struct OrderListView: View {
         switch state {
         case .preparing, .dataFetched, .error:
             EmptyView()
-        case .fetchingData:
-            ProgressView("Loading orders ...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.thinMaterial)
+        case .fetchingData(let isInitial):
+            if isInitial {
+                ProgressView("Loading orders ...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.thinMaterial)
+            }
         }
     }
 }

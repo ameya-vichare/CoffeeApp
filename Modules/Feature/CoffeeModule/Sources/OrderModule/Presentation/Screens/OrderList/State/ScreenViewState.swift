@@ -5,9 +5,9 @@
 //  Created by Ameya on 24/10/25.
 //
 
-public enum ScreenViewState {
+public enum ScreenViewState: Equatable {
     case preparing
-    case fetchingData
+    case fetchingData(isInitial: Bool)
     case dataFetched
     case error
 }

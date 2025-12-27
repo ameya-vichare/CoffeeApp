@@ -9,12 +9,12 @@ import Networking
 import Foundation
 
 public enum OrderEndpoint: APIConfig {
-    case getOrders
+    case getOrders(cursor: String?)
     case sendOrder
     
     public func path() -> String {
         switch self {
-        case .getOrders:
+        case .getOrders(_):
             "/ongoing-orders"
         case .sendOrder:
             "/coffees"
@@ -23,7 +23,7 @@ public enum OrderEndpoint: APIConfig {
     
     public func httpMethod() -> Networking.HTTPMethod {
         switch self {
-        case .getOrders:
+        case .getOrders(_):
             .GET
         case .sendOrder:
             .POST
@@ -36,7 +36,7 @@ public enum OrderEndpoint: APIConfig {
     
     public func httpHeaders() -> [String : String]? {
         switch self {
-        case .getOrders:
+        case .getOrders(_):
             return nil
         case .sendOrder:
             return ["Content-Type": "application/json"]
@@ -44,6 +44,13 @@ public enum OrderEndpoint: APIConfig {
     }
     
     public func queryItems() -> [URLQueryItem]? {
-        nil
+        switch self {
+        case .getOrders(let cursor):
+            return [
+                URLQueryItem(name: "cursor", value: cursor ?? "")
+            ]
+        case .sendOrder:
+            return nil
+        }
     }
 }

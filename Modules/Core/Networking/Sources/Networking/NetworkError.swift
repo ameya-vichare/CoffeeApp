@@ -61,7 +61,7 @@ public enum NetworkError: Error, Equatable {
         
         do {
             if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let errorMessage = json["error"] as? String {
+               let errorMessage = json["details"] as? String {
                 return errorMessage
             }
         } catch {

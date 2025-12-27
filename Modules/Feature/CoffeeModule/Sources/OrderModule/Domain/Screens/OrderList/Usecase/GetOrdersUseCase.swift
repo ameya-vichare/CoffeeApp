@@ -8,7 +8,7 @@
 import AppCore
 
 public protocol GetOrdersUseCaseProtocol {
-    func execute() async throws -> [Order]
+    func execute(using pageData: OrderPagination?) async throws -> OrderResponse
 }
 
 public final class GetOrdersUseCase: GetOrdersUseCaseProtocol {
@@ -18,8 +18,10 @@ public final class GetOrdersUseCase: GetOrdersUseCaseProtocol {
         self.repository = repository
     }
     
-    public func execute() async throws -> [Order] {
-        let getCoffeeOrderConfig = OrderEndpoint.getOrders
-        return try await repository.getOrders(config: getCoffeeOrderConfig).orders ?? []
+    public func execute(using pageData: OrderPagination?) async throws -> OrderResponse {
+        let getCoffeeOrderConfig = OrderEndpoint.getOrders(
+            cursor: pageData?.nextCursor
+        )
+        return try await repository.getOrders(config: getCoffeeOrderConfig)
     }
 }

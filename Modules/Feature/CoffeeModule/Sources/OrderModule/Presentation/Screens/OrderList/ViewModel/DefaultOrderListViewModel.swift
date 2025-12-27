@@ -23,14 +23,14 @@ protocol OrderListViewModelOutput {
 protocol OrderListViewModelInput {
     func viewDidLoad() async
     func didRefresh() async
+    func loadNextPage() async
 }
 
 typealias OrderListViewModel = OrderListViewModelInput & OrderListViewModelOutput
 
 @MainActor
 public final class DefaultOrderListViewModel: ObservableObject, OrderListViewModel {
-    public let getOrdersUseCase: GetOrdersUseCaseProtocol
-    
+    let getOrdersUseCase: GetOrdersUseCaseProtocol
     let navigationDelegate: OrderListNavigationDelegate?
     
     // MARK: - Output
@@ -42,6 +42,9 @@ public final class DefaultOrderListViewModel: ObservableObject, OrderListViewMod
         self.alertSubject.eraseToAnyPublisher()
     }
     
+    // MARK: - Private
+    private var pageData: OrderPagination?
+    
     // MARK: - Init
     public init(
         getOrdersUseCase: GetOrdersUseCaseProtocol,
@@ -52,23 +55,32 @@ public final class DefaultOrderListViewModel: ObservableObject, OrderListViewMod
     }
 }
 
-// MARK: - Input
+// MARK: - Actions
 extension DefaultOrderListViewModel {
     func viewDidLoad() async {
         await self.getOrders()
     }
     
     func didRefresh() async {
+        self.resetData()
         await self.getOrders()
     }
+    
+    func loadNextPage() async {
+        guard shouldLoadNextPage() else { return }
+        await self.getOrders()
+    }
+}
 
+// MARK: - Private
+extension DefaultOrderListViewModel {
     private func getOrders() async {
-        self.resetDatasource()
-        self.state = .fetchingData
+        self.state = .fetchingData(isInitial: pageData == nil ? true : false)
 
         do {
-            let orders = try await self.getOrdersUseCase.execute()
-            self.prepareDatasource(orders: orders)
+            let orderResponse = try await self.getOrdersUseCase.execute(using: pageData)
+            self.prepareDatasource(orders: orderResponse.orders)
+            self.preparePaginationData(pagination: orderResponse.pagination)
             self.state = .dataFetched
         } catch let error as NetworkError {
             self.state = .error
@@ -77,12 +89,11 @@ extension DefaultOrderListViewModel {
             self.state = .error
         }
     }
-}
-
-// MARK: - Output
-extension DefaultOrderListViewModel {
-    private func prepareDatasource(orders: [Order]) {
-        self.datasource = orders.compactMap { order in
+    
+    private func prepareDatasource(orders: [Order]?) {
+        guard let orders else { return }
+        
+        let orderCells: [OrderListCellType] = orders.compactMap { order in
             guard let orderID = order.id,
                   !orderID.isEmpty else {
                 return nil
@@ -112,10 +123,27 @@ extension DefaultOrderListViewModel {
                 )
             )
         }
+        
+        self.datasource.append(contentsOf: orderCells)
     }
     
-    private func resetDatasource() {
+    private func preparePaginationData(pagination: OrderPagination?) {
+        guard let pagination else { return }
+        self.pageData = pagination
+    }
+    
+    private func shouldLoadNextPage() -> Bool {
+        guard let hasMore = pageData?.hasMore
+        else {
+            return false
+        }
+        
+        return hasMore && state == .dataFetched
+    }
+    
+    private func resetData() {
         self.datasource = []
+        self.pageData = nil
     }
     
     private func showAlert(title: String, message: String) {
