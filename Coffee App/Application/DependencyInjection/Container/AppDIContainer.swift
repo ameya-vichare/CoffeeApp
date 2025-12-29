@@ -57,6 +57,10 @@ extension AppDIContainer {
             )
         )
     }
+    
+    func makeProfileDIContainer() -> ProfileDIContainer {
+        ProfileDIContainer()
+    }
 }
 
 // MARK: - User Session

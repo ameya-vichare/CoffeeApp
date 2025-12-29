@@ -10,6 +10,7 @@ import UIKit
 protocol TabBarCoordinatorDependencyDelegate {
     func makeOrderListDIContainer() -> OrderListDIContainer
     func makeMenuListDIContainer() -> MenuListDIContainer
+    func makeProfileDIContainer() -> ProfileDIContainer
 }
 
 final class TabBarCoordinator: Coordinator {
@@ -27,7 +28,8 @@ final class TabBarCoordinator: Coordinator {
     func start() {
         tabBarController.viewControllers = [
             setupOrderListTab(),
-            setupMenuListTab()
+            setupMenuListTab(),
+            setupProfileTab()
         ]
         
         navigationController.setViewControllers([tabBarController], animated: false)
@@ -63,6 +65,23 @@ final class TabBarCoordinator: Coordinator {
             navigationController: navigationController
         )
         menuListCoordinator.start()
+        
+        return navigationController
+    }
+    
+    private func setupProfileTab() -> UINavigationController {
+        let navigationController = UINavigationController()
+        configure(
+            navigationController: navigationController,
+            withTitle: "Profile",
+            andImageName: "person"
+        )
+        
+        let profileDIContainer = self.dependencyDelegate.makeProfileDIContainer()
+        let profileCoordinator = profileDIContainer.makeProfileCoordinator(
+            navigationController: navigationController
+        )
+        profileCoordinator.start()
         
         return navigationController
     }

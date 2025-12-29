@@ -26,6 +26,7 @@
 		9D47415F2E756FE400C16B6D /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 9D47415E2E756FE400C16B6D /* Networking */; };
 		9D4741742E75709300C16B6D /* CoffeeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741732E75709300C16B6D /* CoffeeModule */; };
 		9D4741B72E7716B700C16B6D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4741B62E7716B700C16B6D /* DesignSystem */; };
+		9D7F038B2F02B95B00CBDEA0 /* ProfileModule in Frameworks */ = {isa = PBXBuildFile; productRef = 9D7F038A2F02B95B00CBDEA0 /* ProfileModule */; };
 		9DC3203C2EBCDF0E00BAC489 /* NetworkMonitoring in Frameworks */ = {isa = PBXBuildFile; productRef = 9DC3203B2EBCDF0E00BAC489 /* NetworkMonitoring */; };
 		9DDE06A22E9B90C600161FC9 /* ImageLoading in Frameworks */ = {isa = PBXBuildFile; productRef = 9DDE06A12E9B90C600161FC9 /* ImageLoading */; };
 		9DEB36662EBA40F4003DDC93 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9DEB36652EBA40F4003DDC93 /* Persistence */; };
@@ -113,6 +114,7 @@
 				9DEB36662EBA40F4003DDC93 /* Persistence in Frameworks */,
 				9D065B962EE58E7700120F6C /* CoffeeModule in Frameworks */,
 				9D065B642EE58DD900120F6C /* AppCore in Frameworks */,
+				9D7F038B2F02B95B00CBDEA0 /* ProfileModule in Frameworks */,
 				9D065B902EE58E5C00120F6C /* Persistence in Frameworks */,
 				9D065AD42EE5735400120F6C /* AppCore in Frameworks */,
 				9D065A452EDDDD4200120F6C /* Persistence in Frameworks */,
@@ -210,6 +212,7 @@
 				9D065B922EE58E6A00120F6C /* AuthModule */,
 				9D065B952EE58E7700120F6C /* CoffeeModule */,
 				9D065B982EE58EE400120F6C /* Resolver */,
+				9D7F038A2F02B95B00CBDEA0 /* ProfileModule */,
 			);
 			productName = "Coffee App";
 			productReference = 9D4741432E756E8100C16B6D /* Coffee App.app */;
@@ -302,6 +305,7 @@
 				9D065B912EE58E6A00120F6C /* XCLocalSwiftPackageReference "Modules/Feature/AuthModule" */,
 				9D065B942EE58E7700120F6C /* XCLocalSwiftPackageReference "Modules/Feature/CoffeeModule" */,
 				9D065B972EE58EE400120F6C /* XCRemoteSwiftPackageReference "Resolver" */,
+				9D7F03892F02B95B00CBDEA0 /* XCLocalSwiftPackageReference "Modules/Feature/ProfileModule" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D4741442E756E8100C16B6D /* Products */;
@@ -724,6 +728,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules/Feature/CoffeeModule;
 		};
+		9D7F03892F02B95B00CBDEA0 /* XCLocalSwiftPackageReference "Modules/Feature/ProfileModule" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Feature/ProfileModule;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -814,6 +822,10 @@
 		9D4741B62E7716B700C16B6D /* DesignSystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DesignSystem;
+		};
+		9D7F038A2F02B95B00CBDEA0 /* ProfileModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileModule;
 		};
 		9DC3203B2EBCDF0E00BAC489 /* NetworkMonitoring */ = {
 			isa = XCSwiftPackageProductDependency;
