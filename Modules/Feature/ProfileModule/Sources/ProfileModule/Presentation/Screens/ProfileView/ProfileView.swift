@@ -10,12 +10,45 @@ import AppCore
 
 struct SectionModel: Identifiable {
     let id = UUID()
-    let title: String
-    let rows: [RowModel]
+    let rows: [RowType]
     
-    init(title: String, rows: [RowModel]) {
-        self.title = title
+    init(rows: [RowType]) {
         self.rows = rows
+    }
+}
+
+enum RowType: Identifiable {
+    var id: String {
+        self.name
+    }
+    
+    case settings
+    case myOrders
+    case address
+    case changePassword
+    case helpAndSupport
+    case logout
+    
+    var name: String {
+        switch self {
+        case .settings: return "Settings"
+        case .myOrders: return "My Orders"
+        case .address: return "Address"
+        case .changePassword: return "Change Password"
+        case .helpAndSupport: return "Help & Support"
+        case .logout: return "Logout"
+        }
+    }
+    
+    var imageName: String {
+        switch self {
+        case .settings: return "gearshape"
+        case .myOrders: return "list.bullet"
+        case .address: return "mappin.and.ellipse"
+        case .changePassword: return "lock"
+        case .helpAndSupport: return "questionmark.circle"
+        case .logout: return "arrow.right.square"
+        }
     }
 }
 
@@ -33,37 +66,17 @@ struct RowModel: Identifiable {
 public struct ProfileView: View {
     let profileSections: [SectionModel] = [
         SectionModel(
-            title: "Section1",
             rows: [
-                RowModel(
-                    title: "Settings",
-                    imageName: "gearshape"
-                ),
-                RowModel(
-                    title: "My Orders",
-                    imageName: "list.bullet"
-                ),
-                RowModel(
-                    title: "Address",
-                    imageName: "mappin.and.ellipse"
-                ),
-                RowModel(
-                    title: "Change Password",
-                    imageName: "lock"
-                )
+                .settings,
+                .myOrders,
+                .address,
+                .changePassword
             ]
         ),
         SectionModel(
-            title: "Section2",
             rows: [
-                RowModel(
-                    title: "Help & Support",
-                    imageName: "questionmark.circle"
-                ),
-                RowModel(
-                    title: "Logout",
-                    imageName: "arrow.right.square"
-                )
+                .helpAndSupport,
+                .logout
             ]
         )
     ]
@@ -75,8 +88,8 @@ public struct ProfileView: View {
             List {
                 ForEach(profileSections.enumerated(), id: \.element.id) { index, section in
                     
-                    ForEach(section.rows) { row in
-                        ProfileCellView(rowModel: row)
+                    ForEach(section.rows) { rowType in
+                        ProfileCellView(rowType: rowType)
                             .listRowSeparator(.hidden)
                             .listRowInsets(
                                 EdgeInsets(
@@ -86,6 +99,9 @@ public struct ProfileView: View {
                                     trailing: AppPointSystem.point_0
                                 )
                             )
+                            .onTapGesture {
+                                print("Cell tapped \(rowType)")
+                            }
                     }
                     
                     if index != profileSections.count - 1 {
@@ -105,24 +121,26 @@ public struct ProfileView: View {
 }
 
 public struct ProfileCellView: View {
-    let rowModel: RowModel
+    let rowType: RowType
     
-    init(rowModel: RowModel) {
-        self.rowModel = rowModel
+    init(rowType: RowType) {
+        self.rowType = rowType
     }
     
     public var body: some View {
         HStack {
-            Image(systemName: rowModel.imageName)
+            Image(systemName: rowType.imageName)
             
-            Text(rowModel.title)
+            Text(rowType.name)
                 .font(AppFonts.headlineRegular)
 
             Spacer()
             
             Image(systemName: "chevron.right")
         }
+        .contentShape(Rectangle())
         .padding([.horizontal], AppPointSystem.point_24)
+        .padding([.vertical], AppPointSystem.point_12)
     }
 }
 
