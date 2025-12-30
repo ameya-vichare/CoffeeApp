@@ -21,10 +21,12 @@ struct SectionModel: Identifiable {
 
 struct RowModel: Identifiable {
     let id = UUID()
+    let imageName: String
     let title: String
     
-    init(title: String) {
+    init(title: String, imageName: String) {
         self.title = title
+        self.imageName = imageName
     }
 }
 
@@ -33,15 +35,35 @@ public struct ProfileView: View {
         SectionModel(
             title: "Section1",
             rows: [
-                RowModel(title: "Edit Profile"),
-                RowModel(title: "About")
+                RowModel(
+                    title: "Settings",
+                    imageName: "gearshape"
+                ),
+                RowModel(
+                    title: "My Orders",
+                    imageName: "list.bullet"
+                ),
+                RowModel(
+                    title: "Address",
+                    imageName: "mappin.and.ellipse"
+                ),
+                RowModel(
+                    title: "Change Password",
+                    imageName: "lock"
+                )
             ]
         ),
         SectionModel(
             title: "Section2",
             rows: [
-                RowModel(title: "Logout"),
-                RowModel(title: "App Version")
+                RowModel(
+                    title: "Help & Support",
+                    imageName: "questionmark.circle"
+                ),
+                RowModel(
+                    title: "Logout",
+                    imageName: "arrow.right.square"
+                )
             ]
         )
     ]
@@ -50,33 +72,57 @@ public struct ProfileView: View {
     
     public var body: some View {
         ZStack {
-            List(profileSections) { section in
-                Section(section.title) {
+            List {
+                ForEach(profileSections.enumerated(), id: \.element.id) { index, section in
+                    
                     ForEach(section.rows) { row in
-                        ProfileCellView()
+                        ProfileCellView(rowModel: row)
                             .listRowSeparator(.hidden)
+                            .listRowInsets(
+                                EdgeInsets(
+                                    top: AppPointSystem.point_0,
+                                    leading: AppPointSystem.point_0,
+                                    bottom: AppPointSystem.point_0,
+                                    trailing: AppPointSystem.point_0
+                                )
+                            )
+                    }
+                    
+                    if index != profileSections.count - 1 {
+                        Rectangle()
+                            .foregroundStyle(AppColors.primaryGray)
+                            .opacity(0.3)
+                            .frame(height: 1)
+                            .padding([.horizontal], AppPointSystem.point_12)
                     }
                 }
             }
             .listStyle(.plain)
+            .background(AppColors.clear)
         }
         .navigationTitle("Profile")
     }
 }
 
 public struct ProfileCellView: View {
+    let rowModel: RowModel
+    
+    init(rowModel: RowModel) {
+        self.rowModel = rowModel
+    }
+    
     public var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: AppPointSystem.point_12)
-                .foregroundStyle(AppColors.secondaryGray)
+        HStack {
+            Image(systemName: rowModel.imageName)
             
-            HStack {
-                Text("Hello, World!")
-                    .padding()
-                
-                Spacer()
-            }
+            Text(rowModel.title)
+                .font(AppFonts.headlineRegular)
+
+            Spacer()
+            
+            Image(systemName: "chevron.right")
         }
+        .padding([.horizontal], AppPointSystem.point_24)
     }
 }
 
