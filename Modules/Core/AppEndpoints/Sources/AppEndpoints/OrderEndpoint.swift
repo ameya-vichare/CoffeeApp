@@ -7,17 +7,18 @@
 
 import Networking
 import Foundation
+import AppModels
 
 public enum OrderEndpoint: APIConfig {
     case getOrders(cursor: String?)
-    case sendOrder
+    case createOrder(data: CreateOrder)
     
     public func path() -> String {
         switch self {
         case .getOrders(_):
             "/ongoing-orders"
-        case .sendOrder:
-            "/coffees"
+        case .createOrder(_):
+            "/create-order"
         }
     }
     
@@ -25,20 +26,25 @@ public enum OrderEndpoint: APIConfig {
         switch self {
         case .getOrders(_):
             .GET
-        case .sendOrder:
+        case .createOrder(_):
             .POST
         }
     }
     
     public func httpBody() -> Data? {
-        nil
+        switch self {
+        case .getOrders(_):
+            return nil
+        case .createOrder(let data):
+            return try? JSONEncoder().encode(data)
+        }
     }
     
     public func httpHeaders() -> [String : String]? {
         switch self {
         case .getOrders(_):
             return nil
-        case .sendOrder:
+        case .createOrder(let data):
             return ["Content-Type": "application/json"]
         }
     }
@@ -49,7 +55,7 @@ public enum OrderEndpoint: APIConfig {
             return [
                 URLQueryItem(name: "cursor", value: cursor ?? "")
             ]
-        case .sendOrder:
+        case .createOrder(_):
             return nil
         }
     }

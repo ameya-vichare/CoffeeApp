@@ -11,4 +11,5 @@ import Networking
 public protocol AuthRepositoryProtocol {
     func getUserSession() async throws -> UserSession
     func loginUser(config: APIConfig) async throws -> UserSession
+    func logoutUser(config: APIConfig) async throws
 }

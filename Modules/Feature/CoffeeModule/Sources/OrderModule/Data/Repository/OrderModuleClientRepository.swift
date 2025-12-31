@@ -32,7 +32,7 @@ public final class OrderModuleClientRepository: OrderModuleRepositoryProtocol, @
         let createOrder = CreateOrder(
             items: orders.flatMap { $0.items }
         )
-        let createOrderAPIConfig = CreateOrderEndpoint.createOrder(data: createOrder)
+        let createOrderAPIConfig = OrderEndpoint.createOrder(data: createOrder)
         try await self.remoteAPI.createOrder(config: createOrderAPIConfig)
         
         try await self.dataStore.deleteAllCreateOrders()

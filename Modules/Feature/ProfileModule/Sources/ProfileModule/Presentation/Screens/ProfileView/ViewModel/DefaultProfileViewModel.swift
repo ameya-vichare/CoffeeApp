@@ -60,7 +60,7 @@ extension DefaultProfileViewModel {
     private func handle(rowType: ProfileRowType) {
         switch rowType {
         case .logout:
-            
+            break
         default:
             break
         }

@@ -24,7 +24,7 @@ public final class CreateOrderUsecase: CreateOrderUsecaseProtocol {
     
     public func execute(using orderItem: CreateOrderItem) async throws -> CreateOrderResponse {
         let orderData = CreateOrder(items: [orderItem])
-        let createOrderAPIConfig = CreateOrderEndpoint.createOrder(data: orderData)
+        let createOrderAPIConfig = OrderEndpoint.createOrder(data: orderData)
         
         do {
             guard networkMonitor.status == .available else {

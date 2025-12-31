@@ -30,4 +30,8 @@ public final class AuthRepository: AuthRepositoryProtocol {
         
         return userSession
     }
+    
+    public func logoutUser(config: APIConfig) async throws {
+        
+    }
 }

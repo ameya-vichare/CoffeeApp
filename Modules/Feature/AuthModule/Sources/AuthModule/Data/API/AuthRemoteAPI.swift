@@ -19,5 +19,9 @@ public final class AuthRemoteAPI: AuthAPIProtocol {
         let networkRequest = NetworkRequest(apiConfig: config)
         return try await self.networkService.perform(request: networkRequest, responseType: UserSession.self)
     }
+    
+    public func logoutUser(config: APIConfig) async throws {
+        
+    }
 }
 
