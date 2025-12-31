@@ -17,6 +17,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../Core/AppCore"),
+        .package(path: "../../Core/Networking"),
+        .package(path: "../../Core/Persistence"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,6 +27,8 @@ let package = Package(
             name: "ProfileModule",
             dependencies: [
                 "AppCore",
+                "Networking",
+                "Persistence",
             ]
         ),
         .testTarget(

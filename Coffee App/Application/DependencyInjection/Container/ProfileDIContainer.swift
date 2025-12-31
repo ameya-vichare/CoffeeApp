@@ -7,6 +7,8 @@
 
 import SwiftUI
 import ProfileModule
+import AuthModule
+import Resolver
 
 final class ProfileDIContainer {
     
@@ -22,9 +24,17 @@ final class ProfileDIContainer {
 
 extension ProfileDIContainer: ProfileCoordinatorDependencyDelegate {
     @MainActor
-    func makeProfileView() -> AnyView {
-        let profileViewModel = DefaultProfileViewModel()
-        let profileView = ProfileView(viewModel: profileViewModel)
+    func makeProfileView(navigationDelegate: ProfileViewNavigationDelegate) -> AnyView {
+        func makeProfileViewModel() -> DefaultProfileViewModel {
+            DefaultProfileViewModel(
+                logoutUseCase: UserLogoutUseCase(
+                    repository: Resolver.resolve(AuthRepositoryProtocol.self)
+                ),
+                navigationDelegate: navigationDelegate
+            )
+        }
+        
+        let profileView = ProfileView(viewModel: makeProfileViewModel())
         return AnyView(profileView)
     }
 }

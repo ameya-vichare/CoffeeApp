@@ -7,6 +7,8 @@
 
 import SwiftUI
 import AppCore
+import AuthModule
+import Persistence
 
 public struct ProfileView<ViewModel: ProfileViewModel>: View {
     @ObservedObject var viewModel: ViewModel
@@ -78,6 +80,16 @@ public struct ProfileCellView: View {
 
 #Preview {
     NavigationStack {
-        ProfileView(viewModel: DefaultProfileViewModel())
+        ProfileView(
+            viewModel: DefaultProfileViewModel(
+                logoutUseCase: UserLogoutUseCase(
+                    repository: AuthRepository(
+                        dataStore: FakeAuthModuleDataStore(),
+                        remoteAPI: FakeAuthRemoteAPI()
+                    )
+                ),
+                navigationDelegate: nil
+            )
+        )
     }
 }

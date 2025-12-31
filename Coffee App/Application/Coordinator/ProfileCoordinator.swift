@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import ProfileModule
 
 protocol ProfileCoordinatorDependencyDelegate: AnyObject {
-    func makeProfileView() -> AnyView
+    func makeProfileView(navigationDelegate: ProfileViewNavigationDelegate) -> AnyView
 }
 
 final class ProfileCoordinator: Coordinator {
@@ -25,8 +26,16 @@ final class ProfileCoordinator: Coordinator {
 
     func start() {
         let profileView = UIHostingController(
-            rootView: self.dependencyDelegate.makeProfileView()
+            rootView: self.dependencyDelegate.makeProfileView(navigationDelegate: self)
         )
         self.navigationController.pushViewController(profileView, animated: true)
+    }
+}
+
+// MARK: - Navigation handling
+extension ProfileCoordinator: ProfileViewNavigationDelegate {
+    @MainActor
+    func userDidLogout() {
+        navigationController.popToRootViewController(animated: true)
     }
 }

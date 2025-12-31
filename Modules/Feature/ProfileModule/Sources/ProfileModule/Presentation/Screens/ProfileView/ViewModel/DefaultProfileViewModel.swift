@@ -24,6 +24,10 @@ public typealias ProfileViewModel = ProfileViewModelOutput & ProfileViewModelAct
 
 @MainActor
 public final class DefaultProfileViewModel: ProfileViewModel {
+    // MARK: - Dependencies
+    private let logoutUseCase: UserLogoutUseCaseProtocol
+    private let navigationDelegate: ProfileViewNavigationDelegate?
+    
     // MARK: - Output
     public var profileSections: [ProfileSectionModel] = [
         ProfileSectionModel(
@@ -43,8 +47,12 @@ public final class DefaultProfileViewModel: ProfileViewModel {
     ]
     
     // MARK: - Init
-    public init() {
-        
+    public init(
+        logoutUseCase: UserLogoutUseCaseProtocol,
+        navigationDelegate: ProfileViewNavigationDelegate?
+    ) {
+        self.logoutUseCase = logoutUseCase
+        self.navigationDelegate = navigationDelegate
     }
 }
 
@@ -60,9 +68,21 @@ extension DefaultProfileViewModel {
     private func handle(rowType: ProfileRowType) {
         switch rowType {
         case .logout:
-            break
+            Task {
+                await performLogout()
+            }
         default:
             break
+        }
+    }
+    
+    private func performLogout() async {
+        do {
+            try await logoutUseCase.execute()
+            navigationDelegate?.userDidLogout()
+        } catch {
+            // Handle error if needed
+            print("Logout failed: \(error)")
         }
     }
 }
