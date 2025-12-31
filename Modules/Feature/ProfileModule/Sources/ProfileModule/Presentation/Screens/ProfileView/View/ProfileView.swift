@@ -32,7 +32,7 @@ public struct ProfileView<ViewModel: ProfileViewModel>: View {
                                 )
                             )
                             .onTapGesture {
-                                print("Cell tapped \(rowType)")
+                                viewModel.didSelectRow(with: rowType)
                             }
                     }
                     

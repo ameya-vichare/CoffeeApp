@@ -8,11 +8,19 @@
 import Foundation
 import Combine
 
+public protocol ProfileViewNavigationDelegate {
+    func userDidLogout()
+}
+
 public protocol ProfileViewModelOutput {
     var profileSections: [ProfileSectionModel] { get }
 }
 
-public typealias ProfileViewModel = ProfileViewModelOutput & ObservableObject
+public protocol ProfileViewModelActions {
+    func didSelectRow(with rowType: ProfileRowType)
+}
+
+public typealias ProfileViewModel = ProfileViewModelOutput & ProfileViewModelActions & ObservableObject
 
 @MainActor
 public final class DefaultProfileViewModel: ProfileViewModel {
@@ -35,6 +43,26 @@ public final class DefaultProfileViewModel: ProfileViewModel {
     ]
     
     // MARK: - Init
-    public init() {}
+    public init() {
+        
+    }
 }
 
+// MARK: - Actions
+extension DefaultProfileViewModel {
+    public func didSelectRow(with rowType: ProfileRowType) {
+        self.handle(rowType: rowType)
+    }
+}
+
+// MARK: - Private
+extension DefaultProfileViewModel {
+    private func handle(rowType: ProfileRowType) {
+        switch rowType {
+        case .logout:
+            
+        default:
+            break
+        }
+    }
+}
