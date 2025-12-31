@@ -10,6 +10,6 @@ import Networking
 
 public protocol AuthAPIProtocol {
     func loginUser(config: APIConfig) async throws -> UserSession
-    func logoutUser(config: APIConfig) async throws
+    func logoutUser(config: APIConfig) async throws -> UserLogoutResponse
 }
 

@@ -17,11 +17,22 @@ public final class AuthRemoteAPI: AuthAPIProtocol {
     
     public func loginUser(config: APIConfig) async throws -> UserSession {
         let networkRequest = NetworkRequest(apiConfig: config)
-        return try await self.networkService.perform(request: networkRequest, responseType: UserSession.self)
+        let response = try await self.networkService.perform(
+            request: networkRequest,
+            responseType: UserSession.self
+        )
+        
+        return response
     }
     
-    public func logoutUser(config: APIConfig) async throws {
+    public func logoutUser(config: APIConfig) async throws -> UserLogoutResponse {
+        let networkRequest = NetworkRequest(apiConfig: config)
+        let response = try await self.networkService.perform(
+            request: networkRequest,
+            responseType: UserLogoutResponse.self
+        )
         
+        return response
     }
 }
 

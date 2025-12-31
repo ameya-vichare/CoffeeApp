@@ -17,5 +17,9 @@ public final class FakeAuthModuleDataStore: AuthModuleDataStoreProtocol {
     public func storeUserSession(userSession: AppModels.UserSession) async throws {
         
     }
+    
+    public func deleteUserSession() async throws {
+        
+    }
 }
 

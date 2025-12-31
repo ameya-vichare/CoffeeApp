@@ -15,7 +15,8 @@ public final class FakeAuthRemoteAPI: AuthAPIProtocol {
         UserSession(userId: 1, userName: "testuser", token: "fake-token")
     }
     
-    public func logoutUser(config: any Networking.APIConfig) async throws {
+    public func logoutUser(config: APIConfig) async throws -> UserLogoutResponse {
+        UserLogoutResponse(success: true)
     }
 }
 

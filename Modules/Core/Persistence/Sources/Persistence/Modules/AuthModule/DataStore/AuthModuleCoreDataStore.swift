@@ -41,4 +41,16 @@ public final class AuthModuleCoreDataStore: AuthModuleDataStoreProtocol {
             }
         }
     }
+    
+    public func deleteUserSession() async throws {
+        try await container.performBackgroundTask { context in
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = UserSessionEntity.fetchRequest()
+            if let entity = try context.fetch(fetchRequest).first as? UserSessionEntity {
+                context.delete(entity)
+                if context.hasChanges {
+                    try context.save()
+                }
+            }
+        }
+    }
 }

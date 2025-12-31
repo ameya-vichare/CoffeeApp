@@ -10,4 +10,5 @@ import AppCore
 public protocol AuthModuleDataStoreProtocol {
     func getUserSession() async throws -> UserSession
     func storeUserSession(userSession: UserSession) async throws
+    func deleteUserSession() async throws
 }

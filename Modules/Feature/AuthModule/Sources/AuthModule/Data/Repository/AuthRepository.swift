@@ -31,7 +31,12 @@ public final class AuthRepository: AuthRepositoryProtocol {
         return userSession
     }
     
-    public func logoutUser(config: APIConfig) async throws {
+    public func logoutUser(config: APIConfig) async throws -> UserLogoutResponse {
+        let logoutResponse = try await self.remoteAPI.logoutUser(config: config)
+        do {
+            try await self.dataStore.deleteUserSession()
+        } catch {}
         
+        return logoutResponse
     }
 }
