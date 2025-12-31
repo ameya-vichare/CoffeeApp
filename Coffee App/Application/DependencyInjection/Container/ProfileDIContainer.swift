@@ -21,7 +21,10 @@ final class ProfileDIContainer {
 }
 
 extension ProfileDIContainer: ProfileCoordinatorDependencyDelegate {
+    @MainActor
     func makeProfileView() -> AnyView {
-        AnyView(ProfileView())
+        let profileViewModel = DefaultProfileViewModel()
+        let profileView = ProfileView(viewModel: profileViewModel)
+        return AnyView(profileView)
     }
 }
