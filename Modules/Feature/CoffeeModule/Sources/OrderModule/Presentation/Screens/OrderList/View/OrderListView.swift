@@ -49,7 +49,7 @@ public struct OrderListView: View {
                 await self.viewModel.didRefresh()
             }
             .onAppear(perform: {
-                viewModel.alertSubject
+                viewModel.alertPublisher
                     .receive(on: DispatchQueue.main)
                     .sink { alertData in
                         activeAlert = alertData

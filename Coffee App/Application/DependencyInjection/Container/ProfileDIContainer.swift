@@ -9,10 +9,18 @@ import SwiftUI
 import ProfileModule
 import AuthModule
 import Resolver
+import AppCore
 
 final class ProfileDIContainer {
+    struct Dependencies {
+        let onUserLogoutSuccess: () -> Void
+    }
     
-    init() {}
+    let dependencies: Dependencies
+    
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
     
     func makeProfileCoordinator(navigationController: UINavigationController) -> ProfileCoordinator {
         ProfileCoordinator(
@@ -36,5 +44,9 @@ extension ProfileDIContainer: ProfileCoordinatorDependencyDelegate {
         
         let profileView = ProfileView(viewModel: makeProfileViewModel())
         return AnyView(profileView)
+    }
+    
+    func onUserLogoutSuccess() {
+        self.dependencies.onUserLogoutSuccess()
     }
 }

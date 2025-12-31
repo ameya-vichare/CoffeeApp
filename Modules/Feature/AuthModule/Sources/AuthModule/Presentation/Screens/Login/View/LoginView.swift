@@ -135,13 +135,17 @@ public struct LoginView: View {
             focussedField = nil
         }
         .onAppear(perform: {
-            viewModel.alertSubject
+            viewModel.alertPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { alertData in
                     activeAlert = alertData
                 }
                 .store(in: &cancellables)
         })
+        .onDisappear {
+            cancellables.removeAll()
+            activeAlert = nil
+        }
         .alert(item: $activeAlert, content: { alertData in
             Alert(
                 title: Text(alertData.title),

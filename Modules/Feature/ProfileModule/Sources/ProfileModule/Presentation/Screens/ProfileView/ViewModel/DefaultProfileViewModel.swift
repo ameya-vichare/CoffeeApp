@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 public protocol ProfileViewNavigationDelegate {
-    func userDidLogout()
+    func onUserLogoutSuccess()
 }
 
 public protocol ProfileViewModelOutput {
@@ -79,7 +79,7 @@ extension DefaultProfileViewModel {
     private func performLogout() async {
         do {
             try await logoutUseCase.execute()
-            navigationDelegate?.userDidLogout()
+            navigationDelegate?.onUserLogoutSuccess()
         } catch {
             // Handle error if needed
             print("Logout failed: \(error)")

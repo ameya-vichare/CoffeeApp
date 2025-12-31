@@ -41,7 +41,7 @@ public final class DefaultLoginViewModel: ObservableObject, LoginViewModel {
     let navigationDelegate: LoginViewNavigationDelegate?
     
     // MARK: - Publishers
-    private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
+    private var alertSubject = PassthroughSubject<AlertData?, Never>()
     var alertPublisher: AnyPublisher<AlertData?, Never> {
         self.alertSubject.eraseToAnyPublisher()
     }

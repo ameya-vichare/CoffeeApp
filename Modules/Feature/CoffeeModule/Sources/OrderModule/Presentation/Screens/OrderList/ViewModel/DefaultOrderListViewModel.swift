@@ -37,7 +37,7 @@ public final class DefaultOrderListViewModel: ObservableObject, OrderListViewMod
     @Published var datasource: [OrderListCellType] = []
     @Published var state: ScreenViewState = .preparing
     
-    private(set) var alertSubject = PassthroughSubject<AlertData?, Never>()
+    private var alertSubject = PassthroughSubject<AlertData?, Never>()
     var alertPublisher: AnyPublisher<AlertData?, Never> {
         self.alertSubject.eraseToAnyPublisher()
     }

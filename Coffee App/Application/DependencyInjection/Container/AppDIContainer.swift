@@ -59,7 +59,14 @@ extension AppDIContainer {
     }
     
     func makeProfileDIContainer() -> ProfileDIContainer {
-        ProfileDIContainer()
+        ProfileDIContainer(
+            dependencies: ProfileDIContainer.Dependencies(
+                onUserLogoutSuccess: { [weak self] in
+                    self?.onUserLogoutSuccess()
+                    self?.showLogin()
+                }
+            )
+        )
     }
 }
 
@@ -76,8 +83,29 @@ extension AppDIContainer {
         }
     }
     
-    func updateUserSession(_ userSession: UserSession) {
+    func updateUserSession(_ userSession: UserSession?) {
         self.sharedUserSession = userSession
+    }
+    
+    func onUserLogoutSuccess() {
+        self.updateUserSession(nil)
+        
+    }
+    
+    private func showLogin() {
+        // Get the root navigation controller from the window
+        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              let navigationController = window.rootViewController as? UINavigationController else {
+            return
+        }
+        
+        // Clear the navigation stack and show login
+        let authDIContainer = makeAuthDIContainer()
+        let authCoordinator = authDIContainer.makeAuthCoordinator(
+            navigationController: navigationController
+        )
+        navigationController.setViewControllers([], animated: false)
+        authCoordinator.start()
     }
 }
 
