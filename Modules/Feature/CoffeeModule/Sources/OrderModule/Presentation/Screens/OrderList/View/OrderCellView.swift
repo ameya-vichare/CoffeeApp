@@ -27,7 +27,7 @@ struct OrderCellView: View {
                 OrderHeaderView(viewModel: viewModel)
 
                 LazyVStack {
-                    ForEach(self.viewModel.itemsViewModel, id: \.id) { item in
+                    ForEach(self.viewModel.itemsViewModel) { item in
                         OrderCellDetailView(viewModel: item)
                     }
                 }
